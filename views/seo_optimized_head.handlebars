@@ -1,0 +1,23 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta property="og:title" content="{{title}}">
+    
+    <meta name="description" content="Informações e avaliações deste bicicletário{{#if address}} na {{address}}{{/if}}.">
+    <meta property="og:description" content="Informações e avaliações deste bicicletário{{#if address}} na {{address}}{{/if}}.">
+
+    {{#if photo}}
+        <meta property="og:image" content="{{photo}}">
+    {{else}}
+        <meta property="og:image" content="https://cidadeciclavel.mubi.pt/fb.png">
+    {{/if}}
+
+    {{#if canonicalUrl}}
+        <link rel="canonical" href="{{canonicalUrl}}" />
+        <meta property="og:url" content="{{canonicalUrl}}" />
+    {{/if}}
+    
+    <meta property="fb:app_id" content="2007305346231830"/>
+    <meta name="google-site-verification" content="Y_cOF4KQfBquQDznr2yIrMPCFe5Gq1XCc5v7PUufM2I" />
+
+</head> 

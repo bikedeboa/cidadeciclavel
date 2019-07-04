@@ -1,0 +1,100 @@
+<!-- User Contributions View -->
+<div id="contributionsModal" data-keyboard="false" class="modal" tabindex="-1">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title view-name">Contribuições</h1>
+                </div> 
+
+                <div class="modal-body">
+                    {{#if profile}} 
+                        <h2>
+                            {{#if profile.picture}}
+                                <img alt="" class="{{#if isAdmin}}admin{{/if}}" src="{{profile.picture}}">
+                            {{/if}}
+                            
+                            Olá <b>{{profile.first_name}}</b> :)
+                        </h2>
+
+                        {{#if isAdmin}}
+                            <div class="you-are-admin">
+                                <img alt="" class="svg-icon" src="/img/icon_star_yellow.svg"/>Uhul! Você é <b>admin</b> :D
+                            </div>
+                        {{/if}}
+                    {{/if}}
+
+                    <ul class="nav nav-pills" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#reviews" aria-controls="reviews" role="tab" data-toggle="tab">
+                                <span class="badge">{{{nreviews}}}</span>
+                                <br>
+                                Avaliações
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#places" aria-controls="places" role="tab" data-toggle="tab">
+                                <span class="badge">{{{nplaces}}}</span>
+                                <br>
+                                Bicicletários
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="reviews">
+                            <ul>
+                            {{#each reviews}}
+                                <li>
+                                    <button class="go-to-place-btn" data-id="{{placeObj.id}}">
+                                        <span class="go-to-place-btn--title">{{placeObj.text}}</span>
+                                        <span class="go-to-place-btn--rating" data-color="{{color}}">
+                                            {{{ratingContent}}}
+                                        </span>
+                                        <span class="go-to-place-btn--daysago">
+                                            <!-- <span class="glyphicon glyphicon-time"></span>  -->{{createdTimeAgo}}
+                                        </span>
+                                    </button>
+                                </li>
+                                {{else}}
+                                    <i>Nenhuma avaliação feita ainda.</i>
+                            {{/each}}
+                            </ul>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="places">
+                            <ul>
+                            {{#each places}}
+                                <li>
+                                    <button class="go-to-place-btn" data-id="{{id}}">
+                                        <span class="go-to-place-btn--photo">
+                                            <img alt="" src="{{thumbnailUrl}}"/>
+                                        </span>
+
+                                        <span class="go-to-place-btn--title">{{text}}</span>
+
+                                        <span class="go-to-place-btn--views">
+                                            <img class="details-list-icon svg-icon" alt="" src="/img/icon_views.svg"> {{views}}
+                                        </span>
+
+                                        <span class="go-to-place-btn--daysago">
+                                            <!-- <span class="glyphicon glyphicon-time"></span>  -->
+                                            {{createdTimeAgo}}
+                                        </span>
+                                    </button>
+                                </li>
+                                {{else}}
+                                <i>Nenhum bicicletário criado ainda.</i>
+                            {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button class="logoutBtn link-button" style="margin-top: 24px; width: 100%;">
+                        <img alt="" class="svg-icon" src="/img/icon_logout.svg"> Sair
+                    </button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

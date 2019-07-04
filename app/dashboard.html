@@ -1,0 +1,2166 @@
+<!doctype html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cidade Ciclável | dados</title>
+        <meta property="og:title" content="bike de boa | dados" />
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=m2dAvrr4RB">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png?v=m2dAvrr4RB" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png?v=m2dAvrr4RB" sizes="16x16">
+
+        <!-- Google Maps API -->
+        <!-- <script src=`https://maps.googleapis.com/maps/api/js?key=${GOOGLEMAPS_KEY}&libraries=places&language=pt-BR` type="text/javascript"></script> -->
+
+        <!-- Google Analytics --> 
+        <script>
+          if (window.location.host === 'www.bikedeboa.com.br') {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-19085664-3', {'siteSpeedSampleRate': 100});
+            ga('require', 'GTM-MCCV34X');
+            ga('send', 'pageview');
+          } else {
+            ga = function() {};            
+          }
+        </script>
+
+        <script>
+          WebFontConfig = {
+            google: {
+              families: ['Quicksand:500,500i,700']
+            }
+          };
+
+          (function (d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+          })(document);
+        </script> 
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.5.0/sweetalert2.min.css"
+        />
+        <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.7.13/featherlight.gallery.min.css"/> -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.7.13/featherlight.min.css"
+        />
+        
+        <link rel="stylesheet" type="text/css" href="/css/main.min.css" />
+        
+        
+        <!-- JS -->
+        <script  src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script  src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+        <script  src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/history.js/1.8/native.history.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.5.0/sweetalert2.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/hellojs/2.0.0-4/hello.all.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.1/velocity.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.1/velocity.ui.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.7.13/featherlight.min.js"></script>
+        <!-- <script  src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.19.2/sweetalert2.min.js"></script> -->
+        <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.7.13/featherlight.gallery.min.js"/> -->
+        <!-- <script  src="/lib/countUp.min.js"></script> -->
+        
+        <!-- Polyfill for ES6 Promises for IE11, UC Browser and Android browser support -->
+        <script  src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+        
+        <script  src="/js/app.min.js"></script>
+
+        <!-- Bootstrap Extended Tables -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+        <!-- Extensions -->
+        <!-- editable -->
+        <script src="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+        <link rel="stylesheet" href="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+        <script src="/lib/bootstrap-table-extensions/editable/bootstrap-table-editable.js"></script>
+        <!-- mobile -->
+        <script src="/lib/bootstrap-table-extensions/mobile/bootstrap-table-mobile.js"></script>
+        <!-- sticky-header -->
+        <script src="/lib/bootstrap-table-extensions/sticky-header/bootstrap-table-sticky-header.js"></script>
+        <link rel="stylesheet" href="/lib/bootstrap-table-extensions/sticky-header/bootstrap-table-sticky-header.css">
+        <!-- export -->
+        <script src="/lib/bootstrap-table-extensions/export/bootstrap-table-export.js"></script>
+        <script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+
+        <style>
+          body::-webkit-scrollbar {
+              display: initial;
+          }
+
+          body {
+            /* font-family: "Roboto", Arial, sans-serif; */
+            padding: 24px;
+            overflow: auto;
+            padding-top: 60px;
+            background: white;
+          }
+
+          h2 {
+            font-size: 16px;
+          }
+
+          #logo {
+            left: 24px;
+          }
+
+          #userBtn {
+            right: 24px;
+          }
+
+          #spinnerOverlay {
+            position: fixed;
+            z-index: 3;
+          }
+
+          tbody > tr:not(.detail-view) {
+            cursor: pointer;
+          }
+
+          tbody > tr:hover:not(.detail-view) {
+            background-color: #f5f5f5;
+          }
+
+          td,
+          td a.editable-pre-wrapped {
+            max-width: 100px;
+            overflow: hidden;
+            /*white-space: nowrap;*/
+            /*text-overflow: ellipsis;*/
+          }
+
+          td.col-fulltext {
+            white-space: normal;
+          }
+
+          .editable-empty {
+            color: #E9BB2B;
+          }
+
+          th {
+            text-align: left;
+          }
+
+          .col-reviews {
+            max-width: 70px;
+          }
+
+          .col-title {
+            max-width: 150px;
+          }
+          td.col-title {
+            font-size: 1.2em;
+            font-weight: 600;
+          }
+
+          .col-timestamp {
+            max-width: 150px;
+          }
+
+          td.col-timestamp,
+          td.col-full-text,
+          td.col-address {
+            font-size: 0.8em;
+          }
+          
+          td.col-description {
+            font-size: 1.2em;
+          }
+
+          .col-id {
+            width: 60px;
+            color: gray;
+          }
+
+          .details-view img {
+            float: right;
+            max-height: 600px;
+          }
+
+          a {
+            background: none;
+            box-shadow: none;
+            border-bottom: none;
+          }
+
+          .dashboard-panel {
+            max-height: 70vh;
+            overflow-y: auto;
+            /*overflow-x: hidden; */
+          }
+
+          #logged {
+            display: none;
+          }
+
+          section {
+            margin: 3em 0 0;
+            /*padding: 50px;*/
+            /*background-color: rgba(0,0,0,0.02);*/
+            /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);*/
+          }
+
+          section + section {
+            margin: 30px 0;
+          }
+
+          .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: white;
+            z-index: 3;
+            height: 70px;
+          }
+
+          .nav {
+            position: sticky;
+            top: 60px;
+            z-index: 2;
+            background: white;
+            margin: 0 -24px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            padding: 12px 24px 0;
+          }
+
+          .navbar-default {
+            background-color: #30bb6a;
+          }
+
+          .tab-content h2 {
+            font-size: 20px;
+          }
+
+          .restricted-access {
+            display: none !important;
+          }
+
+          #userBtn,
+          .loginBtn {
+            display: block !important;
+          }
+
+          /* Thanks to: https://css-tricks.com/seamless-responsive-photo-grid/ */
+          #galleryContainer {
+            line-height: 0;
+            column-count: 8; 
+            column-gap: 0px;
+          }
+
+          #galleryContainer img {
+            width: 100%;
+            height: auto;
+            padding: 2px;
+          }
+
+          #galleryContainer a:hover {
+            opacity: 0.8;
+          }
+
+          .nav-pills>li a {
+            font-size: 18px;
+            border-bottom: 0;
+          }
+
+        </style>
+    </head>
+
+    <body>
+      <div class="topbar">
+        <h1 id="logo">
+          <a href="/">
+            <img src="/img/logo.svg" alt="bike de boa" />
+          </a>
+        </h1>
+
+        <div id="userBtn">
+          <button class="loginBtn">
+            <img class="avatar" src="/img/icon_user_big.svg">
+            <span class="userBtn--user-name"></span>
+          </button>
+        </div>
+      </div>
+
+      <h2>
+        
+
+        <p>
+          Assim como o nosso código-fonte, os dados do Cidade Ciclável também são abertos!
+        </p>
+        
+        <p>
+          Estes são os nossos dados brutos em forma de tabela. Explora, filtra e transfere em vários formatos como Excel, CSV, XML e JSON.
+
+        </p>
+
+        <div class="social-links-list" style="margin-top: 2em;">
+          <a class="facebook-social-link social-link unstyled-link" target="_blank" rel="noopener" href="https://www.facebook.com/bikedeboaapp">
+            <img alt="" src="/img/icon_social_facebook.svg"/>
+          </a>
+          <a class="instagram-social-link social-link unstyled-link" target="_blank" rel="noopener" href="https://www.instagram.com/bikedeboa/">
+            <img alt="" src="/img/icon_social_instagram.svg"/>
+          </a>
+          <a class="medium-social-link social-link unstyled-link" target="_blank" rel="noopener" href="https://medium.com/bike-de-boa/">
+            <img alt="" src="/img/icon_social_medium.svg"/>
+          </a>
+          <a class="github-social-link social-link unstyled-link" target="_blank" rel="noopener" href="https://github.com/bikedeboa">
+            <img alt="" src="/img/icon_social_github.svg"/>
+          </a>
+        </div>
+      </h2>
+
+      <section>
+        <ul class="nav nav-pills" role="tablist">
+          <li role="presentation">
+            <a href="#locals" aria-controls="locals" role="tab" data-toggle="tab">
+              <i class="fas fa-bicycle"></i>
+              Bicicletários
+            </a>
+          </li>
+          <li role="presentation">
+            <a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">
+              <i class="fas fa-bicycle"></i>
+              Pedidos
+            </a>
+          </li>
+          <li role="presentation">
+            <a href="#reviews" aria-controls="reviews" role="tab" data-toggle="tab">
+              <i class="fas fa-edit"></i>
+              Avaliações
+            </a> 
+          </li>
+          <li role="presentation">
+            <a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">
+              <i class="fas fa-images"></i>
+              Galeria
+            </a>
+          </li>
+          <li role="presentation" class="restricted-access">
+            <a href="#users" aria-controls="users" role="tab" data-toggle="tab">
+              <i class="fas fa-users-cog"></i>
+              Usuários
+            </a>
+          </li>
+          <!-- <li role="presentation" class="restricted-access">
+            <a href="#revisions" aria-controls="revisions" role="tab" data-toggle="tab">
+              <i class="fas fa-comments"></i>
+              Sugestões de correção
+            </a>
+          </li> -->
+          <li role="presentation" class="restricted-access">
+            <a href="#logs" aria-controls="logs" role="tab" data-toggle="tab">
+              <i class="fas fa-clipboard-list"></i>
+              Logs
+            </a>
+          </li>
+          <li role="presentation" class="restricted-access">
+            <a href="#importador" aria-controls="importador" role="tab" data-toggle="tab">
+              <i class="fas fa-upload"></i>
+              Importador de KML
+            </a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade" id="locals">
+
+            <!-- Tabela de Bicicletarios -->
+
+            <h2>
+              Carregando...
+            </h2>
+
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-search-align="left"
+              data-iconsPrefix="fa" 
+              data-show-columns="true"
+              data-show-export="true"
+              data-detail-view="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-row-style="styleRows"
+              data-show-footer="false"
+              data-pagination="true"
+              data-paginationVAlign="both"
+              data-show-pagination-switch="true"
+              data-sidePagination="client"
+              data-showPaginationSwitch="true"
+              data-sticky-header="false">
+            </table>
+
+          </div>
+
+
+          <!-- Tabela de Sugestoes das pessoas -->
+
+          <div role="tabpanel" class="tab-pane fade" id="revisions" class="restricted-access">
+            <h2>
+              Carregando...
+            </h2>
+
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-show-columns="true"
+              data-show-footer="false"
+              data-show-export="true"
+              data-detail-view="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-sticky-header="false">
+            </table>
+          </div>
+
+
+          <!-- Tabela de Usuarios -->
+
+          <div role="tabpanel" class="tab-pane fade" id="users" class="restricted-access">
+            <h2>
+              Carregando...
+            </h2>
+
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-show-columns="true"
+              data-show-footer="false"
+              data-detail-view="true"
+              data-show-export="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-sticky-header="false">
+            </table>
+          </div>
+
+
+          <!-- Tabela de Avaliações -->
+
+          <div role="tabpanel" class="tab-pane fade" id="reviews" class="restricted-access">
+            <h2>
+              Carregando...
+            </h2>
+
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-show-columns="true"
+              data-show-footer="false"
+              data-show-export="true"
+              data-detail-view="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-pagination="true"
+              data-paginationVAlign="both"
+              data-show-pagination-switch="true"
+              data-sidePagination="client"
+              data-showPaginationSwitch="true"
+              data-sticky-header="false">
+            </table>
+          </div>
+
+
+          <!-- Tabela de Log -->
+
+          <div role="tabpanel" class="tab-pane fade" id="logs" class="restricted-access">
+            <h2>
+              Carregando...
+            </h2>
+
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-show-columns="true"
+              data-show-footer="false"
+              data-show-export="true"
+              data-detail-view="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-pagination="true"
+              data-paginationVAlign="both"
+              data-show-pagination-switch="true"
+              data-sidePagination="client"
+              data-showPaginationSwitch="true"
+              data-sticky-header="false">
+            </table>
+          </div>
+          
+          
+          <!-- Galeria de imagens -->
+
+          <div role="tabpanel" class="tab-pane fade" id="gallery">
+            <div id=galleryContainer></div>
+          </div>
+          
+          
+          <!-- Importador de dados -->
+
+          <div role="tabpanel" class="tab-pane fade" id="importador" class="restricted-access">
+            <p style="margin-top: 2em;">
+              <input id="kmlFileInput" type="file" name="kmlFileInput" accept=".kml" />
+            </p>
+
+            <div id="kmlFileImportResults"></div>
+             
+            <table
+              data-classes="table table-no-bordered"
+              data-search="true"
+              data-show-columns="true" 
+              data-show-footer="false"
+              data-pagination="true"
+              data-paginationVAlign="both"
+              data-show-export="true"
+              data-show-pagination-switch="true"
+              data-sidePagination="client"
+              data-showPaginationSwitch="true"
+              data-detail-view="true"
+              data-detail-formatter="genericDetailsFormatter"
+              data-sticky-header="true">
+            </table>
+
+            <hr>
+
+            <div style="margin-top: 2em;"> 
+              <p>
+                <label for="kmlFileImport_datasourceid">Fonte dos dados:</label>
+                <select id="kmlFileImport_datasourceid"> </select>
+              </p>
+
+              <button id="newDataSourceBtn">Criar nova fonte</button>
+
+              <div>
+                <input type="checkbox" id="dontGeolocateCheckbox">
+                <label for="dontGeolocateCheckbox">Não preencher endereço automaticamente (bem mais rápido)</label>
+              </div>
+              
+              <button id="kmlFileImport" class="btn btn-action green" disabled>
+                <i class="fas fa-cloud-upload"></i> Importar 
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="spinnerOverlay">
+        <div class="spinnerContainer">
+          <img alt="Carregando..." src="/img/spinner.svg" />
+      
+          <p id="globalSpinnerLabel"> </p>
+      
+          <progress id="globalProgressBar" value="0" max="100"></progress>
+        </div>
+      </div>
+
+      <script>
+        // Generic function to display in textual form all the properties of a table entry
+        function genericDetailsFormatter(index, row) {
+          let html = '';
+
+          html += '<div class="details-view">';
+
+          if (row.photo) {
+            html += `<img src='${BDB.getThumbUrlFromPhotoUrl(row.photo)}'></img>`;
+          }
+
+          if (row.lat && row.lng) {
+            html += '<iframe width="500" height="250" style="float: right;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q='+row.lat+','+row.lng+'&hl=es;z=14&amp;output=embed"></iframe>';
+          }
+
+          $.each(row, function (key, value) {
+            switch (key) {
+            case 'updatedAt':
+            case 'createdAt':
+              html += '<span><b>' + key + ':</b> ' + timestampColFormatter(value) + '</span><br>';
+              break;
+            case 'body':
+              html += '<span><b>' + key + ':</b> ' + jsonColFormatter(value) + '</span><br>';
+              break;
+            case 'photo':
+              break;
+            case 'User':
+              if (value) {
+                html += '<span><b>' + key + ':</b> ' + value.fullname + '</span><br>';
+              }
+              break; 
+            case 'Locals':
+              html += '<div><b>' + key + ':</b></div>';
+              html += '<ul>';
+              value.forEach( l => {
+                html += `<li>name=${l.text}</li>`;
+              });
+              html += '</ul>';
+              break;
+            case 'Reviews':
+              // html += '<span><b>' + key + ':</b> ' + value.map(t => t.name).join('・') + '</span><br>';
+              html += '<div><b>' + key + ':</b></div>';
+              
+              // Counts total of tags, and at the same time prints each reviews contents into a <ul>
+              html += '<ul>';
+              let tags = {};
+              value.forEach( r => {
+                html += `<li>local id=${r.local_id}, rating=${r.rating}, user id=${r.user_id}</li>`;
+                if (r.Tags) {
+                  r.Tags.forEach( t => {
+                    tags[t.name] = (tags[t.name] || 0) + 1;
+                  });
+                }
+              });
+              html += '</ul>';
+              
+              // Prints each tags count
+              html += '<div><b>Tags:</b></div>';
+              html += '<ul>';
+              Object.keys(tags).forEach( k => {
+                html += `<li><b>${k}:</b> ${tags[k]}</li>`;
+              })
+              html += '</ul>';
+              break;
+            case '_hasDetails':
+              break;
+            default:
+              html += '<span><b>' + key + ':</b> ' + value + '</span><br>';
+              break;
+            }
+          });
+
+          html += '</div>';
+
+          return html;
+        }
+
+        function styleRows(row, index) {
+          // classes = ['active', 'success', 'info', 'warning', 'danger']
+          // if (row.text && row.text.length > 0 &&
+          //     row.structureType != null &&
+          //     row.isPublic != null) {
+          //   return {
+          //     classes: 'success'
+          //   };
+          // } else {
+          //   return {
+          //     classes: 'warning'
+          //   };
+          // }
+
+          return {classes: ''};
+        }
+
+
+        ///////////////////////
+        // Column Formatters //
+        ///////////////////////
+
+        function tagsListColFormatter(tags) {
+          const ret = tags.map(tag => tag.name).join('・');
+          return ret;
+        }
+
+        function tagsListColFormatter(tags) {
+          const ret = tags.map(tag => tag.name).join('・');
+          return ret;
+        }
+
+        function tagsFilter(tags, attr) {
+          return tags.filter(t => t.name === attr).length > 0;
+        }
+
+        function tagsFilterMonitored(tags) { 
+          return tagsFilter(tags, 'Monitorado');
+        }
+        function tagsFilterVisible(tags) {
+          return tagsFilter(tags, 'Visível');
+        }
+        function tagsFilterStrong(tags) {
+          return tagsFilter(tags, 'Reforçado');
+        }
+        function tagsFilterBustling(tags) {
+          return tagsFilter(tags, 'Movimentado');
+        }
+        function tagsFilterEasyAccess(tags) {
+          return tagsFilter(tags, 'Fácil acesso');
+        }
+        function tagsFilterSpacious(tags) {
+          return tagsFilter(tags, 'Espaçoso');
+        }
+
+        function photoColFormatter(value) { 
+          let ret;
+          
+          if (value) {
+            ret = '<img src="' + value + '" style="width: 50px; height: 50px;"/>';
+          }
+          
+          return ret;
+        }
+
+        function timestampColFormatter(value) {
+          return value && new Date(value).toLocaleString('pt-BR');
+        }
+
+        function dataSourceColFormatter(value) {
+          return value && value.name;
+        }
+
+        function booleanColFormatter(value) {
+          if (value === 0) {
+            return 'não';
+          } else if (value === 1) {
+            return 'sim';
+          } else {
+            return '-';
+          }
+        }
+
+        function endpointNameColFormatter(value) {
+          let ret = value;
+          if (value) {
+            if (value.includes('bdb-api')) {
+              ret = ret.slice(28);
+            } else if (value.includes('localhost')) {
+              ret = ret.slice(21);
+            }
+          }
+
+          return ret;
+        }
+
+        function jsonColFormatter(value) {
+          return value && JSON.stringify(value);
+        }
+        function updateRequestsTable(force = false){
+          if(force){
+            places = null;
+          }
+          $('#locals h2').html('Carregando...');
+          
+          $('#locals table').bootstrapTable('destroy');
+          $('#locals').addClass('loading');
+
+          Database.getRequestPlaces(true).then(function(places){
+            $('#locals').removeClass('loading');
+
+            $('#locals h2').html(`<span class="text-muted">${places.length} resultados</span>`);
+
+            $('#locals table').bootstrapTable({ 
+              columns: [
+                { field: 'id', title: 'ID', sortable: true, class: 'col-id', visible: !!BDB.User.isAdmin },
+                { field: 'updatedAt', title: 'Modificado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter', visible: false },
+                { field: 'createdAt', title: 'Criado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter' },
+                { field: 'text', title: 'Nome', sortable: true, class: 'col-title', editable: !!BDB.User.isAdmin },
+                { field: 'address', title: 'Endereço', sortable: true, class: 'col-address', editable: !!BDB.User.isAdmin, 'editable-type': 'textarea' },
+                { field: 'city', title: 'Cidade', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'state', title: 'Estado', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'country', title: 'País', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'lat', title: 'lat', sortable: true, visible: false, },
+                { field: 'lng', title: 'lng', sortable: true, visible: false, },
+                { field: 'description', title: 'Descrição', sortable: true, class: 'col-description', editable: !!BDB.User.isAdmin, 'editable-type': 'textarea', visible: false },
+                { field: 'isCommerce', title: 'É para privado', sortable: true, class: 'col-commerce', visible: false },
+                { field: 'photo', title: 'Foto', sortable: true, editable: !!BDB.User.isAdmin, visible: !!BDB.User.isAdmin },
+                { field: 'operate', title: 'Ações', align: 'center', events: RequestLocalsTableOperateEvents, formatter: operateFormatter, visible: !!BDB.User.isAdmin }
+              ],
+              data: places,
+              sortName: 'id', sortOrder: 'desc',
+              singleSelect: !!BDB.User.isAdmin ? true : false
+            });
+
+          });
+
+        }
+        function updateLocalsTable(force = false) {
+          if (force) {
+            places = null;
+          }
+
+          // if (places) {
+          //   return;
+          // }
+
+          $('#locals h2').html('Carregando...');
+          
+          $('#locals table').bootstrapTable('destroy');
+          $('#locals').addClass('loading');
+            
+          Database.getPlaces(true).then(function(places){
+            $('#locals').removeClass('loading');
+
+            $('#locals h2').html(`<span class="text-muted">${places.length} resultados</span>`);
+            // $('[aria-controls="locals"]').append(`<span class="text-muted"> (${places.length})</span>`);
+
+            let structureTypes = [];
+            for(let i=0; i < STRUCTURE_NAMES.length; i++) {
+              structureTypes.push({value: STRUCTURE_CODES[i], text: STRUCTURE_NAMES[i]});
+            }
+
+            // Massage data for BootstrapTable
+            places.forEach( m => {
+              if (m.isPublic === true) {
+                m.isPublic = 1;
+              } else if (m.isPublic === false) {
+                m.isPublic = 0;
+              }
+
+              if (m.isCovered === true) {
+                m.isCovered = 1;
+              } else if (m.isCovered === false) {
+                m.isCovered = 0;
+              }
+            });
+
+            $('#locals table').bootstrapTable({ 
+              columns: [
+                { field: 'id', title: 'ID', sortable: true, class: 'col-id', visible: !!BDB.User.isAdmin },
+                { field: 'updatedAt', title: 'Modificado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter', visible: false },
+                { field: 'createdAt', title: 'Criado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter' },
+                { field: 'text', title: 'Nome', sortable: true, class: 'col-title', editable: !!BDB.User.isAdmin },
+                { field: 'address', title: 'Endereço', sortable: true, class: 'col-address', editable: !!BDB.User.isAdmin, 'editable-type': 'textarea' },
+                { field: 'city', title: 'Cidade', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'state', title: 'Estado', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'country', title: 'País', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'lat', title: 'lat', sortable: true, visible: false, },
+                { field: 'lng', title: 'lng', sortable: true, visible: false, },
+                { field: 'isPublic', title: 'Público?', sortable: true, editable: !!BDB.User.isAdmin, 'editable-type': 'select', 'editable-source': "[{'value': '1', 'text': 'Publico'}, {'value': '0', 'text': 'Privado'} ]", },
+                { field: 'isCovered', title: 'Coberto?', sortable: true, editable: !!BDB.User.isAdmin, 'editable-type': 'select', 'editable-source': "[{'value': '1', 'text': 'Coberto'}, {'value': '0', 'text': 'Não coberto'} ]", },
+                { field: 'structureType', title: 'Tipo', sortable: true, editable: !!BDB.User.isAdmin, 'editable-type': 'select', 'editable-source': JSON.stringify(structureTypes).replace(/\"/g, '\'') },
+                { field: 'reviews', title: 'Avaliações', sortable: true, class: 'col-reviews' },
+                { field: 'average', title: 'Média', sortable: true, visible: true, },
+                { field: 'views', title: 'Visualizações', sortable: true, visible: true, },
+                { field: 'slots', title: 'Vagas', sortable: true, visible: false },
+                { field: 'isPaid', title: 'Pago?', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'DataSource', title: 'Fonte dos dados', sortable: true, editable: !!BDB.User.isAdmin, visible: false, formatter: dataSourceColFormatter },
+                { field: 'description', title: 'Descrição', sortable: true, class: 'col-description', editable: !!BDB.User.isAdmin, 'editable-type': 'textarea', visible: false },
+                { field: 'photo', title: 'Foto', sortable: true, editable: !!BDB.User.isAdmin, visible: !!BDB.User.isAdmin },
+                { field: 'operate', title: 'Ações', align: 'center', events: localsTableOperateEvents, formatter: operateFormatter, visible: !!BDB.User.isAdmin }
+              ],
+              data: places,
+              sortName: 'id', sortOrder: 'desc',
+              singleSelect: !!BDB.User.isAdmin ? true : false
+            });
+          });
+        }
+
+        function updateUsersTable() {
+          if (users) {
+            return;
+          }
+
+          $('#users table').bootstrapTable('destroy');
+          $('#users').addClass('loading');
+
+          BDB.Database.customAPICall('get','user').then(data => {
+            $('#users').removeClass('loading');
+
+            users = data;
+
+            $('#users h2').html(`<span class="text-muted">${data.length} resultados</span>`);
+            // $('[aria-controls="users"]').append(`<span class="text-muted"> (${data.length})</span>`);
+
+            $('#users table').bootstrapTable({
+              columns: [
+                { field: 'id', title: 'ID', sortable: true, class: 'col-id', },
+                { field: 'username', title: 'Usuário', sortable: true, class: 'col-title', visible: false },
+                { field: 'fullname', title: 'Nome completo', sortable: true, editable: !!BDB.User.isAdmin },
+                { field: 'role', title: 'Cargo', sortable: true, editable: !!BDB.User.isAdmin },
+                { field: 'email', title: 'Email', sortable: true, editable: !!BDB.User.isAdmin },
+                { field: 'Reviews.length', title: 'Avaliações', sortable: true },
+                { field: 'Locals.length', title: 'Bicicletários', sortable: true, },
+                { field: 'facebook_id', title: 'ID Facebook', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'google_id', title: 'ID Google', sortable: true, editable: !!BDB.User.isAdmin, visible: false },
+                { field: 'updatedAt', title: 'Modificado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter', visible: false },
+                { field: 'createdAt', title: 'Criado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter' },
+              ],
+              data: users,
+              sortName: 'id', sortOrder: 'desc'
+            });
+          });
+        }
+
+        function initGallery() {
+          if (window._isGalleryInitialized) {
+            return;
+          }
+
+          window._isGalleryInitialized = true;
+          
+          window._gallery_currentIndex = 0;
+          window._gallery_stepSize = 200;
+          // window._gallery_stepSize = 10000; 
+          loadMoreImages();
+        }
+
+        function loadMoreImages() {
+          const start = window._gallery_currentIndex;
+          const maxCount = window._gallery_stepSize;
+          let count = 0;
+          let placeIndex;
+
+          $('.load-more-btn').remove();
+
+          for (placeIndex = start; placeIndex < places.length && count < maxCount; placeIndex++ ) {
+            const m = places[placeIndex];
+            if (m.photo && m.photo.length > 0) {
+              count++;
+              $('#galleryContainer').append(`
+                  <a href="" target="_blank" data-featherlight="${m.photo}">
+                    <img src="${BDB.getThumbUrlFromPhotoUrl(m.photo)}" alt="https://www.bikedeboa.com.br${BDB.Places.getMarkerShareUrl(m)}"/>
+                  </a>
+                `)
+            }
+          }
+
+          if (placeIndex < places.length) {
+            $('#galleryContainer').append(`
+              <button
+                class="load-more-btn btn green"
+                style="
+                  position: fixed;
+                  bottom: 12px;
+                  left: 50%;"
+              >
+                Carregar mais ${_gallery_stepSize}...
+              </button>
+            `);
+
+            $('.load-more-btn').on('click', loadMoreImages);
+
+            window._gallery_currentIndex = placeIndex;
+          }
+        }
+
+        function updateReviewsTable() {
+          if (reviews) {
+            return;
+          }
+
+          $('#reviews table').bootstrapTable('destroy');
+          $('#reviews').addClass('loading');
+
+          BDB.Database.customAPICall('get','review').then( data => {
+            $('#reviews').removeClass('loading');
+
+            reviews = data;
+
+            $('#reviews h2').html(`<span class="text-muted">${data.length} resultados</span>`);
+            // $('[aria-controls="reviews"]').append(`<span class="text-muted"> (${data.length})</span>`);
+            
+            $('#reviews table').bootstrapTable({
+              columns: [
+                { field: 'id', title: 'ID', sortable: true, class: 'col-id', visible: false },
+                { field: 'local_id', title: 'ID do bicicletário', sortable: true, class: 'col-id', visible: false },
+                { field: 'user_id', title: 'ID do usuário', sortable: true, class: 'col-id', visible: false }, 
+                { field: 'createdAt', title: 'Criado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter' },
+                { field: 'User.fullname', title: 'Usuário', sortable: true, },
+                { field: 'rating', title: 'Nota', sortable: true, editable: !!BDB.User.isAdmin },
+                { field: 'Tags', title: 'Tags', sortable: true, formatter: 'tagsListColFormatter', class: 'col-address' },
+                { field: 'Tags', title: 'Monitorado?', sortable: true, formatter: 'tagsFilterMonitored', class: 'col-address', visible: false },
+                { field: 'Tags', title: 'Visible?', sortable: true, formatter: 'tagsFilterVisible', class: 'col-address', visible: false },
+                { field: 'Tags', title: 'Reforçado?', sortable: true, formatter: 'tagsFilterStrong', class: 'col-address', visible: false },
+                { field: 'Tags', title: 'Movimentado?', sortable: true, formatter: 'tagsFilterBustling', class: 'col-address', visible: false },
+                { field: 'Tags', title: 'Facil acesso?', sortable: true, formatter: 'tagsFilterEasyAccess', class: 'col-address', visible: false },
+                { field: 'Tags', title: 'Espaçoso?', sortable: true, formatter: 'tagsFilterSpacious', class: 'col-address', visible: false },
+                { field: 'Local.text', title: 'Nome bicicletário', sortable: true, class: 'col-title', },
+                { field: 'Local.structureType', title: 'Tipo do bicicletário', sortable: true, visible: false },
+                { field: 'Local.isPublic', title: 'Bicicletário público?', sortable: true, visible: false },
+                { field: 'Local.isCovered', title: 'Bicicletário coberto?', sortable: true, visible: false },
+                { field: 'updatedAt', title: 'Modificado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter', visible: false },
+              ],
+              data: reviews,
+              sortName: 'createdAt', sortOrder: 'desc'
+            });
+          });
+        }
+
+        function updateRevisionTable(force = false) {
+          if (force) {
+            revisions = null;
+          }
+          
+          if (revisions) {
+            return;
+          }
+
+          $('#revisions').addClass('loading');
+
+          BDB.Database.customAPICall('get','revision').then(data => {
+            $('#revisions').removeClass('loading');
+
+            revisions = data;
+
+            $('#revisions h2').html(`<span class="text-muted">${data.length} resultados</span>`);
+            // $('[aria-controls="revisions"]').append(`<span class="text-muted"> (${data.length})</span>`);
+
+            $('#revisions table').bootstrapTable({
+              columns: [
+                { field: 'updatedAt', title: 'Modificado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter', visible: false },
+                { field: 'createdAt', title: 'Criado em', sortable: true, class: 'col-timestamp', formatter: 'timestampColFormatter' },
+                { field: 'Local.text', title: 'Bicicletário', sortable: true, class: 'col-title', },
+                { field: 'local_id', title: 'ID Bicicletário', sortable: true, visible: false, },
+                { field: 'id', title: 'ID', sortable: true, class: 'col-id', visible: false, },
+                { field: 'comments', title: 'Mensagem', sortable: true, class: 'col-fulltext', },
+                { field: 'operate', title: '', align: 'center', events: logTableOperateEvents, formatter: operateFormatter }
+              ],
+              data: revisions,
+              sortName: 'id', sortOrder: 'desc'
+            });
+          });
+        }
+
+        window.logTableOperateEvents = {
+          'click .remove': function (e, value, row, index) {
+            if (confirm('Tem certeza?')) {
+              BDB.Database.customAPICall('delete', `revision/${row.id}`).then( () => {
+                updateRevisionTable(true);
+              });
+            }
+          }
+        };
+
+        window.localsTableOperateEvents = {
+          'click .remove': function (e, value, row, index) {
+            if (confirm('Tem certeza?')) {
+              BDB.Database.customAPICall('delete', `local/${row.id}`).then( () => {
+                updateLocalsTable(true);
+              });
+            }
+          }
+        };
+
+        window.RequestLocalsTableOperateEvents = {
+          'click .remove': function (e, value, row, index) {
+            if (confirm('Tem certeza?')) {
+              BDB.Database.customAPICall('delete', `requestlocal/${row.id}`).then( () => {
+                updateRequestsTable(true);
+              });
+            }
+          }
+        };
+
+        function operateFormatter(value, row, index) {
+          return [
+            '<a class="remove" href="javascript:void(0)" title="Deletar">',
+            '<i class="glyphicon glyphicon-trash"></i>',
+            '</a>'
+          ].join('');
+        }
+
+        function updateLogTable() {
+          if (log) {
+            return;
+          }
+
+          $('#logs table').bootstrapTable('destroy');
+          $('#logs').addClass('loading');
+
+          BDB.Database.customAPICall('get','log').then( data => {
+            $('#logs').removeClass('loading');
+
+            log = data;
+
+            $('#logs h2').html(`<span class="text-muted">${data.length} resultados</span>`);
+            // $('[aria-controls="logs"]').append(`<span class="text-muted"> (${data.length})</span>`);
+
+            $('#logs table').bootstrapTable({
+              columns: [
+                { field: 'updatedAt', title: 'updatedAt', sortable: true, formatter: 'timestampColFormatter', visible: false, },
+                { field: 'createdAt', title: 'createdAt', sortable: true, formatter: 'timestampColFormatter' },
+                { field: 'user', title: 'user', sortable: true },
+                { field: 'ip_origin', title: 'IP', sortable: true, visible: false },
+                { field: 'role', title: 'role', sortable: true, visible: false, },
+                { field: 'endpoint', title: 'endpoint', sortable: true, formatter: 'endpointNameColFormatter' },
+                { field: 'method', title: 'method', sortable: true },
+                { field: 'id', title: 'id', sortable: true, visible: false, },
+                { field: 'body', title: 'body', sortable: true, formatter: 'jsonColFormatter' },
+              ],
+              data: log,
+              sortName: 'createdAt', sortOrder: 'desc'
+            });
+          }, true);
+        }
+
+        function extractFromCDATA(str) {
+          let ret;
+
+          // Extract CDATA content
+          // Example: <![CDATA[Garimpo da Mary Arte & Decoração]]>
+          //   regex capture group 1: Garimpo da Mary Arte & Decoração
+          const regex = /^<!\[CDATA\[(.*?)\]\]>/s;
+          const result = regex.exec(str);
+          if (result && result[1]) {
+            ret = result[1];
+          } else {
+            // console.error('ERROR on extractFromCDATA: regex failed');
+            ret = str;
+          }
+
+          return ret;
+        }
+
+        function removeHTML(str) {
+          if (str) {
+            return str.replace(/<[^>]*>/gs, "");
+          } else {
+            return str;
+          }
+        }
+
+        function removeWhitespaces(str) {
+          if (str) {
+            return str.replace(/\s/g, '');
+          } else {
+            return str;
+          }
+        }
+
+        function processDescription(tmp) {
+          tmp.description = extractFromCDATA(tmp.description);
+          tmp.description = removeHTML(tmp.description);
+
+          /////////////////
+          // Magic stuff //
+          /////////////////
+          const str = tmp.description.toLowerCase();
+
+          const fusionTableShit = '![CDATA[<div class="googft-info-window" style="font-family:sans-serif">';
+          if (tmp.description.includes(fusionTableShit)) {
+            tmp.description = tmp.description.split(fusionTableShit)[1];
+          }
+
+          // 'X vagas/bicicletas/lugares' => X slots
+          regex = /(\d+)\s(vaga|bicicleta|lugar)/s;
+          result = regex.exec(str);
+          if (result && result[1]) {
+            tmp.slots = result[1];
+            _importResults.tagsDetected++;
+          }
+
+          // 'X us invetidos' => X*2 slots
+          regex = /(\d+)\s(us invertidos)/s;
+          result = regex.exec(str);
+          if (result && result[1]) {
+            tmp.slots = parseInt(result[1]) * 2;
+            _importResults.tagsDetected++;
+          }
+
+          // Coberto?
+          if (str.includes('descoberto')
+            || str.includes('descoberta')
+            || str.includes('sem cobertura')
+            || str.includes('sem coberta')
+            || str.includes('não coberto')
+            || str.includes('não coberta')
+            || str.includes('nao coberta')
+            || str.includes('nao coberto')
+            || str.includes('nao é coberta')
+            || str.includes('nao e coberta')
+            || str.includes('não é coberto')
+            || str.includes('nao e coberto')
+            || str.includes('nao é coberto')
+            || str.includes('ar livre')
+            || str.includes('com abrigo')
+            || str.includes('sob o sol')
+            || str.includes('local aberto')
+            || str.includes('céu aberto')
+            || str.includes('ceu aberto')) {
+            tmp.isCovered = false;
+            _importResults.tagsDetected++;
+          } else if (str.includes('coberto')
+            || str.includes('coberta')
+            || str.includes('subsolo')
+            || str.includes('subterrânea')
+            || str.includes('subterranea')
+            || str.includes('subterraneo')
+            || str.includes('subterrâneo')) {
+            tmp.isCovered = true;
+            _importResults.tagsDetected++;
+          }
+
+          // Gratuito?
+          if (str.includes('pago')
+            || str.includes('custa')) {
+            tmp.isPaid = true;
+            _importResults.tagsDetected++;
+            // tmp.isPublic = false; // será?
+          } else if (str.includes('gratuito')
+            || str.includes('de graça')) {
+            tmp.isPaid = false;
+            _importResults.tagsDetected++; 
+          }
+          
+
+          // Público?
+          if (str.includes('privado')
+            || str.includes('funcionários')
+            || str.includes('moradores')
+            || str.includes('sócios')
+            || str.includes('restrito para')
+            || str.includes('exclusivo para')
+            || str.includes('uso exclusivo')
+            || str.includes('dentro do condominio')
+            || str.includes('apenas para')) {
+            tmp.isPublic = false;
+            _importResults.tagsDetected++;
+          } else if (str.includes('publico')
+            || str.includes('público')
+            || str.includes('na rua')
+            || str.includes('na calçada')
+            || str.includes('canteiro central')
+            || str.includes('ao lado do quiosque')
+            || str.includes('calçada')) {
+            tmp.isPublic = true;
+            _importResults.tagsDetected++;
+          }
+
+          // Tipo de bicicletário
+          // ['uinvertido', 'deroda', 'trave', 'suspenso', 'grade', 'other'];
+          if (str.includes('u invertido')
+            || str.includes('us invertidos')
+            || str.includes('sheffield')
+            || str.includes('em r')
+            || str.includes('tipo r')
+            || str.includes('suporte em r')
+            || str.includes('suporte r')
+            || str.includes('em u')
+            || str.includes('tipo u')
+            || str.includes('modelo u')
+            || str.includes('suporte em u')) {
+            tmp.structureType = 'uinvertido';
+            _importResults.tagsDetected++;
+          } else if (str.includes('açougue')
+            || str.includes('de pendurar')
+            || str.includes('suspenso')) {
+            tmp.structureType = 'suspenso';
+            _importResults.tagsDetected++;
+          } else if (str.includes('entorta-roda')
+            || str.includes('entorta roda')
+            || str.includes('entorta aro')
+            || str.includes('entorta-aro')
+            || str.includes('entorta raio')
+            || str.includes('grelha')
+            || str.includes('holandês')
+            || str.includes('holandes')
+            || str.includes('amsterdam')
+            || str.includes('amsterdã')
+            || str.includes('amsterda')
+            || str.includes('jujubinha')
+            || str.includes('trincheira')
+            || str.includes('de roda')) {
+            tmp.structureType = 'deroda';
+            _importResults.tagsDetected++;
+          } else if (str.includes('suporte rack')
+            || str.includes('bollard')) {
+            tmp.structureType = 'other';
+            _importResults.tagsDetected++;
+          } else if (str.includes('paliteiro')
+            || str.includes('sulamerica')) {
+            tmp.structureType = 'paliteiro';
+            _importResults.tagsDetected++;
+          } else if (str.includes('pescocinho')) {
+            tmp.structureType = 'pescocinho';
+            _importResults.tagsDetected++;
+          } else if (str.includes('suporte pente')
+            || str.includes('pente')
+            || str.includes('tipo pente')) {
+            tmp.structureType = 'pente';
+            _importResults.tagsDetected++;
+          } else if (str.includes('tipo m')) {
+            tmp.structureType = 'm';
+            _importResults.tagsDetected++;
+          }
+
+
+          // tmp.structureType = /^tipo\s([\w])/
+        }
+
+        function testIfImageExists(url) {
+          return new Promise(function (resolve, reject) {
+            let img = new Image();
+            img.crossOrigin = 'https://www.bikedeboa.com.br';
+
+            img.onload = function () {
+              resolve(url);
+            }
+            img.onerror = function () {
+              reject(url);
+            }
+
+            img.src = url;
+          })
+        }
+
+        function updateKmlImportResults() {
+          document.getElementById("kmlFileImportResults").innerHTML = `
+            <div class="big-numbers">
+              <div class="big-numbers--col"> 
+                <div class="big-numbers--number">${_importResults.places.length}</div>
+                <div class="big-numbers--label">bicicletários</div>
+              </div>
+              <div class="big-numbers--col">
+                <div class="big-numbers--number">${_importResults.tagsDetected}</div>
+                <div class="big-numbers--label">tags preenchidas automaticamente</div>
+              </div>
+              <div class="big-numbers--col">
+                <div class="big-numbers--number">${_importResults.unknownTags}</div>
+                <div class="big-numbers--label">tags desconhecidas</div>
+              </div>
+              <div class="big-numbers--col">
+                <div class="big-numbers--number">${_importResults.brokenUrls}/${_importResults.totalUrls}</div>
+                <div class="big-numbers--label">fotos com link quebrado</div>
+              </div>
+            </div>
+            <div>
+              <small>
+                ${_importResults.log}
+              </small>
+            </div>
+          `;
+        }
+
+        function uploadImportedPlacesToBackend() {
+          return new Promise((resolve, reject) => {
+            const dontGeolocate = document.getElementById('dontGeolocateCheckbox').checked;
+            let max = _importResults.places.length;
+            // max = 2;
+
+            // 
+            function importPlace_recursive(i = 0) {
+              if (i < max) {
+                let m = _importResults.places[i];
+
+                // Fill custom fields
+                //   Data Source: points to a DataSource, which indicates where the data came from
+                //   isAnonymous: tells the backend to ignore the loggedUser when setting the author
+                m.datasource_id = _importResults.places_datasourceid;
+                m.isAnonymous = true;
+
+                // Progress spinner
+                updateSpinnerProgress(i / max);
+                $('#globalSpinnerLabel').text(`${i}/${max}`);
+                console.warn(`${i} of ${max}`);
+
+                return new Promise( (resolve, reject) => {
+                  // Retrieves full addresses
+                  if (dontGeolocate) {
+                    resolve();
+                  } else {
+                    return BDB.Map.reverseGeocode(m.lat, m.lng)
+                      .then((addressObj) => {
+                        console.debug(m.lat, m.lng, m.id);
+                        console.debug(addressObj);
+  
+                        m.address = addressObj.address;
+                        m.city = addressObj.city;
+                        m.state = addressObj.state;
+                        m.country = addressObj.country;
+  
+                        resolve();
+                      }).catch(status => {
+                        switch (status) {
+                          case 'OVER_QUERY_LIMIT':
+                            // Google Maps quota limits the frequency of calls of the service. We just keep trying until it works.
+                            reject()
+                            break;
+                          case 'ZERO_RESULTS':
+                            // There's probably something very wrong with the data, since Google Geocoding ALWAYS finds something
+                            console.error(`ERROR on reverse geocoding: no results for ${m.lat}, ${m.lng}`);
+                            reject()
+                            break;
+                          default:
+                            console.error(`ERROR on reverse geocoding`);
+                            reject()
+                            break;
+                        }
+                      });
+                  }
+                }).then( () => new Promise( (resolve, reject) => {
+                  // If it has a photo and it's a valid link (validated when loading the KML file),
+                  //   resize it just like a normal user-submitted photo and get it's blob to send
+                  //   to the backend
+                  if (m.photo) {
+                    resizeImage(m.photo)
+                      .then(resizedBlob => {
+                        m.photo = resizedBlob;
+                        resolve();
+                      })
+                      .catch(() => {
+                        console.warn('Error when retrieving image', m.photo);
+                        console.warn('Continuing...');
+                        resolve();
+                        // reject(i);
+                      })
+                  } else {
+                    resolve();
+                  }
+                })).then( () => new Promise( (resolve, reject) => {
+                  // Sends it over to the backend
+                  return BDB.Database.customAPICall('POST', 'local', m)
+                    .then(data => {
+                      m.id = data.id;
+                      return importPlace_recursive(i + 1); 
+                    })
+                    .catch(data => {
+                      console.error('Error when creating local');
+                      console.error(m);
+                      reject(data);
+                    });
+                })).catch( error => {
+                  console.warn(error);
+                  console.warn('caught an error, trying again in 2s...');
+                  setTimeout( () => importPlace_recursive(i), 2000);
+                 } );
+              } else {
+                resolve();
+              }
+            };
+
+            $(document).trigger('LoadMap');
+            setTimeout(
+              () => {
+                importPlace_recursive();
+              }, 1000
+            );
+          }).catch( error => {
+            console.error(error);
+            reject();
+          })
+        }
+
+        function init() {
+          // showSpinner();
+
+          Database.authenticate()
+            .then(() => {
+              // Initial view is the Locals view
+              // updateLocalsTable();
+
+              // hideSpinner();
+            });
+
+          //
+          // Callbacks
+          //
+
+          $('a[data-toggle="tab"]').on('shown.bs.tab', e => {
+            const tabName = e.target.getAttribute('aria-controls');
+            switch (tabName) {
+              case 'locals':
+                updateLocalsTable();
+                break;
+              case 'requests':
+                updateRequestsTable();
+                break;
+              case 'revisions':
+                updateRevisionTable();
+                break;
+              case 'logs':
+                updateLogTable();
+                break;
+              case 'users':
+                updateUsersTable();
+                break;
+              case 'reviews':
+                updateReviewsTable();
+                break;
+              case 'gallery':
+                initGallery();
+                break;
+            }
+          });
+
+          $('body').on('click', 'tbody tr td', e => {
+            if (e.target == e.currentTarget) {
+              // console.log('details');
+              $(e.currentTarget).siblings().find('.detail-icon').trigger('click');
+            }
+          });
+
+          function updateUser(field, row, oldValue, $el) {
+            const userId = row.id;
+            let dataToUpdate = {};
+            dataToUpdate[field] = row[field];
+
+            // Send the updated data through the API
+            if (dataToUpdate) {
+              console.log('updating:', dataToUpdate);
+              BDB.Database.customAPICall('put', `user/${userId}`, dataToUpdate);
+            }
+          }
+
+          function updateLocal(field, row, oldValue, $el) {
+            const localId = row.id;
+            let dataToUpdate = {};
+
+            if (field === 'isPublic' || 'isCovered') {
+              row[field] = row[field] === '1' ? true : false;
+            } else if (field === 'photo') {
+              row['photoUrl'] = row[field];
+              field = 'photoUrl';
+            }
+
+            dataToUpdate[field] = row[field];
+
+            // Send the updated data through the API
+            if (dataToUpdate) {
+              console.log('updating:', dataToUpdate);
+              BDB.Database.customAPICall('put', `local/${localId}`, dataToUpdate);
+            }
+          }
+
+          $('body').on('editable-save.bs.table', (e, field, row, oldValue, $el) => {
+            if (row.username) {
+              updateUser(field, row, oldValue, $el);
+            } else {
+              updateLocal(field, row, oldValue, $el);
+            }
+
+          });
+
+          $(document).on('bikedeboa.login', e => {
+            if (BDB.User.isAdmin) {
+              // Force table refresh
+              updateLocalsTable();
+
+              Database.getAllTags();
+
+              // Fill DataSource options for KML import 
+              BDB.Database.customAPICall('get', 'datasource').then(data => {
+                data.forEach(d => {
+                  $('#kmlFileImport_datasourceid').append($('<option>', {
+                    value: d.id,
+                    text: `${d.name} | ${d.url}`
+                  }));
+                })
+              });
+
+              $('.restricted-access').removeClass('restricted-access');
+            }
+          });
+
+          document.addEventListener('bikedeboa.logout', function (e) {
+            document.location.reload();
+          });
+
+          $('#newDataSourceBtn').on('click', () => {
+            swal({
+              title: 'Nome',
+              input: 'text',
+              showCancelButton: true,
+              confirmButtonText: 'Próximo ›',
+            }).then((result1) => {
+              if (result1) {
+                swal({
+                  title: 'URL',
+                  input: 'text',
+                  showCancelButton: true,
+                  confirmButtonText: 'Criar',
+                  showLoaderOnConfirm: true,
+                  allowOutsideClick: () => !swal.isLoading(),
+                  preConfirm: (inputUrl) => { 
+                    return BDB.Database.customAPICall(
+                      'post',
+                      'datasource',
+                      { name: result1, url: inputUrl }
+                    ).then(data => {
+                      if (data) {
+                        return data;
+                      }
+                    }).catch(error => {
+                      swal.showValidationError(
+                        `Request failed: ${error}`
+                      )
+                    })
+                  }
+                }).then((result2) => {
+                  if (result2) {
+                    swal({
+                      title: 'Novo Data Source criado com sucesso',
+                      text: 'Recarregue a página para usá-lo.',
+                      type: 'success',
+                    });
+                  }
+                })
+              }
+            });
+
+
+
+          });
+          
+          $('#kmlFileImport').on('click', () => {
+            if (_importResults.places) {
+              swal({
+                title: 'Importar dados pro banco',
+                text: `Você está importando <b>${_importResults.places.length}</b> bicicletários permanentemente pro banco de dados do bike de boa. Tem certeza que deseja continuar?`,
+                // type: 'warning',
+                showCancelButton: true,
+              })
+                .then(() => {
+                  showSpinner('Importando...', true);
+
+                  $('#import table').bootstrapTable('destroy');
+
+                  window._importResults.places_datasourceid = $('#kmlFileImport_datasourceid').val();
+
+                  uploadImportedPlacesToBackend()
+                    .then(() => {
+                      hideSpinner();
+                      swal({
+                        title: 'Importação feita com sucesso',
+                        html: `<b>${_importResults.places.length}</b> bicicletários criados.`,
+                        type: 'success',
+                      });
+                    })
+                    .catch(() => {
+                      hideSpinner();
+
+                      swal({
+                        text: `Algo deu errado na importação. Quer reverter as modificações que já foram feitas?`,
+                        type: 'warning',
+                        showCancelButton: true,
+                      })
+                        .then(() => {
+                          showSpinner('Revertendo...', true);
+
+                          // Find out which places were successfuly submited
+                          let placesToDelete = [];
+                          _importResults.places.forEach(m => {
+                            if (m.id) {
+                              placesToDelete.push(m);
+                            }
+                          });
+
+                          // Show progress UI
+                          let i = 0;
+                          function step() {
+                            i++;
+                            updateSpinnerProgress(i / placesToDelete.length);
+                            $('#globalSpinnerLabel').text(`Revertendo... ${i}/${placesToDelete.length}`);
+
+                            if (i === placesToDelete.length - 1) {
+                              hideSpinner();
+                            }
+                          }
+
+                          // Create one DELETE API call for each one, and let the browser manage the calls
+                          placesToDelete.forEach(m => {
+                            console.log(`Deleting ${m.id}...`);
+                            BDB.Database.customAPICall('DELETE', `local/${m.id}`)
+                              .then(() => {
+                                console.log(`SUCCESS. ${m.id} deleted.`);
+                                step();
+                              })
+                              .catch(() => {
+                                console.log(`ERROR. ${m.id} NOT deleted.`);
+                                step();
+                              });
+                          })
+                        })
+                        .catch(() => {
+                          // Nothing.
+                        })
+                    })
+                })
+                .catch(() => {
+                  // Nothing.
+                })
+
+            }
+          });
+
+          $('#kmlFileInput').on('change', () => {
+            window._importResults = {
+              places: [],
+              tagsDetected: 0,
+              unknownTags: 0,
+              brokenUrls: 0,
+              totalUrls: 0,
+              log: ''
+            };
+
+            var file = document.getElementById("kmlFileInput").files[0];
+            if (file) {
+              var reader = new FileReader();
+              reader.readAsText(file, "UTF-8");
+              reader.onload = function (evt) {
+                const txt = evt.target.result
+                const contentContainer = document.getElementById('fileContents');
+
+                parser = new DOMParser();
+                window.xmlDoc = parser.parseFromString(txt, "text/xml");
+
+                console.log(xmlDoc);
+
+                let folders = [...xmlDoc.getElementsByTagName("Folder")];
+                folders.shift();
+                
+                let data = [];
+
+                folders.forEach(folder =>{
+                  let item = [...folder.children];
+                  let structureType = null;
+                  item.forEach(i =>{
+                    
+                    switch(i.tagName) {
+                      case 'name':
+                        if (i.innerHTML == "Estacionamento de roda"){
+                          structureType = 'deroda';
+                        }else{
+                          structureType = 'uinvertido';
+                        }
+                      break;
+                      case 'Placemark':
+                        let place = [...i.children]
+                        let tmp ={
+                            'isCovered': null,
+                            'hasFee': false,
+                            'isPublic': true,
+                            'address': null,
+                            'structureType': structureType,
+                            'slots': null,
+                            'isPaid': false
+                          }
+                        place.forEach(data => {
+                          switch(data.tagName){
+                            case 'description': 
+                              originalTitle = extractFromCDATA(data.innerHTML);
+                              tmp.text = originalTitle;
+                              break;
+                            case 'Point':
+                              if (data.children && data.children[1]) {
+                                // lat and lng are inverted on purporse
+                                const [lng, lat] = data.children[1].innerHTML.split(',');
+                                tmp.lat = removeWhitespaces(lat);
+                                tmp.lng = removeWhitespaces(lng);
+                              }
+                              break;
+                          }
+                        });
+                        //console.log(tmp);
+                        data.push(tmp);
+                      break;
+                    }
+                  });
+                  
+                });
+
+                /*let data = [];
+                let tags = [...xmlDoc.getElementsByTagName("Placemark")];
+                tags.forEach(p => {
+                  let tmp = {
+                    'isCovered': null,
+                    'hasFee': null,
+                    'isPublic': null,
+                    'address': null,
+                    'structureType': null,
+                    'slots': null,
+                    'isPaid': null
+                  };
+
+                  let regex, result, originalTitle;
+                  const children = [...p.children];
+                  children.forEach(c => {
+
+                    switch (c.tagName) {
+                      case 'name':
+                        originalTitle = extractFromCDATA(c.innerHTML);
+                        tmp.text = originalTitle;
+
+                        if (tmp.text.toLowerCase().includes('bikerio')) {
+                          // @todo: break, don't process this guy
+                          //break;
+                          console.log('BIKERIO!!!', tmp.text);
+                        }
+
+                        // Transporte Ativo: remove special code in front of all names
+                        // Example: BC0137 - Bicicletário Lagoon
+                        //   regex capture group 1: BC0137
+                        //   regex capture group 2: Bicicletário Lagoon 
+                        regex = /^(BC[\d]*)\s\-\s(.*)/s;
+                        result = regex.exec(tmp.text);
+                        if (result && result[0] && result[1]) {
+                          tmp.taCode = result[1];
+                          tmp.text = result[2];
+                        }
+                      case 'description':
+                        tmp.description = c.innerHTML;
+                        processDescription(tmp);
+                        break;
+                      case 'styleUrl':
+                        break;
+                      case 'ExtendedData':
+                        const extData = [...c.children];
+                        extData.forEach(ext => {
+                          if (!ext.attributes[0] || !ext.children[0] || !ext.children[0].innerHTML) {
+                            return;
+                          }
+
+                          const name = ext.attributes[0].nodeValue;
+                          const valueRaw = ext.children[0].innerHTML
+                          const value = valueRaw.toLowerCase();
+                          let oldValue, newValue;
+                          switch (name) {
+                            case 'Name':
+                              tmp.text = valueRaw;
+                              break;
+                            case 'Foto':
+                            case 'gx_media_links':
+                              _importResults.totalUrls++;
+                              testIfImageExists(valueRaw)
+                                .then(() => {
+                                  tmp.photo = valueRaw;
+
+                                  updateKmlImportResults();
+                                })
+                                .catch(() => {
+                                  _importResults.brokenUrls++;
+                                  // console.warn('image URL is broken: ', valueRaw);
+
+                                  updateKmlImportResults();
+                                })
+                              break;
+
+                            case 'Descrição':
+                            case 'descrição':
+                              // Fortaleza 
+                              if (value) {
+                                tmp.description = value;
+                                processDescription(tmp);
+                              }
+                              break;
+
+                            //////////////////////////////////////////////////
+                            // Transporte Ativo Fusion Maps specific field //
+                            //////////////////////////////////////////////////
+                            case 'BC_slots':
+                              if (value) {
+                                oldValue = tmp.slots;
+                                
+                                newValue = value;
+                                
+                                // Check for diversion
+                                if (oldValue && newValue !== oldValue) {
+                                  console.group();
+                                  console.warn(`Values diverged in BC_slots: ${oldValue} X ${newValue}`);
+                                  console.warn(tmp.description);
+                                  console.warn(`${name} = ${value}`);
+                                  console.groupEnd();
+
+                                  // Prioritize the version from the description
+                                  tmp.slots = oldValue;
+                                } else {
+                                  tmp.slots = newValue;
+                                }
+
+                                _importResults.tagsDetected++;
+                              }
+                              break;
+                            case 'BC_covered':
+                              if (value) {
+                                oldValue = tmp.isCovered;
+
+                                if (value === 'yes') {
+                                  newValue = true;
+                                  _importResults.tagsDetected++;
+                                } else if (value === 'no') {
+                                  newValue = false;
+                                  _importResults.tagsDetected++;
+                                } else {
+                                  console.error(`Unknown value for BC_paid: ${value}`);
+                                  _importResults.unknownTags++;
+                                }
+
+                                // Check for diversion
+                                if (oldValue && newValue !== oldValue) {
+                                  console.group();
+                                  console.warn(`Values diverged in BC_covered: ${oldValue} X ${newValue}`);
+                                  console.warn(tmp.description);
+                                  console.warn(`${name} = ${value}`);
+                                  console.groupEnd();
+                                }
+
+                                // Ignore the diversion
+                                tmp.isCovered = newValue;
+                              }
+                              break;
+                            case 'BC_type':
+                              // ['uinvertido', 'deroda', 'trave', 'suspenso', 'grade', 'other'];
+                              if (value) {
+                                oldValue = tmp.structureType;
+
+                                switch (value) {
+                                  case 'açougue':
+                                  case 'metrôrio':
+                                    newValue = 'suspenso';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'grelha':
+                                  case 'holandês':
+                                  case 'jujubinha':
+                                  case 'de roda':
+                                  case 'trincheira':
+                                    newValue = 'deroda';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'transcarioca':
+                                  case 'bollard':
+                                  case 'transoeste':
+                                  case 'niteroi':
+                                  case 'niterói':
+                                  case 'misto':
+                                    newValue = 'other';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'u invertido':
+                                  case 'u invertido quiosque':
+                                  case 'r':
+                                    newValue = 'uinvertido';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'pescocinho':
+                                    newValue = 'pescocinho';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'sulamerica':
+                                  case 'paliteiro':
+                                    newValue = 'paliteiro';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'pente':
+                                    newValue = 'pente';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  case 'm':
+                                    newValue = 'm';
+                                    _importResults.tagsDetected++;
+                                    break;
+                                  default:
+                                    console.error(`Unknown value for BC_type: ${value}`);
+                                    _importResults.unknownTags++;
+                                    // _importResults.log += `Tipo de bicicletário não identificado: ${value}` + '<br>';
+                                    break;
+                                }
+
+                                // Check for diversion
+                                if (oldValue && newValue !== oldValue) {
+                                  console.group();
+                                  console.warn(`Values diverged in BC_type: ${oldValue} X ${newValue}`);
+                                  console.warn(tmp.description);
+                                  console.warn(`${name} = ${value}`);
+                                  console.groupEnd();
+
+                                  // Accept new diverged value only if it's mixed type, b/c our AI can't get that 
+                                  if (value === 'misto') {
+                                    tmp.structureType = newValue;
+                                  } else {
+                                    tmp.structureType = oldValue;
+                                  }
+                                } else {
+                                  tmp.structureType = newValue;
+                                }
+                                
+                              }
+                              break;
+                            case 'BC_paid':
+                              if (value) {
+                                oldValue = tmp.isPaid;
+
+                                if (value === 'yes') {
+                                  newValue = true;  
+                                  _importResults.tagsDetected++;
+                                } else if (value === 'no') {
+                                  newValue = false;
+                                  _importResults.tagsDetected++;
+                                } else {
+                                  console.error(`Unknown value for BC_paid: ${value}`);
+                                  _importResults.unknownTags++;
+                                }
+
+                                // Check for diversion
+                                if (oldValue && newValue !== oldValue) {
+                                  console.group();
+                                  console.warn(`Values diverged in BC_paid: ${oldValue} X ${newValue}`);
+                                  console.warn(tmp.description);
+                                  console.warn(`${name} = ${value}`);
+                                  console.groupEnd();
+
+                                  // Prioritize the version from the description
+                                  tmp.isPaid = oldValue;
+                                } else { 
+                                  tmp.isPaid = newValue; 
+                                }
+                              }
+                              break;
+
+                            ///////////// 
+                            // Default //
+                            ///////////// 
+                            default:
+                              // Any other tag that we haven't identified yet
+                              tmp[name] = value;
+                              // console.warn(`Unknown tag found: ${name}=${value}`);
+                              // _importResults.unknownTags++;
+                          }
+                        });
+                      case 'Point':
+                        if (c.children && c.children[1]) {
+                          // lat and lng are inverted on purporse
+                          const [lng, lat] = c.children[1].innerHTML.split(',');
+                          tmp.lat = removeWhitespaces(lat);
+                          tmp.lng = removeWhitespaces(lng);
+                        }
+                        break;
+
+                      ///////////// 
+                      // Default //
+                      /////////////
+                      default:
+                        // Any other tag that we haven't identified yet
+                        tmp[c.tagName] = c.innerHTML;
+                    }
+
+                  });
+
+                  // Remove title string from the description string
+                  if (originalTitle && tmp.description) {
+                    tmp.description = tmp.description.replace(originalTitle, '');
+
+                    // Special Transporte Ativo cases
+                    tmp.description = tmp.description.replace('Nome:', '');
+                    tmp.description = tmp.description.replace('Descrição:', '');
+                  }
+
+                  if (tmp.lat && tmp.lng) {
+                    data.push(tmp);
+                  } else {
+                    console.warn('Missing required fields, skipping element ', tmp);
+                  }
+
+                })*/
+
+                // Save data globally
+                _importResults.places = data;
+
+                // @todo move this to global
+                let structureTypes = [];
+                for (let i = 0; i < STRUCTURE_NAMES.length; i++) {
+                  structureTypes.push({ value: STRUCTURE_CODES[i], text: STRUCTURE_NAMES[i] });
+                }
+
+                updateKmlImportResults();
+
+                $('#importador table').bootstrapTable({
+                  columns: [
+                    {
+                      field: 'text', title: 'Nome', sortable: true, class: 'col-title', editable: !!BDB.User.isAdmin
+                    },
+                    {
+                      field: 'address', title: 'Endereço', sortable: true, class: 'col-address', editable: !!BDB.User.isAdmin,
+                      'editable-type': 'textarea', visible: false,
+                    },
+                    {
+                      field: 'lat', title: 'lat', sortable: true, visible: false,
+                    },
+                    {
+                      field: 'lng', title: 'lng', sortable: true, visible: false,
+                    },
+                    {
+                      field: 'slots', title: 'Vagas', sortable: true,
+                    },
+                    {
+                      field: 'isPublic', title: 'Público?', sortable: true, editable: !!BDB.User.isAdmin,
+                      'editable-type': 'select', 'editable-source': "[{'value': true, 'text': 'Publico'}, {'value': false, 'text': 'Privado'} ]",
+                    },
+                    {
+                      field: 'isCovered', title: 'Coberto?', sortable: true, editable: !!BDB.User.isAdmin,
+                      'editable-type': 'select', 'editable-source': "[{'value': true, 'text': 'Coberto'}, {'value': false, 'text': 'Não coberto'} ]",
+                    },
+                    {
+                      field: 'structureType', title: 'Tipo', sortable: true, editable: !!BDB.User.isAdmin
+                    },
+                    {
+                      field: 'isPaid', title: 'Pago?', sortable: true, editable: !!BDB.User.isAdmin
+                    },
+                    {
+                      field: 'description', title: 'Descrição', sortable: true, class: 'col-description', editable: !!BDB.User.isAdmin,
+                      'editable-type': 'textarea',
+                    },
+                    {
+                      field: 'photo', title: 'Foto', sortable: true, visible: !!BDB.User.isAdmin, formatter: 'photoColFormatter'
+                    }
+                  ],
+                  data: data,
+                  sortName: 'text'
+                });
+
+                if (_importResults.places.length > 0) {
+                  $('#kmlFileImport').attr('disabled', false);
+                }
+              }
+
+              reader.onerror = function (evt) {
+                document.getElementById("fileContents").innerHTML = "error reading file";
+              }
+            }
+
+          });
+
+        }
+
+
+        /////////////////////
+        // Initializations //
+        /////////////////////
+
+        Database = BDB.Database; 
+
+        // Admin-only Globals
+        let users;
+        let log;
+        let revisions;
+        let reviews;
+        let ga = function() {};
+
+
+        // BootstrapTables extesion
+        $.fn.editable.defaults.toggle = 'dblclick';
+
+
+        init();
+
+
+      </script>
+
+
+      <!-- External -->
+
+      <!-- Hotjar -->
+      <script>  
+        if (window.location.host === 'www.bikedeboa.com.br') {
+          (function(h,o,t,j,a,r){
+              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+              h._hjSettings={hjid:476334,hjsv:5};
+              a=o.getElementsByTagName('head')[0];
+              r=o.createElement('script');r.async=1;
+              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+              a.appendChild(r);
+          })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+        }
+      </script>
+
+    </body>
+
+</html>

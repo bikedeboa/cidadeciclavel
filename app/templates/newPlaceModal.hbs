@@ -1,0 +1,262 @@
+<!-- New Pin Modal -->
+<div id="newPlaceModal" data-keyboard="false" class="modal" tabindex="-1">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="photo-container photo-input--container">
+                        <input id="photoInput" class="photo-input" type="file" name="photoInput" accept="image/*">
+                
+                        <img alt="" id="photoInputBg" src="{{{photoUrl}}}" />
+
+                        <label class="photo-input--label {{#if photoUrl}}photo-input--edit-mode{{/if}}" for="photoInput">
+                            <div class="photo-input--calltoaction">
+                                {{#if photoUrl}}
+                                    <img src="/img/icon_edit.svg" alt="" />
+                                    <div>
+                                        Editar foto
+                                    </div> 
+                                {{else}}
+                                    <img src="/img/icon_photo.svg" alt="" />
+                                    <div>
+                                        Adicionar foto
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </label>
+                    </div>
+
+                    <section>
+                        <h2>Dá o nome ao bicicletário</h2>
+                        <div class="text-input-wrapper">
+                            <input
+                                id="titleInput"
+                                name="text"
+                                type="text"
+                                class="text-input data-hj-whitelist"
+                                placeholder="Sem nome"
+                                value="{{placeTitle}}" 
+                            >
+
+                            {{#if nameSuggestions}}
+                                <div class="place-suggestions">
+                                    <span class="place-suggestions--title">
+                                        Sugestões
+                                    </span>
+
+                                    <ul class="place-suggestions--list">
+                                        {{#each nameSuggestions}}
+                                            <li class="place-suggestion--item" data-name="{{this}}">
+                                                <a>{{this}}</a>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>
+                        Cobertura
+                        <!-- <a id="access-general-help-tooltip" class="glyphicon glyphicon-question-sign help-tooltip-trigger" data-html="true" data-toggle="tooltip" data-placement="auto" role="button" tabindex="0"  data-title="<h2>Público</h2>
+                        <p>Pode ser usado em qualquer horário por qualquer pessoa. Normalmente está no espaço público, como calçadas ou parques. Pode ter sido instalado por um estabelecimento comercial ou não.</p>
+                        <h2>Privado</h2><p>O uso é restrito para clientes, funcionários ou moradores e este acesso é controlado.<p>"> --></a>
+                        </h2>
+
+                        <div class="covered-group" data-form-step="2">
+                            <div
+                                data-value="covered"
+                                class="typeIcon {{#ifCond coverType '===' 'covered'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/icon_covered.svg"/>
+                                <div class="icon-label">
+                                    Coberto
+                                </div>
+                            </div>
+                            <div
+                                data-value="uncovered"
+                                class="typeIcon {{#ifCond coverType '===' 'uncovered'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/icon_uncovered.svg"/>
+                                <div class="icon-label"> 
+                                    Não coberto
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>
+                        Tipo de Bicicletário
+                        <a id="type-general-help-tooltip" class="glyphicon glyphicon-question-sign help-tooltip-trigger" role="button" tabindex="0" data-html="true" data-toggle="tooltip" data-placement="auto" role="button" tabindex="0"  data-title="<p>Estes são os principais tipos de bicicletário encontrados pela cidade. Cada um tem um nível de segurança e praticidade diferente. Se você não estiver acostumado com estes nomes o ícone pode te ajudar a entendê-los melhor.</p>
+                        <p>Saiba mais no <a href='#' class='open-guide-btn external-link'>Guia de tipos de bicicletário</a></p>"></a>
+                        </h2> 
+
+                        <div class="custom-radio-group" data-form-step="1">
+                            <div
+                                data-value="deroda"
+                                class="typeIcon {{#ifCond rackType '===' 'deroda'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_deroda.svg"/>
+                                <div class="icon-label">Entorta rodas</div>
+                            </div>
+                            <div
+                                data-value="uinvertido"
+                                class="typeIcon {{#ifCond rackType '===' 'uinvertido'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_uinvertido.svg"/>
+                                <div class="icon-label">U Invertido</div>
+                            </div>
+                            <div
+                                data-value="suspenso"
+                                class="typeIcon {{#ifCond rackType '===' 'suspenso'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_suspenso.svg"/>
+                                <div class="icon-label">Suspenso</div>
+                            </div>
+                            <div
+                                data-value="grade"
+                                class="typeIcon {{#ifCond rackType '===' 'grade'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_grade.svg"/>
+                                <div class="icon-label">Grade/Vedação</div>
+                            </div>
+                            <div
+                                data-value="trave"
+                                class="typeIcon {{#ifCond rackType '===' 'trave'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_trave.svg"/>
+                                <div class="icon-label">Poste</div>
+                            </div>
+                            
+                            <div
+                                data-value="other"
+                                class="typeIcon {{#ifCond rackType '===' 'other'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_other.svg"/>
+                                <div class="icon-label">Outro</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>
+                        Acesso
+                        <a id="access-general-help-tooltip" class="glyphicon glyphicon-question-sign help-tooltip-trigger" role="button" tabindex="0" data-html="true" data-toggle="tooltip" data-placement="auto" role="button" tabindex="0"  data-title="<h2>Público</h2>
+                        <p>Pode ser usado em qualquer horário por qualquer pessoa. Normalmente está no espaço público, como calçadas ou parques. Pode ter sido instalado por um estabelecimento comercial ou não.</p>
+                        <h2>Privado</h2><p>O uso é restrito para clientes, funcionários ou moradores e este acesso é controlado.<p>"></a>
+                        </h2>
+
+                        <div class="acess-types-group" data-form-step="2">
+                            <div
+                                data-value="public"
+                                class="typeIcon {{#ifCond accessType '===' 'public'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/icon_public.svg"/>
+                                <div class="icon-label">
+                                    Público
+                                </div>
+                            </div>
+                            <div
+                                data-value="private"
+                                class="typeIcon {{#ifCond accessType '===' 'private'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/icon_private.svg"/>
+                                <div class="icon-label">
+                                    Privado
+                                </div>
+                            </div>
+                        </div>
+                    </section> 
+
+                    <section> 
+                            <div class="extraInfo collapsable {{#if hasExtraInfo}}expanded{{/if}}">
+                                <h2>
+                                    Mais informações
+                                </h2>
+
+                                <div>
+                                    <label>
+                                        Custo
+                                    </label>
+                                    <select id="isPaidInput" name="select">
+                                        <option
+                                            value="dontknow"
+                                            {{#unless costType}}selected{{/unless}}>
+                                            Não sei
+                                        </option>
+                                        <option
+                                            value="yes" 
+                                            {{#ifCond costType '===' 'paid'}}selected{{/ifCond}}>
+                                            Pago
+                                        </option>
+                                        <option
+                                            value="no"
+                                            {{#ifCond costType '===' 'free'}}selected{{/ifCond}}>
+                                            Gratuito
+                                        </option>
+                                    </select> 
+                                </div>
+                                
+                                <div>
+                                    <label>
+                                        Número de vagas
+                                    </label>
+                                    <input id="slotsInput" type="number" name="slots" min="0" value="{{{slots}}}">
+                                </div>
+
+                                <div>
+                                    <label>
+                                        Informações práticas
+                                    </label>
+                                
+                                    <textarea
+                                        id="descriptionInput"
+                                        maxlength="250"  
+                                        type="text"
+                                        class="text-input data-hj-whitelist"
+                                        name="description"
+                                        placeholder="Ex: horários, como acessar, serviços adicionais, ..." 
+                                    >{{{description}}}</textarea>
+                                </div>
+                            </div>
+                    </section>
+
+                    {{#if editMode}}
+                        <section class="minimap-container">
+                            <h2>Localização</h2> 
+                            <div>
+                                <img class="minimap" src="{{{minimapUrl}}}" alt=""/>
+                                <button id="editPlacePositionBtn" class="btn link-button">
+                                    Editar 
+                                </button>
+                            </div>
+                        </section>
+                    {{/if}}
+
+                    <div class="stickyFooterBtn">
+                        <button
+                            class="saveNewPlaceBtn btn border btn-footer btn-action green"
+                        >
+                            SALVAR
+                        </button>
+                        {{#if editMode}}
+                            {{!-- <button id="cancelEditPlaceBtn" class="btn link-button">Cancelar edição</button> --}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

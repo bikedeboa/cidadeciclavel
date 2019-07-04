@@ -1,0 +1,88 @@
+<!-- Data Modal -->
+<div id="dataModal" class="modal fullscreen-modal" tabindex="-1" data-keyboard="false" data-backdrop="static">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <article>
+                        <h1 class="modal-title view-name">Sobre nossos dados</h1>
+
+                        <section>
+                            <p>
+                                O nosso código-fonte e dados são abertos. Poderás acedê-los de duas maneiras simples:
+                            </p>
+
+
+                            <a class="data-modal--block" target="_blank" rel="noopener" href="/dados">
+                                <div class="data-modal--block-icon">
+                                    <img alt="" src="/img/icon_table_white.svg"/>
+                                </div>
+
+                                <div class="data-modal--block-content">
+                                    <div class="data-modal--block-title"> 
+                                        Tabela de Dados
+                                    </div>
+                                    <p>
+                                        Navega pelas tabelas dos nossos dados, através do teu computador. Podes explorar, pesquisar, filtrar e transferir em vários formatos como Excel e CSV.
+                                    </p>
+                                </div>
+
+                                <div class="data-modal--block-arrow">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </div>
+                            </a>
+
+                            <a class="data-modal--block" target="_blank" rel="noopener" href="https://github.com/bikedeboa/bikedeboa-api">
+                                <div class="data-modal--block-icon">
+                                    <img alt="" src="/img/icon_code_white.svg"/>
+                                </div>
+
+                                <div class="data-modal--block-content">
+                                    <div class="data-modal--block-title">
+                                        API
+                                    </div>
+                                    <p>
+                                        Essa é para programadores: podes aceder aos dados directamente através da API que alimenta este site. Vê no link a documentação que explica como usá-la.
+                                    </p>
+                                </div>
+
+                                <div class="data-modal--block-arrow">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </div>
+                            </a>
+                        </section>
+
+                        <section>
+                            <h2>Bases importadas</h2>
+
+                            <p>
+                                Este é um projecto colaborativo. A iniciativa no Brasil e a MUBi juntaram esforços e integraram as suas bases de dados. <br/>
+                                Os dados relacionados com Lisboa foram gentilmente cedidos pela <a class="external-link" target="_blank" rel="noopener" href="http://www.cm-lisboa.pt">Câmara Municipal de Lisboa</a>.
+                            </p>
+
+                            {{#each dataSources}}
+                                <div>
+                                    <h3>{{name}}</h3>
+                                    <a class="external-link" target="_blank" rel="noopener" href={{{url}}}>{{{url}}}</a>
+                                </div>
+                            {{/each}}
+
+                        </section>
+
+                        
+                        <br>
+                        <div class='medium-separator'>...</div>
+                        <br>
+
+
+                        <p>
+                        Conheces outros mapas de bicicletários e sites amigos do ciclista, na tua cidade? Gostaríamos muito de conhecê-los de criar novas parcerias! Se for o teu caso, <a class="external-link contact-btn">
+                            <img src="/img/icon_mail.svg" class="icon-mail" /> fala connosco.</a> :)
+                        </p>
+
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
