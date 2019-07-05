@@ -329,18 +329,14 @@ BDB.Map = (function () {
        
       // Custom, locally loaded GeoJSONs
       // map.data.map = null;  
-      map.data.loadGeoJson('/geojson/ciclovias_florianopolis_osm.min.json'); // 99 KB
-      map.data.loadGeoJson('/geojson/ciclovias_fortaleza_osm.min.json'); // 203 KB
-      map.data.loadGeoJson('/geojson/ciclovias_recife_osm.min.json'); // 68 KB 
-      map.data.loadGeoJson('/geojson/ciclovias_grandeportoalegre_osm.min.json'); // 369 KB
-      map.data.loadGeoJson('/geojson/ciclovias_riodejaneiro_osm.min.json'); // 374 KB
+      map.data.loadGeoJson('/geojson/ciclovias_lisboa_osm.json'); // 374 KB
       // map.data.loadGeoJson('/geojson/ciclovias_riograndedosul_osm.min.json'); // 654 KB
 
       map.data.setStyle({  
         // strokeColor: '#cde9c8', //super light green
         // strokeColor: '#00b800', // dark green
         strokeColor: '#2cd978', // light green
-        strokeWeight: 2,
+        strokeWeight: 1,
         strokeOpacity: 1, 
         clickable: false
       });
