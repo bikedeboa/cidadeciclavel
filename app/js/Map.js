@@ -20,17 +20,14 @@ BDB.Map = (function () {
   let infoWindow;
   let gmarkers;
 
-  const countriesBoundingBoxes = {
-    'BR': { 
-      sw: { lat: '-34.0526594796', lng: '-61.3037107971' }, 
-      ne: { lat: '0.1757808338', lng: '-34.3652340941' } 
-    },
-    'PT': {
+  const BoundingBoxArray = [
+    //continente
+    {
       sw: { lat: '36.838268541', lng: '-9.52657060387' },
       ne: { lat: '42.280468655', lng: '-6.3890876937' } 
     }
-  };
-  const mapBoundsCoords = countriesBoundingBoxes['<BDB_COUNTRYCODE>'];
+  ];
+  const mapBoundsCoords = BoundingBoxArray;
 
 
   // function that must be called on map.init(), returns a promise.
@@ -81,10 +78,13 @@ BDB.Map = (function () {
       }
     });
 
-    mapBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(mapBoundsCoords.sw.lat, mapBoundsCoords.sw.lng),
-      new google.maps.LatLng(mapBoundsCoords.ne.lat, mapBoundsCoords.ne.lng)
-    );
+    mapBounds = [];
+    mapBoundsCoords.forEach(bounds =>{
+      mapBounds.push(new google.maps.LatLngBounds(
+        new google.maps.LatLng(bounds.sw.lat, bounds.sw.lng),
+        new google.maps.LatLng(bounds.ne.lat, bounds.ne.lng)
+      ));
+    });
 
     setUserMarker();
     setUserRadius();
@@ -156,16 +156,30 @@ BDB.Map = (function () {
       const isCenterWithinBounds = isPosWithinBounds(map.getCenter());
 
       let centerInfo = {
-        isCenterWithinBounds: isPosWithinBounds(map.getCenter()),
-        isViewWithinBounds: (map.getBounds()) ? map.getBounds().intersects(mapBounds) : isPosWithinBounds(map.getCenter())
+        isCenterWithinBounds: isCenterWithinBounds,
+        isViewWithinBounds: (map.getBounds()) ? isIntersected() : isCenterWithinBounds
       };
       let event = new CustomEvent('map:outofbounds', { detail: centerInfo });
       document.dispatchEvent(event);
 
     }, 50);
   };
+  let isIntersected = function(){
+    let ret = false;
+    mapBounds.forEach(bounds =>{
+      if (map.getBounds().intersects(bounds)){
+        ret = true;
+      }
+    });
+    return ret;
+  };
   let isPosWithinBounds = function (pos) {
-    const ret = mapBounds.contains(pos);
+    let ret = false;
+    mapBounds.forEach(bounds =>{
+      if (bounds.contains(pos)){
+        ret = true;
+      }
+    });
     return ret;
   };
   let setInfoBox = function () {
@@ -298,7 +312,9 @@ BDB.Map = (function () {
     const inputElem = document.getElementById('locationQueryInput');
     // Limits the search to the our bounding box
     const options = {
-      bounds: mapBounds,
+      componentRestrictions : {
+       country : 'pt'
+      },
       strictBounds: true
     };
     let autocomplete = new google.maps.places.Autocomplete(inputElem, options);
