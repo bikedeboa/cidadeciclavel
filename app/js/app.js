@@ -1935,16 +1935,8 @@ $(() => {
           `
             <div style="text-align: center; font-size: 30px;">
               <p>
-                <a class="" target="_blank" rel="noopener" href="https://www.facebook.com/bikedeboaapp">
+                <a class="" target="_blank" rel="noopener" href="https://www.facebook.com/mubi.pt/">
                   <img alt="" class="svg-icon" src="/img/icon_social_facebook.svg"/>
-                </a> 
-
-                <a class="" target="_blank" rel="noopener" href="https://www.instagram.com/bikedeboa/">
-                  <img alt="" class="svg-icon" src="/img/icon_social_instagram.svg"/>
-                </a>
-
-                <a class="" target="_blank" rel="noopener" href="https://medium.com/bike-de-boa/">
-                  <img alt="" class="svg-icon" src="/img/icon_social_medium.svg"/>
                 </a>
 
                 <a class="" target="_blank" rel="noopener" href="https://github.com/bikedeboa">
