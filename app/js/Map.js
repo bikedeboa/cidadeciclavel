@@ -25,6 +25,16 @@ BDB.Map = (function () {
     {
       sw: { lat: '36.838268541', lng: '-9.52657060387' },
       ne: { lat: '42.280468655', lng: '-6.3890876937' } 
+    },
+    // ilha da madeira 
+    {
+      sw: { lat: '32.629561', lng: '-17.279356' },
+      ne: { lat: '32.874672', lng: '-16.652851' } 
+    },
+    //Açores 
+    {
+      sw: { lat: '36.899974', lng: '-31.359358' },
+      ne: { lat: '39.764775', lng: '-24.937849' } 
     }
   ];
   const mapBoundsCoords = BoundingBoxArray;
