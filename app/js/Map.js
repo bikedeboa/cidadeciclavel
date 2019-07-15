@@ -329,7 +329,7 @@ BDB.Map = (function () {
        
       // Custom, locally loaded GeoJSONs
       // map.data.map = null;  
-      map.data.loadGeoJson('/geojson/ciclovias_lisboa_osm.json'); // 374 KB
+      map.data.loadGeoJson('/geojson/ciclovias_lisboa_osm.min.json'); // 374 KB
       // map.data.loadGeoJson('/geojson/ciclovias_riograndedosul_osm.min.json'); // 654 KB
 
       map.data.setStyle({  
