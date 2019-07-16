@@ -34,9 +34,9 @@ const merge = require('merge-stream');
 const development = environments.development;
 const production = environments.production;
 const BDB_ENV = process.env.BDB_ENV || 'localhost';
-const BDB_COUNTRYCODE = process.env.BDB_COUNTRYCODE || 'BR';
+const BDB_COUNTRYCODE = process.env.BDB_COUNTRYCODE || 'PT';
 
-const DATABASE_URL = process.env.DATABASE_URL || 'https://bdb-test-api.herokuapp.com';
+const DATABASE_URL = process.env.DATABASE_URL || 'https://bikedeboa-portugal-api.herokuapp.com';
 
 console.log('NODE_ENV =', development() ? 'development' : 'production');
 console.log('BDB_ENV =', BDB_ENV);
