@@ -1746,11 +1746,13 @@
                                 const [lng, lat] = data.children[1].innerHTML.split(',');
                                 tmp.lat = removeWhitespaces(lat);
                                 tmp.lng = removeWhitespaces(lng);
+
                               }
                               break;
                           }
                         });
-                        //console.log(tmp);
+                        
+                        console.log(tmp);
                         data.push(tmp);
                       break;
                     }
