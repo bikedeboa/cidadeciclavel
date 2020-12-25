@@ -31,7 +31,7 @@ const DEFAULT_COORDS = CAPITALS[BDB_COUNTRYCODE];
 
 const N_MOCK_PICS = 14;
 
-const MAX_ZOOM_TO_SHOW_PINS = 14;
+const MAX_ZOOM_TO_SHOW_PINS = 15;
 
 const MARKER_SIZE_MULTIPLIER = 1.5;
 
@@ -50,10 +50,14 @@ const MARKER_ICON_YELLOW_MINI = '/img/pin_yellow_mini.svg';
 const MARKER_ICON_RED_MINI = '/img/pin_red_mini.svg';
 const MARKER_ICON_GRAY_MINI = '/img/pin_gray_mini.svg';
 
-const MARKER_ICON_RACK = '/img/pin_rack.svg';
-const MARKER_ICON_REQUEST = '/img/pin_request.svg';
-const MARKER_ICON_RACK_MINI = '/img/pin_rack_mini.svg';
-const MARKER_ICON_REQUEST_MINI = '/img/pin_request_mini.svg';
+const MARKER_ICON_RACK = '/img/pin_parque.svg';
+const MARKER_ICON_REQUEST = '/img/pin_request_2.svg';
+const MARKER_ICON_RACK_MINI = '/img/pin_parque_mini.svg';
+const MARKER_ICON_REQUEST_MINI = '/img/pin_request_mini_2.svg';
+const MARKER_ICON_BIKEPARK = '/img/pin_biciparque.svg';
+const MARKER_ICON_BIKEPARK_MINI = '/img/pin_biciparque_mini.svg';
+const MARKER_ICON_HOTSPOT = '/img/pin_hotspot.svg';
+
 
 const PHOTO_UPLOAD_MAX_W = 1000; 
 const PHOTO_UPLOAD_MAX_H = 1000;

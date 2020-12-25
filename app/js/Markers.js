@@ -18,37 +18,50 @@ BDB.Markers = (function(){
 
 				for (let i = 0; i < places.length; i++) {
 				  const m = places[i];
-
+					console.log(m);
 				  if (m) {
 				    // Icon and Scaling
 				    let scale;
 				    let iconType, iconTypeMini;
 				    if(m.type ==="rack"){
-				    	let color = getColorFromAverage(m.average);
-				    	m.average = formatAverage(m.average);
-					    switch (color) {
-					    case 'red':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.4;
-					      break;
-					    case 'yellow':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.8;
-					      break;
-					    case 'green':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 1;
-					      break;
-					    case 'gray':
-					    default:
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.6;
-					      break;
-					    }
+						let color = getColorFromAverage(m.average);
+						m.average = formatAverage(m.average);
+						
+						let icon;
+
+						switch (color) {
+							case 'red':
+							  scale = 0.4;
+							  break;
+							case 'yellow':
+							  scale = 0.8;
+							  break;
+							case 'green':
+							  scale = 1;
+							  break;
+							case 'gray':
+							default:
+							  scale = 0.6;
+							  break;
+							}
+
+						switch (m.classification){
+							case "hotspot":
+								iconType = MARKER_ICON_HOTSPOT;
+								iconTypeMini = MARKER_ICON_RACK_MINI;
+								break;
+							case "biciparque":
+								iconType = MARKER_ICON_BIKEPARK;
+								iconTypeMini = MARKER_ICON_BIKEPARK_MINI;
+								scale = 1.3;
+								break;
+							default:
+								iconType = MARKER_ICON_RACK;
+								iconTypeMini = MARKER_ICON_RACK_MINI;
+								break;  
+						}
+
+					    
 				    }else{
 				    	scale = 1;
 				    	if(m.support == 0){
@@ -210,33 +223,33 @@ BDB.Markers = (function(){
 
 				  const clustererStyles = [
 				    {
-				      url: '/img/cluster_medium.png',
+				      url: '/img/cluster_m.png',
+				      height: 30,
+				      width: 30
+				    },
+				    {
+				      url: '/img/cluster_m.png',
 				      height: 50,
 				      width: 50
 				    },
 				    {
-				      url: '/img/cluster_medium.png',
-				      height: 75,
-				      width: 75
+				      url: '/img/cluster_m.png',
+				      height: 70,
+				      width: 70
 				    },
 				    {
-				      url: '/img/cluster_medium.png',
-				      height: 80,
-				      width: 80
+				      url: '/img/cluster_g.png',
+				      height: 90,
+				      width: 90
 				    },
 				    {
-				      url: '/img/cluster_big.png',
-				      height: 100,
-				      width: 100
-				    },
-				    {
-				      url: '/img/cluster_big.png',
-				      height: 120,
-				      width: 120
+				      url: '/img/cluster_g.png',
+				      height: 110,
+				      width: 110
 				    },
 				  ];
 				  let clustererOptions = {
-				    maxZoom: 10, 
+				    maxZoom: 13, 
 				    minimumClusterSize: 1,
 				    styles: clustererStyles,
 				    gridSize: 60
