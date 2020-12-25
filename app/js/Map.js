@@ -351,7 +351,7 @@ BDB.Map = (function () {
   let setupBikeLayer = function () {
     if (!bikeLayer) {
       // Google Maps Bike Layer (sucks)
-      // bikeLayer = new google.maps.BicyclingLayer();
+      bikeLayer = new google.maps.BicyclingLayer();
        
       // Custom, locally loaded GeoJSONs
       // map.data.map = null;  

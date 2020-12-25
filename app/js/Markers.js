@@ -18,7 +18,6 @@ BDB.Markers = (function(){
 
 				for (let i = 0; i < places.length; i++) {
 				  const m = places[i];
-					console.log(m);
 				  if (m) {
 				    // Icon and Scaling
 				    let scale;
