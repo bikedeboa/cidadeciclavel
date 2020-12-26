@@ -4,14 +4,14 @@
 
 function createMapFromArrays(a, b) {
   let ret = {};
-  a.forEach( (val, i) => {
+  a.forEach((val, i) => {
     ret[val] = b[i];
   });
 
   return ret;
 }
 
-function getSimulatedDelay () {
+function getSimulatedDelay() {
   return Math.floor(Math.random() * 2000) + 500;
 }
 
@@ -37,10 +37,10 @@ const MARKER_SIZE_MULTIPLIER = 1.5;
 
 const MARKER_W = 20 * MARKER_SIZE_MULTIPLIER;
 const MARKER_H = 26 * MARKER_SIZE_MULTIPLIER;
-const MARKER_W_MINI = 18; 
+const MARKER_W_MINI = 18;
 const MARKER_H_MINI = 18;
 const CURRENT_LOCATION_MARKER_W = 20;
-const CURRENT_LOCATION_MARKER_H = 20; 
+const CURRENT_LOCATION_MARKER_H = 20;
 const MARKER_ICON_GREEN = '/img/pin_green.svg';
 const MARKER_ICON_YELLOW = '/img/pin_yellow.svg';
 const MARKER_ICON_RED = '/img/pin_red.svg';
@@ -59,7 +59,7 @@ const MARKER_ICON_BIKEPARK_MINI = '/img/pin_biciparque_mini.svg';
 const MARKER_ICON_HOTSPOT = '/img/pin_hotspot.svg';
 
 
-const PHOTO_UPLOAD_MAX_W = 1000; 
+const PHOTO_UPLOAD_MAX_W = 1000;
 const PHOTO_UPLOAD_MAX_H = 1000;
 
 const MAX_RECENT_SEARCHES = 3;
@@ -87,7 +87,7 @@ const FACEBOOK_CLIENT_ID = '<FACEBOOK_CLIENT_ID>';
 const GOOGLE_CLIENT_ID = '<GOOGLE_CLIENT_ID>';
 const BDB_ENV = '<BDB_ENV>';
 
-const MOBILE_MAX_WIDTH = '430px'; 
+const MOBILE_MAX_WIDTH = '430px';
 const DESKTOP_MIN_WIDTH = '430px';
 let _isMobile = window.matchMedia && window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH})`).matches;
 
@@ -101,14 +101,14 @@ const MAX_KM_TO_FIT_TO_VIEWPORT = 2;
 
 const MAX_NAME_SUGGESTIONS = 5;
 
-const MAP_BOUNDS_COORDS = { 
-    sw: { lat: '-34.0526594796', lng: '-61.3037107971' }, 
-    ne: { lat: '0.1757808338', lng: '-34.3652340941' } 
+const MAP_BOUNDS_COORDS = {
+  sw: { lat: '-34.0526594796', lng: '-61.3037107971' },
+  ne: { lat: '0.1757808338', lng: '-34.3652340941' }
 };
 /////////////
 // Globals //
 /////////////
- 
+
 let map;
 let geocoder;
 let places;
