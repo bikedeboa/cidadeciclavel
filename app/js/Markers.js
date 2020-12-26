@@ -48,8 +48,10 @@ BDB.Markers = (function(){
 							case "hotspot":
 								iconType = MARKER_ICON_HOTSPOT;
 								iconTypeMini = MARKER_ICON_RACK_MINI;
+								m.type = "hotspot";
 								break;
 							case "biciparque":
+								m.type = "biciparque";
 								iconType = MARKER_ICON_BIKEPARK;
 								iconTypeMini = MARKER_ICON_BIKEPARK_MINI;
 								scale = 1.3;
@@ -138,7 +140,7 @@ BDB.Markers = (function(){
 				        	  type : 0,
 					          thumbnailUrl: (m.photo) ? m.photo.replace('images', 'images/thumbs') : '',
 					          title: m.text,
-					          supporters: 0
+					          supporters: m.support
 				        	};
 				        }
 				        
