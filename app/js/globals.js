@@ -31,32 +31,26 @@ const DEFAULT_COORDS = CAPITALS[BDB_COUNTRYCODE];
 
 const N_MOCK_PICS = 14;
 
-const MAX_ZOOM_TO_SHOW_PINS = 15;
+const MAX_ZOOM_TO_SHOW_PINS = 16;
 
-const MARKER_SIZE_MULTIPLIER = 1.5;
+const MARKER_SIZE_MULTIPLIER = 1;
 
-const MARKER_W = 20 * MARKER_SIZE_MULTIPLIER;
-const MARKER_H = 26 * MARKER_SIZE_MULTIPLIER;
-const MARKER_W_MINI = 18;
-const MARKER_H_MINI = 18;
+const MARKER_W = 25;
+const MARKER_H = 30;
+const MARKER_W_MINI = 10;
+const MARKER_H_MINI = 10;
 const CURRENT_LOCATION_MARKER_W = 20;
 const CURRENT_LOCATION_MARKER_H = 20;
-const MARKER_ICON_GREEN = '/img/pin_green.svg';
-const MARKER_ICON_YELLOW = '/img/pin_yellow.svg';
-const MARKER_ICON_RED = '/img/pin_red.svg';
-const MARKER_ICON_GRAY = '/img/pin_gray.svg';
-const MARKER_ICON_GREEN_MINI = '/img/pin_green_mini.svg';
-const MARKER_ICON_YELLOW_MINI = '/img/pin_yellow_mini.svg';
-const MARKER_ICON_RED_MINI = '/img/pin_red_mini.svg';
-const MARKER_ICON_GRAY_MINI = '/img/pin_gray_mini.svg';
 
-const MARKER_ICON_RACK = '/img/pin_parque.svg';
-const MARKER_ICON_REQUEST = '/img/pin_request_2.svg';
-const MARKER_ICON_RACK_MINI = '/img/pin_parque_mini.svg';
-const MARKER_ICON_REQUEST_MINI = '/img/pin_request_mini_2.svg';
-const MARKER_ICON_BIKEPARK = '/img/pin_biciparque.svg';
-const MARKER_ICON_BIKEPARK_MINI = '/img/pin_biciparque_mini.svg';
-const MARKER_ICON_HOTSPOT = '/img/pin_hotspot.svg';
+
+const MARKER_ICON_RACK = '/img/pin_parque.png';
+const MARKER_ICON_REQUEST = '/img/pin_pedido.png';
+const MARKER_ICON_RACK_MINI = '/img/pin_parque_mini.png';
+const MARKER_ICON_REQUEST_MINI = '/img/pin_request_mini.png';
+const MARKER_ICON_BIKEPARK = '/img/pin_biciparque.png';
+const MARKER_ICON_BIKEPARK_MINI = '/img/pin_biciparque_mini.png';
+const MARKER_ICON_HOTSPOT = '/img/pin_hotspot.png';
+const MARKER_ICON_HOTSPOT_MINI = '/img/pin_hotspot_mini.png';
 
 
 const PHOTO_UPLOAD_MAX_W = 1000;

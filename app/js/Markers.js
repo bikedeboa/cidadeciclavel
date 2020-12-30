@@ -28,33 +28,19 @@ BDB.Markers = (function(){
 						
 						let icon;
 
-						switch (color) {
-							case 'red':
-							  scale = 0.4;
-							  break;
-							case 'yellow':
-							  scale = 0.8;
-							  break;
-							case 'green':
-							  scale = 1;
-							  break;
-							case 'gray':
-							default:
-							  scale = 0.6;
-							  break;
-							}
+						scale = 1;
 
 						switch (m.classification){
 							case "hotspot":
 								iconType = MARKER_ICON_HOTSPOT;
-								iconTypeMini = MARKER_ICON_RACK_MINI;
-								m.type = "hotspot";
+								iconTypeMini = MARKER_ICON_HOTSPOT_MINI;
+								//m.type = "hotspot";
 								break;
 							case "biciparque":
-								m.type = "biciparque";
+								//m.type = "biciparque";
 								iconType = MARKER_ICON_BIKEPARK;
 								iconTypeMini = MARKER_ICON_BIKEPARK_MINI;
-								scale = 1.3;
+								scale = 1.5;
 								break;
 							default:
 								iconType = MARKER_ICON_RACK;
@@ -65,14 +51,6 @@ BDB.Markers = (function(){
 					    
 				    }else{
 				    	scale = 1;
-				    	if(m.support == 0){
-				    		scale = 0.6;
-				    	}else if (m.support >= 1 && m.support <= 20) {
-				    		scale = 0.8;
-				    	}else if (m.support > 20) {
-				    		scale = 1;
-				    	}
-
 				    	iconType = MARKER_ICON_REQUEST;
 				    	iconTypeMini = MARKER_ICON_REQUEST_MINI;
 				    	
@@ -128,8 +106,6 @@ BDB.Markers = (function(){
 				        if (m.type === 'rack'){
 				        	templateData = {
 				        	  type : 1,
-					          thumbnailUrl: (m.photo) ? m.photo.replace('images', 'images/thumbs') : '',
-					          title: m.text,
 					          average: m.average,
 					          roundedAverage: m.average && ('' + Math.round(m.average)),
 					          pinColor: getColorFromAverage(m.average),

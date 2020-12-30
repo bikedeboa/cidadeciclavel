@@ -673,8 +673,9 @@ $(() => {
     const ratingFilters = filters.filter(i => i.prop === 'rating');
     const structureFilters = filters.filter(i => i.prop === 'structureType');
     const photoFilters = filters.filter(i => i.prop === 'hasPhoto');
-    const type = filters.filter(i => i.prop === 'type')
-    const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type];
+    const type = filters.filter(i => i.prop === 'type');
+    const classification = filters.filter(i => i.prop === 'classification');
+    const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type, classification];
 
     for(let i=0; i < places.length; i++) {
       const m = places[i]; 
