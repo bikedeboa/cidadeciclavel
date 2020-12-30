@@ -107,17 +107,17 @@ BDB.Map = (function () {
     mapCenterChanged();
     
     map.addListener('center_changed', mapCenterChanged);
-  
-    if (!_isMobile) {
-      google.maps.event.addListener(map, 'zoom_changed', mapZoomChanged);
-      mapZoomChanged();
-    } else {
+    
+    google.maps.event.addListener(map, 'zoom_changed', mapZoomChanged);
+    mapZoomChanged();
+
+    if (_isMobile) {
       google.maps.event.addListener(map, 'click', () => {
         if (infoWindow && infoWindow.reset) {
           infoWindow.reset();
         }
-      }); 
-    }
+      });
+    } 
 
     placesService = new google.maps.places.PlacesService(map);
 
@@ -149,7 +149,6 @@ BDB.Map = (function () {
   
   let mapZoomChanged = function () {
     const prevZoomLevel = mapZoomLevel;
-
     mapZoomLevel = map.getZoom() <= MAX_ZOOM_TO_SHOW_PINS ? 'mini' : 'full';
 
     if (!prevZoomLevel || prevZoomLevel !== mapZoomLevel) { 

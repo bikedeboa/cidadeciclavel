@@ -232,7 +232,7 @@ BDB.Markers = (function(){
 				    gridSize: 60
 				  };
 				  if (_isMobile) {
-				    clustererOptions.maxZoom = 15;
+				    clustererOptions.maxZoom = 13;
 				    clustererOptions.minimumClusterSize = 2;
 				  }
 				  markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions); 
