@@ -19,11 +19,11 @@ BDB.Session = {
   },
 
   setWelcomeMessageViewed: function() {
-    Cookies.set('bikedeboa__has_seen_welcome_message', 'true'); 
+    Cookies.set('cidadeciclavel__has_seen_welcome_message', 'true'); 
   },
 
   hasUserSeenWelcomeMessage: function() {
-    const hasSeenWelcomeMessage = !!Cookies.get('bikedeboa__has_seen_welcome_message');
+    const hasSeenWelcomeMessage = !!Cookies.get('cidadeciclavel__has_seen_welcome_message');
 
     return hasSeenWelcomeMessage;
   }

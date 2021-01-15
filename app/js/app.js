@@ -242,9 +242,15 @@ $(() => {
 
     openedMarker = marker;
     const m = openedMarker;
- 
+    
+    const hotspot = m.classification === "hotspot" ? true : false;
+    const biciparque = m.classification === "biciparque" ? true : false;
+
     let templateData = {
       title: m.text,
+      classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
+      hotspot,
+      biciparque,
       address: m.address,
       description: m.description,
       author: m.User && m.User.fullname,
@@ -1749,7 +1755,7 @@ $(() => {
     _currentView = view;
 
     let data = {};
-    if (title === 'bike de boa') {
+    if (title === 'Cidade Ciclável') {
       data.isHome = true;
     }
 
@@ -2100,6 +2106,7 @@ $(() => {
       if ($(e.currentTarget).hasClass('fullscreen-modal') || e.target != e.currentTarget) {
         return;
       } else {
+
         goHome();
       }
     });
@@ -2531,6 +2538,7 @@ $(() => {
       case 'novo':
       case 'novopedido':
       case 'decisao':
+      case 'bemvindo':
       case 'editar':
       case 'nav':
       case 'filtros':
@@ -2696,6 +2704,7 @@ $(() => {
     case 'editar':
     case 'foto':
     case 'dados':
+    case 'bemvindo':
     case 'decisao':
       break;
     case '':
@@ -2860,37 +2869,37 @@ $(() => {
   }
 
   function openWelcomeMessage() { 
-    // setTimeout( () => {
-    //   if (_isMobile) {
-    //     $('.welcome-message-container').show();  
-    //   } else {
-    //     $('.welcome-message-container').velocity('fadeIn', { duration: 3000 }); 
-    //   }
-    // }, 2000);
-
-    if (_isMobile) {
-      return;
-    }
 
     ga('send', 'event', 'Misc', 'welcome message - show');
-     
-    // $('.welcome-message-container').show(); 
-    $('.welcome-message').velocity('transition.slideUpIn', {delay: 1000, duration: 1600});  
+    $('body').append(BDB.templates.welcomeModal());
+    $('#welcomeModal').modal('show');
+    $('#welcomeStart').on('click', ()=>{
+      console.log("welcome msg");
+      $('#close-modal-btn').trigger('click');
+    });
+    $('#close-modal-btn').one('click',()=>{
+      console.log("FECHOU")
+      BDB.Session.setWelcomeMessageViewed(); 
+    })
+    setView('Bem Vindo', 'bemvindo', true);
 
-    $('.welcome-message-container .welcome-message--close').on('click', () => {
+    // $('.welcome-message-container').show(); 
+    //$('.welcome-message').velocity('transition.slideUpIn', {delay: 1000, duration: 1600});  
+
+    /*$('.welcome-message-container .welcome-message--close').on('click', () => {
       $('.welcome-message').velocity('transition.slideDownOut'); 
       // $('.welcome-message-container').remove();
       BDB.Session.setWelcomeMessageViewed(); 
 
       ga('send', 'event', 'Misc', 'welcome message - closed');
-    });
+    });*/
 
-    $('.welcome-message-container a').on('click', () => {
+    /*$('.welcome-message-container a').on('click', () => {
       $('.welcome-message-container').remove();
       BDB.Session.setWelcomeMessageViewed(); 
 
       ga('send', 'event', 'Misc', 'welcome message - link click');
-    });
+    });*/
   }
 
   function init() {
