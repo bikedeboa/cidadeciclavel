@@ -105,7 +105,8 @@ BDB.Markers = (function(){
 				        let templateData;
 				        if (m.type === 'rack'){
 				        	templateData = {
-				        	  type : 1,
+							  type : 1,
+							  title: m.text,
 					          average: m.average,
 					          roundedAverage: m.average && ('' + Math.round(m.average)),
 					          pinColor: getColorFromAverage(m.average),

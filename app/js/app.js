@@ -245,7 +245,6 @@ $(() => {
     
     const hotspot = m.classification === "hotspot" ? true : false;
     const biciparque = m.classification === "biciparque" ? true : false;
-
     let templateData = {
       title: m.text,
       classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
@@ -260,7 +259,6 @@ $(() => {
       lng: m.lng,
       slots: m.slots
     };
-    
     // Average
     templateData.pinColor = getColorFromAverage(m.average);
     templateData.average = formatAverage(m.average);
