@@ -249,7 +249,9 @@ $(() => {
       title: m.text,
       classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
       hotspot,
+      hasSeenHotspotMsg: BDB.Session.getPlaceWarning('hotspot'),
       biciparque,
+      hasSeenBiciparqueMsg: BDB.Session.getPlaceWarning('biciparque'),
       address: m.address,
       description: m.description,
       author: m.User && m.User.fullname,
@@ -403,6 +405,15 @@ $(() => {
 
     $('.photo-container img').on('load', e => {
       $('.photo-container').removeClass('loading'); 
+    });
+
+    $('.place-warning').one('click','.action-close-place-warning',function(){
+      var classification = $(this).data('classification');
+      BDB.Session.setPlaceWarning(classification);
+      $('.place-warning').fadeOut('normal', function() {
+        $(this).remove();
+      });
+      return false;
     });
 
     $('#placeDetailsModal .openDataSourceDialog').off('click').on('click', () => {

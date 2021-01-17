@@ -220,8 +220,8 @@ html, body {
 body {
     overflow: hidden;
     font-family: $bodyFont;
-    background-color: $lightestGray;
-
+    background-color: $green;
+ 
     // font-size: 16px;
 }
 
@@ -3018,12 +3018,57 @@ body.fullscreen-modal-open {
 
     .modal-body {
         padding-top: $GRID_SPACE;
-
+        
         .place-warning{
           background:#FFE064;
           margin-left: -$GRID_SPACE*3;
           margin-right: -$GRID_SPACE*3;
-          padding: $GRID_SPACE*2;
+          background-repeat: no-repeat;
+          background-size: 42px;
+          
+          background-position-x: $GRID_SPACE*3;
+          background-position-y: 50%;
+          display:flex;
+
+          &.hotspot{
+            background-image: url('/img/pin_hotspot.png');
+          }
+          &.biciparque{
+            background-image: url('/img/pin_biciparque.png');
+          }
+          .place-warning-content{
+            
+          }
+          .close-place-warning{
+            font-weight: bold;
+            a {
+              font-size: 24px;
+              color: black;
+            }
+            
+            
+          }
+        }
+        @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+          .place-warning{
+            padding: $GRID_SPACE*2;
+            padding-left: $GRID_SPACE*9;
+          }   
+        }
+        .request-done{
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          background: rgba(0, 212, 126, 0.1);
+          
+          margin-top: -$GRID_SPACE*2;
+          margin-bottom: -$GRID_SPACE*2;
+        }
+
+        @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+          .request-done{
+            padding: $GRID_SPACE*2 $GRID_SPACE*4 $GRID_SPACE*2 $GRID_SPACE*6; 
+          }   
         }
     }
 
@@ -4079,6 +4124,17 @@ body.fullscreen-modal-open {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @media screen and (max-width: $MOBILE_MAX_WIDTH) {
+  .modal-body {
+    .place-warning{
+      padding-top: $GRID_SPACE*2;
+      padding-bottom: $GRID_SPACE*2;
+      padding-left: $GRID_SPACE*9; 
+      padding-right: $GRID_SPACE*4;
+    }
+    .request-done{
+      padding: $GRID_SPACE*2 $GRID_SPACE*2 $GRID_SPACE $GRID_SPACE*5; 
+    }
+  }
   *:focus,
   *:active {
     outline: none;
@@ -4521,7 +4577,7 @@ body.fullscreen-modal-open {
     left: 0;
     right: 0;
     height: $MOBILE_NAVBAR_HEIGHT;
-    background: $greenGradient;
+    background: $green;
 
     transition: all .3s ease-out;
     will-change: height;
@@ -5753,7 +5809,6 @@ a[data-featherlight] {
       
       div{
         margin-left: 65px;
-        padding-top:5px
       }
       .first{
         line-height: 45px;

@@ -37,11 +37,12 @@
         <img alt="" class="toolbar-item-icon" src="/img/icon_share.svg">
         <label>Compartilhar</label>
     </button>
-
+        {{#unless biciparque}}
         <button class="editPlaceBtn toolbar-item">
             <img alt="" class="toolbar-item-icon" src="/img/icon_edit.svg">
             <label>Editar</label>
         </button>
+        {{/unless}}
         {{#if canDelete}}
             <button class="deletePlaceBtn toolbar-item">
                 <img alt="" class="toolbar-item-icon" src="/img/icon_delete.svg">
@@ -60,16 +61,27 @@
             {{/if}}
         </section>
         {{#if biciparque}}
-        <section class="place-warning">
-            <strong>Novidade:  Biciparque! </strong><br/>
-            Este ponto foi marcado como Biciparque! Isto significa que neste local existe uma estrutura paga e fechada de parqueamento de bicicletas.
+            {{#unless hasSeenBiciparqueMsg}}
+        <section class="place-warning biciparque">
+            <div class="place-warning-content">
+                <strong>Novidade:  Biciparque! </strong><br/>
+                Este ponto foi marcado como Biciparque! Isto significa que neste local existe uma estrutura paga e fechada de parqueamento de bicicletas.
+            </div>
+            <div class="close-place-warning"> <a class="action-close-place-warning" data-classification="biciparque" href="#" title="fechar">X</a> </div>
+
         </section>
+            {{/unless}}
         {{/if}}
         {{#if hotspot}}
-        <section class="place-warning">
-            <strong>Novidade:  Hotspot! </strong><br/>
-            Este ponto foi marcado como Hotspot! Isto significa que ele pode ser utilizado para estacionar bicicletas compartilhadas. 
+            {{#unless hasSeenHotspotMsg}}
+        <section class="place-warning hotspot">
+            <div class="place-warning-content">
+                <strong>Novidade:  Hotspot! </strong><br/>
+                Este ponto foi marcado como Hotspot! Isto significa que ele pode ser utilizado para estacionar bicicletas compartilhadas. 
+            </div>
+            <div class="close-place-warning"> <a class="action-close-place-warning" data-classification="hotspot" href="#" title="fechar">X</a> </div>
         </section>
+            {{/unless}}
         {{/if}}
         <section class="info">
             {{#unless noIsCoveredData}}
@@ -322,10 +334,29 @@
             {{/if}}
         </section>
 
-        <hr>
-
+        <hr/>
+        {{#if converted}}
+        <section class="request-done">
+            <p>
+                A Câmara de Lisboa atendeu um pedido da comunidade com este bicicletario.
+            </p>
+        </section>
+        <hr/>
+        {{/if}}
         <section class="extraInfo">
         <ul class="details-list">
+            {{#if hotspot}}
+            <li>
+                <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg">
+                <div>Hotspot</div>
+            </li>
+            {{/if}}
+            {{#if biciparque}}
+            <li>
+                <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg">
+                <div>Biciparque</div>
+            </li>
+            {{/if}}
             {{#if description}}
             <li>
                 <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg" style="opacity: .5;">

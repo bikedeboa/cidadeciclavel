@@ -22,6 +22,13 @@ BDB.Session = {
     Cookies.set('cidadeciclavel__has_seen_welcome_message', 'true'); 
   },
 
+  setPlaceWarning: function(place) {
+    Cookies.set('cidadeciclavel__has_seen_'+ place +'_message', 'true'); 
+  },
+  getPlaceWarning: function(place){
+    const hasSeen = !!Cookies.get('cidadeciclavel__has_seen_'+ place +'_message');
+    return hasSeen;
+  },
   hasUserSeenWelcomeMessage: function() {
     const hasSeenWelcomeMessage = !!Cookies.get('cidadeciclavel__has_seen_welcome_message');
 
