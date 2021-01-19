@@ -220,10 +220,12 @@ html, body {
 body {
     overflow: hidden;
     font-family: $bodyFont;
-    background-color: $green;
+    background-color: $lighterGray;
  
     // font-size: 16px;
 }
+
+
 
 // Completely hide occasional scrollbars for smoother transitions
 body::-webkit-scrollbar {
@@ -3063,11 +3065,23 @@ body.fullscreen-modal-open {
           
           margin-top: -$GRID_SPACE*2;
           margin-bottom: -$GRID_SPACE*2;
+          margin-left: -$GRID_SPACE;
+          margin-right: -$GRID_SPACE;
+
+          background-image: url('/img/request-done.png');
+          background-repeat: no-repeat;
+          background-size: 44px;
+          background-position-x: $GRID_SPACE*1;
+          background-position-y: 50%;
+          padding: $GRID_SPACE*3 $GRID_SPACE*4 $GRID_SPACE*2 $GRID_SPACE*6; 
         }
 
         @media screen and (min-width: $MOBILE_MAX_WIDTH) {
           .request-done{
-            padding: $GRID_SPACE*2 $GRID_SPACE*4 $GRID_SPACE*2 $GRID_SPACE*6; 
+            margin-left: 0;
+            margin-right: 0;
+            background-position-x: $GRID_SPACE*3;
+            padding: $GRID_SPACE*3 $GRID_SPACE*4 $GRID_SPACE*2 $GRID_SPACE*9; 
           }   
         }
     }
