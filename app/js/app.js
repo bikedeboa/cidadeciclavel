@@ -249,6 +249,7 @@ $(() => {
       title: m.text,
       classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
       hotspot,
+      converted: true,
       hasSeenHotspotMsg: BDB.Session.getPlaceWarning('hotspot'),
       biciparque,
       hasSeenBiciparqueMsg: BDB.Session.getPlaceWarning('biciparque'),
