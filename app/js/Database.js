@@ -355,7 +355,7 @@ BDB.Database = {
       });
     });
   },
-  sendSupport: function(id){
+  sendSupport: function(id,options){
     const self = this;
     return new Promise(function(resolve, reject){
       $.ajax({
@@ -363,7 +363,8 @@ BDB.Database = {
         headers: self._headers,
         url: self.API_URL + '/support',
         data: {
-          requestLocal_id: id
+          requestLocal_id: id,
+          options: options
         },
         success: function(data) {
           resolve(data);

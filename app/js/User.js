@@ -277,14 +277,12 @@ BDB.User = {
 
     this.fetchPlaces();
   },
-  sendSupport: function(id){
+  sendSupport: function(id,options){
     const _self = this;
     return new Promise(function(resolve, reject){
-      BDB.Database.sendSupport(id)
+      BDB.Database.sendSupport(id,options)
         .then(function(data){
-          console.log(_self.supports);
           _self.supports.push(data);
-          console.log(_self.supports);
           resolve();
         });
     });

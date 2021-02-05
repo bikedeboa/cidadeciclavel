@@ -3315,6 +3315,57 @@ body.fullscreen-modal-open {
     }
 }
 
+.support-modal{
+  .swal2-cancel,
+  .swal2-confirm {
+    width: 100%;
+    background-color: $lightBlue !important;
+  }
+  .support{
+    p.small {
+      margin-top: -5px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: $gray;
+      font-style: italic;
+    }
+    #support-attrs{
+      display: flex;
+      flex-wrap: wrap;
+    }
+   
+    .support-attr{
+      flex-grow:1;
+      width: 50%;
+      
+      label{
+        margin: 5px 5%;
+        border-radius: 25px;
+        border: 1px solid $blue;
+        color: $blue;
+        padding: 10px 0;
+        width: 90%;
+        font-size: 12px;
+        &:hover{
+          background-color: lightblue;
+        }
+        &.active{
+          color: #fff;
+          background: $blue;
+        }
+      }
+      input[type='checkbox']{
+        display: none;
+      }
+     &:last-child{
+       label{
+         width:50%;
+       }
+     } 
+    }
+  }
+}
+
 .review-modal {
     text-align: center;
     
