@@ -249,7 +249,7 @@ $(() => {
       title: m.text,
       classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
       hotspot,
-      converted: true,
+      converted: m.requestLocal_id ? true : false,
       hasSeenHotspotMsg: BDB.Session.getPlaceWarning('hotspot'),
       biciparque,
       hasSeenBiciparqueMsg: BDB.Session.getPlaceWarning('biciparque'),
@@ -1572,7 +1572,7 @@ $(() => {
                       <input type="checkbox" id="events" name="events" value="1"/>
                     </div>
                     <div class="support-attr">
-                      <label for="transportation"> Mudar de Transporte </label>
+                      <label for="transportation"> Mudar de Transporte (transbordo)</label>
                       <input type="checkbox" id="transportation" name="transportation" value="1"/>
                     </div>
                   </fieldset>
@@ -2949,11 +2949,11 @@ $(() => {
     $('body').append(BDB.templates.welcomeModal());
     $('#welcomeModal').modal('show');
     $('#welcomeStart').on('click', ()=>{
-      console.log("welcome msg");
+      
       $('#close-modal-btn').trigger('click');
     });
     $('#close-modal-btn').one('click',()=>{
-      console.log("FECHOU")
+      
       BDB.Session.setWelcomeMessageViewed(); 
     })
     setView('Bem Vindo', 'bemvindo', true);
