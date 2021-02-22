@@ -938,6 +938,7 @@ $(() => {
     showSpinner('Salvando...', _uploadingPhotoBlob ? true : false);
 
     let place = {};
+    console.log(_newMarkerTemp);
     if (_newMarkerTemp) {
       place.lat = _newMarkerTemp.lat;
       place.lng = _newMarkerTemp.lng;
@@ -965,21 +966,9 @@ $(() => {
 
     
     const onRequestPlaceSaved = newPlace => {
+      console.log(newPlace);
       if(newPlace){
-        swal({
-              title: 'Pedido de Bicicletário criado',
-              customClass: 'post-create-modal',
-              type: 'success',
-              html:
-                `<section class="rating-input-container">
-                  <p> 
-                    Muito obrigado pela Colaboração! 
-                  </p>  
-
-                  <hr>
-              </section>`, 
-              showCloseButton: true
-        });
+        openSuportModal(newPlace.id, ()=>{});
       }    
     };
     hideSpinner();
@@ -1140,7 +1129,6 @@ $(() => {
       .modal('show');
   }
   function openNewRequestModal(nameSuggestions){
-    console.log('openNewRequestModal');
     
     let templateData = {
       nameSuggestions: nameSuggestions
@@ -1524,6 +1512,76 @@ $(() => {
   function stopConfettis() {
     clearTimeout(window.confettiful.confettiInterval);
   }
+
+  function openSuportModal(id, callback){
+    swal({
+      customClass: 'support-modal',
+      html: `
+        <section>
+          <div class="support">
+            <h2>Diz o teu motivo</h2>
+            <p class="small">Seleciona um ou mais motivos.</p>
+            <fieldset id="support-attrs">
+              <div class="support-attr">
+                <label for="living"> Casa </label>
+                <input type="checkbox" id="living" name="living" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="workingOrStuding"> Trabalho ou Estudos </label>
+                <input type="checkbox" id="workingOrStuding" name="workingOrStuding" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="shoppingOrService"> Compras ou Serviços </label>
+                <input type="checkbox" id="shoppingOrService" name="shoppingOrService" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="events"> Eventos ou Espetáculos </label>
+                <input type="checkbox" id="events" name="events" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="transportation"> Mudar de Transporte (transbordo)</label>
+                <input type="checkbox" id="transportation" name="transportation" value="1"/>
+              </div>
+            </fieldset>
+          </div>
+        </section>
+      `,
+      confirmButtonText: 'Confirmar',
+      confirmButtonClass: 'btn blue sendSupportReviewBtn',
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      onOpen: () =>{
+        $('.sendSupportReviewBtn').prop('disabled', true);
+        $('#support-attrs').on('change','input[type="checkbox"]', function(){
+          if($(this).is(':checked')){
+            $(this).siblings('label').addClass('active');
+          }else{
+            $(this).siblings('label').removeClass('active');
+          } 
+          if($('#support-attrs').find('input[type="checkbox"]:checked').length){
+            $('.sendSupportReviewBtn').prop('disabled', false);
+          }else{
+            $('.sendSupportReviewBtn').prop('disabled', true);
+          }
+        });
+      },
+      preConfirm: () => {
+        return new Promise(function(resolve,reject){
+          var formoptions = $('#support-attrs').serializeArray();
+          var options = {};
+          formoptions.map(item=>{
+            options[item.name] = 1;
+          });
+          resolve(options);
+        });
+      }
+    }).then(result=>{
+      console.log(result);
+      BDB.User.sendSupport(id, result)
+      .then(callback);
+    });
+  }
+
   function sendSupportBtn(){
     
     //verificar se o usuário está logado
@@ -1547,80 +1605,17 @@ $(() => {
         $('.support-area').addClass('disabled');
 
         if(action === "add"){
-          swal({
-            customClass: 'support-modal',
-            html: `
-              <section>
-                <div class="support">
-                  <h2>Diz o teu motivo</h2>
-                  <p class="small">Seleciona um ou mais motivos.</p>
-                  <fieldset id="support-attrs">
-                    <div class="support-attr">
-                      <label for="living"> Casa </label>
-                      <input type="checkbox" id="living" name="living" value="1"/>
-                    </div>
-                    <div class="support-attr">
-                      <label for="workingOrStuding"> Trabalho ou Estudos </label>
-                      <input type="checkbox" id="workingOrStuding" name="workingOrStuding" value="1"/>
-                    </div>
-                    <div class="support-attr">
-                      <label for="shoppingOrService"> Compras ou Serviços </label>
-                      <input type="checkbox" id="shoppingOrService" name="shoppingOrService" value="1"/>
-                    </div>
-                    <div class="support-attr">
-                      <label for="events"> Eventos ou Espetáculos </label>
-                      <input type="checkbox" id="events" name="events" value="1"/>
-                    </div>
-                    <div class="support-attr">
-                      <label for="transportation"> Mudar de Transporte (transbordo)</label>
-                      <input type="checkbox" id="transportation" name="transportation" value="1"/>
-                    </div>
-                  </fieldset>
-                </div>
-              </section>
-            `,
-            confirmButtonText: 'Confirmar',
-            confirmButtonClass: 'btn blue sendSupportReviewBtn',
-            showCloseButton: true,
-            showLoaderOnConfirm: true,
-            onOpen: () =>{
-              $('.sendSupportReviewBtn').prop('disabled', true);
-              $('#support-attrs').on('change','input[type="checkbox"]', function(){
-                if($(this).is(':checked')){
-                  $(this).siblings('label').addClass('active');
-                }else{
-                  $(this).siblings('label').removeClass('active');
-                } 
-                if($('#support-attrs').find('input[type="checkbox"]:checked').length){
-                  $('.sendSupportReviewBtn').prop('disabled', false);
-                }else{
-                  $('.sendSupportReviewBtn').prop('disabled', true);
-                }
-              });
-            },
-            preConfirm: () => {
-              return new Promise(function(resolve,reject){
-                var formoptions = $('#support-attrs').serializeArray();
-                var options = {};
-                formoptions.map(item=>{
-                  options[item.name] = 1;
-                });
-                resolve(options);
-              });
-            }
-          }).then(result=>{
-            console.log(result);
-            BDB.User.sendSupport(id, result)
-            .then(function(){
-              $btn.addClass('active');
-              $btn.attr('data-action','remove');
-              $btn.removeAttr("disabled");
-              support+=1;
-              $('#supportText').attr('data-support', support);
-              $('#supportText').text(getSupportText(support));
-              $('.support-area').removeClass('disabled');
-              ga('send', 'event', 'Support', 'Give');
-            });
+          openSuportModal(id,()=>{
+            $btn.addClass('active');
+            $btn.attr('data-action','remove');
+            $btn.removeAttr("disabled");
+            $btn.html("Eu já apoio!")
+            support+=1;
+            $('#supportText').attr('data-support', support);
+            $('#supportText').text(getSupportText(support));
+            $('.support-area').removeClass('disabled');
+            ga('send', 'event', 'Support', 'Give');
+
           });
 
         }else{
@@ -1629,6 +1624,7 @@ $(() => {
               $btn.removeClass('active');
               $btn.attr('data-action','add');    
               $btn.removeAttr("disabled");
+              $btn.html("Quero apoiar!")
               support-=1;
               $('#supportText').attr('data-support', support);
               $('#supportText').text(getSupportText(support));

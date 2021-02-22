@@ -30,7 +30,13 @@
         <hr/>
         <section class="support-area">
                 <p id="supportText" data-support="{{supportNumber}}">{{supportText}}</p>
-                <button id="support-btn" class="support-btn{{#if userSupport}} active{{/if}}" data-id="{{id}}" data-action="{{#if userSupport}}remove{{else}}add{{/if}}" >Eu apoio!</button>
+                <button id="support-btn" class="support-btn{{#if userSupport}} active{{/if}}" data-id="{{id}}" data-action="{{#if userSupport}}remove{{else}}add{{/if}}" >
+                    {{#if userSupport}}
+                        Eu já apoio!
+                    {{else}}
+                        Quero apoiar!
+                    {{/if}}
+                </button>
         </section>
         <hr/>
 
