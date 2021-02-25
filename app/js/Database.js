@@ -470,6 +470,7 @@ BDB.Database = {
       success: function(data) {
         console.debug('Addition success!');
         console.debug(data);
+        data.type = "request";
 
         BDB.User.fetchPlaces();
 

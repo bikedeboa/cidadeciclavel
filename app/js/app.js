@@ -230,7 +230,6 @@ $(() => {
 
   function openDetailsModal(marker, callback) {
     console.log('openDetailsModal');
-
     if (!marker) {
       console.error('Trying to open details modal without a marker.');
       return;
@@ -966,9 +965,10 @@ $(() => {
 
     
     const onRequestPlaceSaved = newPlace => {
-      console.log(newPlace);
       if(newPlace){
-        openSuportModal(newPlace.id, ()=>{});
+        openSuportModal(newPlace.id, ()=>{
+          setView(newPlace.text, BDB.Places.getMarkerShareUrl(newPlace));
+        });
       }    
     };
     hideSpinner();
@@ -983,7 +983,6 @@ $(() => {
   function finishCreateOrUpdatePlace() {
     const updatingMarker = openedMarker;
     openedMarker = null;
-
     goHome();
     showSpinner('Salvando...', _uploadingPhotoBlob ? true : false);
 
@@ -1478,7 +1477,7 @@ $(() => {
       BDB.Database.getPlaceDetails(m.id)
         .then(updatedMarker => {
           BDB.Map.updateMarkers();
-          openDetailsModal(updatedMarker);
+          setView(updatedMarker.text, BDB.Places.getMarkerShareUrl(updatedMarker));
         });
     });
   }
