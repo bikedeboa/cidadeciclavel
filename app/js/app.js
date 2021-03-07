@@ -968,7 +968,7 @@ $(() => {
       if(newPlace){
         openSuportModal(newPlace.id, ()=>{
           setView(newPlace.text, BDB.Places.getMarkerShareUrl(newPlace));
-        });
+        },{title: 'Seu pedido está feito', type: 'success'});
       }    
     };
     hideSpinner();
@@ -1380,7 +1380,7 @@ $(() => {
             class="btn tagDisplay ${isPrepoped ? 'active' : ''}"
             data-toggle="button"
             data-value="${t.id}">
-          <span class="glyphicon glyphicon-plus"></span> ${t.name}
+          ${t.name}
         </button>
       `;
     }).join(''); 
@@ -1512,13 +1512,16 @@ $(() => {
     clearTimeout(window.confettiful.confettiInterval);
   }
 
-  function openSuportModal(id, callback){
+  function openSuportModal(id, callback, config = {title: '', type: ''}){
+    const h2Title = config.type !== '' ? 'Agora diz o teu motivo' : 'Diz o teu motivo' ;
     swal({
-      customClass: 'support-modal',
+      title: config.title,
+      type: config.type,
+      customClass: 'support-modal ' + config.type ,
       html: `
         <section>
           <div class="support">
-            <h2>Diz o teu motivo</h2>
+            <h2>${h2Title}</h2>
             <p class="small">Seleciona um ou mais motivos.</p>
             <fieldset id="support-attrs">
               <div class="support-attr">
@@ -1575,7 +1578,6 @@ $(() => {
         });
       }
     }).then(result=>{
-      console.log(result);
       BDB.User.sendSupport(id, result)
       .then(callback);
     });
