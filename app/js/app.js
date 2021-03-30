@@ -422,9 +422,10 @@ $(() => {
         showConfirmButton: false,
         html:
         `
-        <a href="https://play.google.com/store/apps/details?id=com.geotapgames.pverde&hl=en&gl=US" target="_blank"><img src="/img/playstore.png" width="200" alt="disponivel na play store - android"></a>
+        <h3> Escolha a plataforma do seu telemóvel </h3>
+        <a href="https://play.google.com/store/apps/details?id=com.geotapgames.pverde&hl=en&gl=US" onclick="ga('send', 'event', 'link', 'store', 'android');" target="_blank"><img src="/img/playstore.png" width="200" alt="disponivel na play store - android"></a>
         <br/>
-        <a href="https://apps.apple.com/br/app/pverde/id925660698" target="_blank"><img src="/img/appstore.svg" width='175' alt="disponivel na app store - iOS"></a>
+        <a href="https://apps.apple.com/br/app/pverde/id925660698" onclick="ga('send', 'event' ,'link', 'store', 'iOS');" target="_blank"><img src="/img/appstore.svg" width='175' alt="disponivel na app store - iOS"></a>
         `
       })
     });
