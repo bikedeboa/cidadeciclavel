@@ -415,6 +415,19 @@ $(() => {
       });
       return false;
     });
+    
+    $('#bikepark-link').on('click',()=>{
+      swal({
+        showCloseButton: true,
+        showConfirmButton: false,
+        html:
+        `
+        <a href="https://play.google.com/store/apps/details?id=com.geotapgames.pverde&hl=en&gl=US" target="_blank"><img src="/img/playstore.png" width="180" alt="disponivel na play store - android"></a>
+        <br/>
+        <a href="https://apps.apple.com/br/app/pverde/id925660698" target="_blank"><img src="/img/appstore.svg" width='175' alt="disponivel na app store - iOS"></a>
+        `
+      })
+    });
 
     $('#placeDetailsModal .openDataSourceDialog').off('click').on('click', () => {
       if (openedMarker) { 
