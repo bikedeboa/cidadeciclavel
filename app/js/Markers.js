@@ -18,47 +18,39 @@ BDB.Markers = (function(){
 
 				for (let i = 0; i < places.length; i++) {
 				  const m = places[i];
-
 				  if (m) {
 				    // Icon and Scaling
 				    let scale;
 				    let iconType, iconTypeMini;
 				    if(m.type ==="rack"){
-				    	let color = getColorFromAverage(m.average);
-				    	m.average = formatAverage(m.average);
-					    switch (color) {
-					    case 'red':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.4;
-					      break;
-					    case 'yellow':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.8;
-					      break;
-					    case 'green':
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 1;
-					      break;
-					    case 'gray':
-					    default:
-					      iconType = MARKER_ICON_RACK;
-					      iconTypeMini = MARKER_ICON_RACK_MINI;
-					      scale = 0.6;
-					      break;
-					    }
+						let color = getColorFromAverage(m.average);
+						m.average = formatAverage(m.average);
+						
+						let icon;
+
+						scale = 1;
+
+						switch (m.classification){
+							case "hotspot":
+								iconType = MARKER_ICON_HOTSPOT;
+								iconTypeMini = MARKER_ICON_HOTSPOT_MINI;
+								//m.type = "hotspot";
+								break;
+							case "biciparque":
+								//m.type = "biciparque";
+								iconType = MARKER_ICON_BIKEPARK;
+								iconTypeMini = MARKER_ICON_BIKEPARK_MINI;
+								scale = 1.5;
+								break;
+							default:
+								iconType = MARKER_ICON_RACK;
+								iconTypeMini = MARKER_ICON_RACK_MINI;
+								break;  
+						}
+
+					    
 				    }else{
 				    	scale = 1;
-				    	if(m.support == 0){
-				    		scale = 0.6;
-				    	}else if (m.support >= 1 && m.support <= 20) {
-				    		scale = 0.8;
-				    	}else if (m.support > 20) {
-				    		scale = 1;
-				    	}
-
 				    	iconType = MARKER_ICON_REQUEST;
 				    	iconTypeMini = MARKER_ICON_REQUEST_MINI;
 				    	
@@ -113,9 +105,8 @@ BDB.Markers = (function(){
 				        let templateData;
 				        if (m.type === 'rack'){
 				        	templateData = {
-				        	  type : 1,
-					          thumbnailUrl: (m.photo) ? m.photo.replace('images', 'images/thumbs') : '',
-					          title: m.text,
+							  type : 1,
+							  title: m.text,
 					          average: m.average,
 					          roundedAverage: m.average && ('' + Math.round(m.average)),
 					          pinColor: getColorFromAverage(m.average),
@@ -126,7 +117,7 @@ BDB.Markers = (function(){
 				        	  type : 0,
 					          thumbnailUrl: (m.photo) ? m.photo.replace('images', 'images/thumbs') : '',
 					          title: m.text,
-					          supporters: 0
+					          supporters: m.support
 				        	};
 				        }
 				        
@@ -210,39 +201,39 @@ BDB.Markers = (function(){
 
 				  const clustererStyles = [
 				    {
-				      url: '/img/cluster_medium.png',
+				      url: '/img/cluster_m.png',
+				      height: 30,
+				      width: 30
+				    },
+				    {
+				      url: '/img/cluster_m.png',
 				      height: 50,
 				      width: 50
 				    },
 				    {
-				      url: '/img/cluster_medium.png',
-				      height: 75,
-				      width: 75
+				      url: '/img/cluster_m.png',
+				      height: 70,
+				      width: 70
 				    },
 				    {
-				      url: '/img/cluster_medium.png',
-				      height: 80,
-				      width: 80
+				      url: '/img/cluster_g.png',
+				      height: 90,
+				      width: 90
 				    },
 				    {
-				      url: '/img/cluster_big.png',
-				      height: 100,
-				      width: 100
-				    },
-				    {
-				      url: '/img/cluster_big.png',
-				      height: 120,
-				      width: 120
+				      url: '/img/cluster_g.png',
+				      height: 110,
+				      width: 110
 				    },
 				  ];
 				  let clustererOptions = {
-				    maxZoom: 10, 
+				    maxZoom: 13, 
 				    minimumClusterSize: 1,
 				    styles: clustererStyles,
 				    gridSize: 60
 				  };
 				  if (_isMobile) {
-				    clustererOptions.maxZoom = 15;
+				    clustererOptions.maxZoom = 13;
 				    clustererOptions.minimumClusterSize = 2;
 				  }
 				  markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions); 

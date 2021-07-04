@@ -230,39 +230,7 @@
           </button>
         </div>
 
-        <div class="welcome-message-container">
-          <div class="welcome-message">
-            <button class="welcome-message--close">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-            
-            <!-- <img src="/img/bike.svg">  -->
-            
-            <!-- <h1> bike de boa </h1> -->
-
-            <div class="welcome-message--content">
-              <p>
-               Olá! Este é um mapa colaborativo de parqueamentos para prender a bicicleta. <br/>
-               A verde estão assinalados os parqueamentos que existem (e a sua avaliação). <br/>
-               A azul, os locais onde os utilizadores gostariam que fossem instalados. 
-               <br/>Contribui para a cultura do uso da bicicleta, avalia os pontos já existentes e assinala os pontos, na tua cidade, onde gostarias que fossem instalados.
-              </p>
-
-              <p>
-                O Cidade Ciclável é feito com dedicação por ciclistas, para ciclistas. É gratuito e aberto.
-              </p>
-              <p>
-                A cidade agradece! 
-              </p>
-            </div>
-            
-            <div class="welcome-message--footer">
-              <a class="external-link openAboutBtn">Mais informação</a>
-            </div>
-            
-            <!-- <aside>Aberto até 20/04</aside> -->
-          </div>
-        </div>
+        
 
         <!-- <button class="hamburger-button js-menu-show-hamburger-menu"></button> -->
         <button class="hamburger-button js-menu-show-hamburger-menu" type="button">
@@ -325,16 +293,26 @@
                 ga = function () { };
             }
         </script>
+
+        <!-- Hotjar Tracking Code for https://cidadeciclavel.mubi.pt -->
+        <script>
+            if (window.location.host === 'www.bikedeboa.com.br') {
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:2486290,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            }
+        </script>
+
         
         <script>
             WebFontConfig = {
                 google: {
-                  // families: ['Quicksand:400,400i,700']
                     families: ['Quicksand:500,500i,700']
-                    // families: ['Nunito:400,700,900']
-                    // families: ['Ubuntu:400,400i,700'] 
-                    // families: ['Poppins:400,400i,600']
-                    // families: ['Poppins:400,400i,600']
                 }
             };
 
@@ -346,29 +324,8 @@
             })(document);
         </script>
 
-        <!-- Heap
-        <script type="text/javascript">
-          if (window.location.host === 'www.bikedeboa.com.br') {
-            window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
-              heap.load("898452368");
-          }
-        </script> -->
-
-        <!-- Hotjar -->
-        <script>  
-          /*
-          if (window.location.host === 'cidadeciclavel.mubi.pt') {
-            (function(h,o,t,j,a,r){
-                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                h._hjSettings={hjid:476334,hjsv:5};
-                a=o.getElementsByTagName('head')[0];
-                r=o.createElement('script');r.async=1; r.defer = 1;
-                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                a.appendChild(r);
-            })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
-          }*/
-        </script>
-
+        
+      
         <!-- Twitter Share Button -->
         <script>window.twttr = (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0],
@@ -386,32 +343,6 @@
 
           return t;
         }(document, "script", "twitter-wjs"));</script>
-
-
-        <!-- Facebook SDK -->
-        <!-- <script>
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId            : '1554610834551808',
-              autoLogAppEvents : true,
-              xfbml            : true,
-              version          : 'v2.8'
-            });
-            
-            FB.AppEvents.logPageView();
-
-            checkFBLoginState();
-          };
-
-          (function(d, s, id){
-             var js, fjs = d.getElementsByTagName(s)[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement(s); js.id = id;
-             js.src = "//connect.facebook.net/en_US/sdk.js";
-             fjs.parentNode.insertBefore(js, fjs);
-           }(document, 'script', 'facebook-jssdk'));
-        </script> -->
-            
 
     </body>
 

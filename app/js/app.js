@@ -230,7 +230,6 @@ $(() => {
 
   function openDetailsModal(marker, callback) {
     console.log('openDetailsModal');
-
     if (!marker) {
       console.error('Trying to open details modal without a marker.');
       return;
@@ -242,9 +241,17 @@ $(() => {
 
     openedMarker = marker;
     const m = openedMarker;
- 
+    
+    const hotspot = m.classification === "hotspot" ? true : false;
+    const biciparque = m.classification === "biciparque" ? true : false;
     let templateData = {
       title: m.text,
+      classification: m.classification === "regular" || m.classification === "" || !m.classification ? "bicicletário" : m.classification,
+      hotspot,
+      converted: m.requestLocal_id ? true : false,
+      hasSeenHotspotMsg: BDB.Session.getPlaceWarning('hotspot'),
+      biciparque,
+      hasSeenBiciparqueMsg: BDB.Session.getPlaceWarning('biciparque'),
       address: m.address,
       description: m.description,
       author: m.User && m.User.fullname,
@@ -254,7 +261,6 @@ $(() => {
       lng: m.lng,
       slots: m.slots
     };
-    
     // Average
     templateData.pinColor = getColorFromAverage(m.average);
     templateData.average = formatAverage(m.average);
@@ -399,6 +405,29 @@ $(() => {
 
     $('.photo-container img').on('load', e => {
       $('.photo-container').removeClass('loading'); 
+    });
+
+    $('.place-warning').one('click','.action-close-place-warning',function(){
+      var classification = $(this).data('classification');
+      BDB.Session.setPlaceWarning(classification);
+      $('.place-warning').fadeOut('normal', function() {
+        $(this).remove();
+      });
+      return false;
+    });
+    
+    $('#bikepark-link').on('click',()=>{
+      swal({
+        showCloseButton: true,
+        showConfirmButton: false,
+        html:
+        `
+        <h3> Escolha a plataforma do seu telemóvel </h3>
+        <a href="https://play.google.com/store/apps/details?id=com.geotapgames.pverde&hl=en&gl=US" onclick="ga('send', 'event', 'link', 'store', 'android');" target="_blank"><img src="/img/playstore.png" width="200" alt="disponivel na play store - android"></a>
+        <br/>
+        <a href="https://apps.apple.com/br/app/pverde/id925660698" onclick="ga('send', 'event' ,'link', 'store', 'iOS');" target="_blank"><img src="/img/appstore.svg" width='175' alt="disponivel na app store - iOS"></a>
+        `
+      })
     });
 
     $('#placeDetailsModal .openDataSourceDialog').off('click').on('click', () => {
@@ -673,8 +702,9 @@ $(() => {
     const ratingFilters = filters.filter(i => i.prop === 'rating');
     const structureFilters = filters.filter(i => i.prop === 'structureType');
     const photoFilters = filters.filter(i => i.prop === 'hasPhoto');
-    const type = filters.filter(i => i.prop === 'type')
-    const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type];
+    const type = filters.filter(i => i.prop === 'type');
+    const classification = filters.filter(i => i.prop === 'classification');
+    const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type, classification];
 
     for(let i=0; i < places.length; i++) {
       const m = places[i]; 
@@ -921,6 +951,7 @@ $(() => {
     showSpinner('Salvando...', _uploadingPhotoBlob ? true : false);
 
     let place = {};
+    console.log(_newMarkerTemp);
     if (_newMarkerTemp) {
       place.lat = _newMarkerTemp.lat;
       place.lng = _newMarkerTemp.lng;
@@ -949,20 +980,9 @@ $(() => {
     
     const onRequestPlaceSaved = newPlace => {
       if(newPlace){
-        swal({
-              title: 'Pedido de Bicicletário criado',
-              customClass: 'post-create-modal',
-              type: 'success',
-              html:
-                `<section class="rating-input-container">
-                  <p> 
-                    Muito obrigado pela Colaboração! 
-                  </p>  
-
-                  <hr>
-              </section>`, 
-              showCloseButton: true
-        });
+        openSuportModal(newPlace.id, ()=>{
+          setView(newPlace.text, BDB.Places.getMarkerShareUrl(newPlace));
+        },{title: 'Seu pedido está feito', type: 'success'});
       }    
     };
     hideSpinner();
@@ -977,7 +997,6 @@ $(() => {
   function finishCreateOrUpdatePlace() {
     const updatingMarker = openedMarker;
     openedMarker = null;
-
     goHome();
     showSpinner('Salvando...', _uploadingPhotoBlob ? true : false);
 
@@ -1123,7 +1142,6 @@ $(() => {
       .modal('show');
   }
   function openNewRequestModal(nameSuggestions){
-    console.log('openNewRequestModal');
     
     let templateData = {
       nameSuggestions: nameSuggestions
@@ -1376,7 +1394,7 @@ $(() => {
             class="btn tagDisplay ${isPrepoped ? 'active' : ''}"
             data-toggle="button"
             data-value="${t.id}">
-          <span class="glyphicon glyphicon-plus"></span> ${t.name}
+          ${t.name}
         </button>
       `;
     }).join(''); 
@@ -1473,7 +1491,7 @@ $(() => {
       BDB.Database.getPlaceDetails(m.id)
         .then(updatedMarker => {
           BDB.Map.updateMarkers();
-          openDetailsModal(updatedMarker);
+          setView(updatedMarker.text, BDB.Places.getMarkerShareUrl(updatedMarker));
         });
     });
   }
@@ -1507,6 +1525,78 @@ $(() => {
   function stopConfettis() {
     clearTimeout(window.confettiful.confettiInterval);
   }
+
+  function openSuportModal(id, callback, config = {title: '', type: ''}){
+    const h2Title = config.type !== '' ? 'Agora diz o teu motivo' : 'Diz o teu motivo' ;
+    swal({
+      title: config.title,
+      type: config.type,
+      customClass: 'support-modal ' + config.type ,
+      html: `
+        <section>
+          <div class="support">
+            <h2>${h2Title}</h2>
+            <p class="small">Seleciona um ou mais motivos.</p>
+            <fieldset id="support-attrs">
+              <div class="support-attr">
+                <label for="living"> Casa </label>
+                <input type="checkbox" id="living" name="living" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="workingOrStuding"> Trabalho ou Estudos </label>
+                <input type="checkbox" id="workingOrStuding" name="workingOrStuding" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="shoppingOrService"> Compras ou Serviços </label>
+                <input type="checkbox" id="shoppingOrService" name="shoppingOrService" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="events"> Eventos ou Espetáculos </label>
+                <input type="checkbox" id="events" name="events" value="1"/>
+              </div>
+              <div class="support-attr">
+                <label for="transportation"> Mudar de Transporte (transbordo)</label>
+                <input type="checkbox" id="transportation" name="transportation" value="1"/>
+              </div>
+            </fieldset>
+          </div>
+        </section>
+      `,
+      confirmButtonText: 'Confirmar',
+      confirmButtonClass: 'btn blue sendSupportReviewBtn',
+      showCloseButton: true,
+      showLoaderOnConfirm: true,
+      onOpen: () =>{
+        $('.sendSupportReviewBtn').prop('disabled', true);
+        $('#support-attrs').on('change','input[type="checkbox"]', function(){
+          if($(this).is(':checked')){
+            $(this).siblings('label').addClass('active');
+          }else{
+            $(this).siblings('label').removeClass('active');
+          } 
+          if($('#support-attrs').find('input[type="checkbox"]:checked').length){
+            $('.sendSupportReviewBtn').prop('disabled', false);
+          }else{
+            $('.sendSupportReviewBtn').prop('disabled', true);
+          }
+        });
+      },
+      preConfirm: () => {
+        return new Promise(function(resolve,reject){
+          var formoptions = $('#support-attrs').serializeArray();
+          var options = {};
+          formoptions.map(item=>{
+            options[item.name] = 1;
+          });
+          resolve(options);
+        });
+      }
+    }).then(result=>{
+      BDB.User.sendSupport(id, result)
+      .then(callback);
+    });
+  }
+
   function sendSupportBtn(){
     
     //verificar se o usuário está logado
@@ -1530,23 +1620,26 @@ $(() => {
         $('.support-area').addClass('disabled');
 
         if(action === "add"){
-          BDB.User.sendSupport(id)
-            .then(function(){
-              $btn.addClass('active');
-              $btn.attr('data-action','remove');
-              $btn.removeAttr("disabled");
-              support+=1;
-              $('#supportText').attr('data-support', support);
-              $('#supportText').text(getSupportText(support));
-              $('.support-area').removeClass('disabled');
-              ga('send', 'event', 'Support', 'Give');
-            });
+          openSuportModal(id,()=>{
+            $btn.addClass('active');
+            $btn.attr('data-action','remove');
+            $btn.removeAttr("disabled");
+            $btn.html("Eu já apoio!")
+            support+=1;
+            $('#supportText').attr('data-support', support);
+            $('#supportText').text(getSupportText(support));
+            $('.support-area').removeClass('disabled');
+            ga('send', 'event', 'Support', 'Give');
+
+          });
+
         }else{
           BDB.User.removeSupport(id)
             .then(function(){
               $btn.removeClass('active');
               $btn.attr('data-action','add');    
               $btn.removeAttr("disabled");
+              $btn.html("Quero apoiar!")
               support-=1;
               $('#supportText').attr('data-support', support);
               $('#supportText').text(getSupportText(support));
@@ -1748,7 +1841,7 @@ $(() => {
     _currentView = view;
 
     let data = {};
-    if (title === 'bike de boa') {
+    if (title === 'Cidade Ciclável') {
       data.isHome = true;
     }
 
@@ -2099,6 +2192,7 @@ $(() => {
       if ($(e.currentTarget).hasClass('fullscreen-modal') || e.target != e.currentTarget) {
         return;
       } else {
+
         goHome();
       }
     });
@@ -2530,6 +2624,7 @@ $(() => {
       case 'novo':
       case 'novopedido':
       case 'decisao':
+      case 'bemvindo':
       case 'editar':
       case 'nav':
       case 'filtros':
@@ -2695,6 +2790,7 @@ $(() => {
     case 'editar':
     case 'foto':
     case 'dados':
+    case 'bemvindo':
     case 'decisao':
       break;
     case '':
@@ -2859,37 +2955,37 @@ $(() => {
   }
 
   function openWelcomeMessage() { 
-    // setTimeout( () => {
-    //   if (_isMobile) {
-    //     $('.welcome-message-container').show();  
-    //   } else {
-    //     $('.welcome-message-container').velocity('fadeIn', { duration: 3000 }); 
-    //   }
-    // }, 2000);
-
-    if (_isMobile) {
-      return;
-    }
 
     ga('send', 'event', 'Misc', 'welcome message - show');
-     
-    // $('.welcome-message-container').show(); 
-    $('.welcome-message').velocity('transition.slideUpIn', {delay: 1000, duration: 1600});  
+    $('body').append(BDB.templates.welcomeModal());
+    $('#welcomeModal').modal('show');
+    $('#welcomeStart').on('click', ()=>{
+      
+      $('#close-modal-btn').trigger('click');
+    });
+    $('#close-modal-btn').one('click',()=>{
+      
+      BDB.Session.setWelcomeMessageViewed(); 
+    })
+    setView('Bem Vindo', 'bemvindo', true);
 
-    $('.welcome-message-container .welcome-message--close').on('click', () => {
+    // $('.welcome-message-container').show(); 
+    //$('.welcome-message').velocity('transition.slideUpIn', {delay: 1000, duration: 1600});  
+
+    /*$('.welcome-message-container .welcome-message--close').on('click', () => {
       $('.welcome-message').velocity('transition.slideDownOut'); 
       // $('.welcome-message-container').remove();
       BDB.Session.setWelcomeMessageViewed(); 
 
       ga('send', 'event', 'Misc', 'welcome message - closed');
-    });
+    });*/
 
-    $('.welcome-message-container a').on('click', () => {
+    /*$('.welcome-message-container a').on('click', () => {
       $('.welcome-message-container').remove();
       BDB.Session.setWelcomeMessageViewed(); 
 
       ga('send', 'event', 'Misc', 'welcome message - link click');
-    });
+    });*/
   }
 
   function init() {

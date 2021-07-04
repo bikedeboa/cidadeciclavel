@@ -37,11 +37,12 @@
         <img alt="" class="toolbar-item-icon" src="/img/icon_share.svg">
         <label>Compartilhar</label>
     </button>
-
+        {{#unless biciparque}}
         <button class="editPlaceBtn toolbar-item">
             <img alt="" class="toolbar-item-icon" src="/img/icon_edit.svg">
             <label>Editar</label>
         </button>
+        {{/unless}}
         {{#if canDelete}}
             <button class="deletePlaceBtn toolbar-item">
                 <img alt="" class="toolbar-item-icon" src="/img/icon_delete.svg">
@@ -52,13 +53,36 @@
 
     <div class="modal-body">
         <section id="placeDetails_heading" class="title title-icon {{pinColor}} {{#ifCond isAdmin '&&!' title}} missing-info {{/ifCond}}">
+            <h2 class="view-classification">{{classification}}</h2>
             {{#if title}}
             <h1 class="view-name" itemprop="name">{{title}}</h1>
             {{else}}
             <h1 style="font-style: italic;" itemprop="name">Sem nome</h1>
             {{/if}}
         </section>
+        {{#if biciparque}}
+            {{#unless hasSeenBiciparqueMsg}}
+        <section class="place-warning biciparque">
+            <div class="place-warning-content">
+                <strong>Novidade:  Biciparque! </strong><br/>
+                Este ponto foi marcado como Biciparque! Isto significa que neste local existe uma estrutura fechada de parqueamento de bicicletas. Pode ter custos associados.
+            </div>
+            <div class="close-place-warning"> <a class="action-close-place-warning" data-classification="biciparque" href="#" title="fechar">X</a> </div>
 
+        </section>
+            {{/unless}}
+        {{/if}}
+        {{#if hotspot}}
+            {{#unless hasSeenHotspotMsg}}
+        <section class="place-warning hotspot">
+            <div class="place-warning-content">
+                <strong>Novidade:  Hotspot! </strong><br/>
+                Este ponto foi marcado como Hotspot! Isto significa que ele pode ser utilizado para estacionar bicicletas e veículos de micromobilidade.
+            </div>
+            <div class="close-place-warning"> <a class="action-close-place-warning" data-classification="hotspot" href="#" title="fechar">X</a> </div>
+        </section>
+            {{/unless}}
+        {{/if}}
         <section class="info">
             {{#unless noIsCoveredData}}
             <div itemprop="amenityFeature" itemscope itemtype="http://schema.org/LocationFeatureSpecification" class="{{#ifCond isAdmin '&&' noIsCoveredData}} missing-info {{/ifCond}}">
@@ -214,6 +238,14 @@
                                 <p>A forma mais segura é prender a bike junto ao bicicletário, estabilizando-a em mais de um ponto.</p>
                             "></a>
                         {{/ifCond}}  
+                        {{#ifCond structureTypeCode '===' 'cascata'}}
+                            <a data-type="m" class="glyphicon glyphicon-question-sign help-tooltip-trigger" role="button" tabindex="0" data-html="true" data-toggle="tooltip" data-placement="auto"
+                                data-title="<h2>Tipo Cascata</h2>
+                                <p>Possui uma estrutura bem reforçada e possibilita prender a bike pelo quadro, o que o torna um bicicletário seguro. Porém
+                                seu desenho não deixa claro qual é o sentido correto para estacionar, o que pode gerar confusão entre ciclistas.</p>
+                                <p>A forma mais segura é prender a bike junto ao bicicletário, estabilizando-a em mais de um ponto.</p>
+                            "></a>
+                        {{/ifCond}}  
                 </div>
             </div>
             {{else}}
@@ -310,10 +342,36 @@
             {{/if}}
         </section>
 
-        <hr>
-
+        <hr/>
+        {{#if converted}}
+        <section class="request-done">
+            <p>
+                A Câmara de Lisboa atendeu um pedido da comunidade instalando este bicicletário. <br/>Parabéns a todos os que se envolveram neste pedido! 
+            </p>
+        </section>
+        <hr/>
+        {{/if}}
+        {{#if biciparque}}
+        <section class="access-biciparque">
+            <p>
+                Acesse <button id="bikepark-link">aqui</button> para utilizar os biciparques!
+            </p>
+        </section>
+        {{/if}}
         <section class="extraInfo">
         <ul class="details-list">
+            {{#if hotspot}}
+            <li>
+                <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg">
+                <div>Hotspot</div>
+            </li>
+            {{/if}}
+            {{#if biciparque}}
+            <li>
+                <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg">
+                <div>Biciparque</div>
+            </li>
+            {{/if}}
             {{#if description}}
             <li>
                 <img class="details-list-icon svg-icon" alt="" src="/img/icon_info.svg" style="opacity: .5;">

@@ -107,17 +107,17 @@ BDB.Map = (function () {
     mapCenterChanged();
     
     map.addListener('center_changed', mapCenterChanged);
-  
-    if (!_isMobile) {
-      google.maps.event.addListener(map, 'zoom_changed', mapZoomChanged);
-      mapZoomChanged();
-    } else {
+    
+    google.maps.event.addListener(map, 'zoom_changed', mapZoomChanged);
+    mapZoomChanged();
+
+    if (_isMobile) {
       google.maps.event.addListener(map, 'click', () => {
         if (infoWindow && infoWindow.reset) {
           infoWindow.reset();
         }
-      }); 
-    }
+      });
+    } 
 
     placesService = new google.maps.places.PlacesService(map);
 
@@ -149,7 +149,6 @@ BDB.Map = (function () {
   
   let mapZoomChanged = function () {
     const prevZoomLevel = mapZoomLevel;
-
     mapZoomLevel = map.getZoom() <= MAX_ZOOM_TO_SHOW_PINS ? 'mini' : 'full';
 
     if (!prevZoomLevel || prevZoomLevel !== mapZoomLevel) { 
@@ -351,17 +350,11 @@ BDB.Map = (function () {
   let setupBikeLayer = function () {
     if (!bikeLayer) {
       // Google Maps Bike Layer (sucks)
-      // bikeLayer = new google.maps.BicyclingLayer();
+      bikeLayer = new google.maps.BicyclingLayer();
        
       // Custom, locally loaded GeoJSONs
       // map.data.map = null;  
-      map.data.loadGeoJson('/geojson/ciclovias_florianopolis_osm.min.json'); // 99 KB
-      map.data.loadGeoJson('/geojson/ciclovias_fortaleza_osm.min.json'); // 203 KB
-      map.data.loadGeoJson('/geojson/ciclovias_recife_osm.min.json'); // 68 KB 
-      map.data.loadGeoJson('/geojson/ciclovias_grandeportoalegre_osm.min.json'); // 369 KB
-      map.data.loadGeoJson('/geojson/ciclovias_riodejaneiro_osm.min.json'); // 374 KB
-      // map.data.loadGeoJson('/geojson/ciclovias_riograndedosul_osm.min.json'); // 654 KB
-
+      
       map.data.setStyle({  
         // strokeColor: '#cde9c8', //super light green
         // strokeColor: '#00b800', // dark green

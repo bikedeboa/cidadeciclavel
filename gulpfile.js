@@ -39,6 +39,7 @@ const BDB_COUNTRYCODE = process.env.BDB_COUNTRYCODE || 'PT';
 const DATABASE_URL = process.env.DATABASE_URL || 'https://bikedeboa-portugal-api.herokuapp.com';
 
 console.log('NODE_ENV =', development() ? 'development' : 'production');
+console.log('DATABASE_URL = ', DATABASE_URL);
 console.log('BDB_ENV =', BDB_ENV);
 console.log('BDB_COUNTRYCODE =', BDB_COUNTRYCODE);
 

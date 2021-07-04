@@ -97,6 +97,14 @@
 
                         <div class="custom-radio-group" data-form-step="1">
                             <div
+                                data-value="uinvertido"
+                                class="typeIcon {{#ifCond rackType '===' 'uinvertido'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_uinvertido.svg"/>
+                                <div class="icon-label">U Invertido</div>
+                            </div>
+                            <div
                                 data-value="deroda"
                                 class="typeIcon {{#ifCond rackType '===' 'deroda'}}active{{/ifCond}}"
                                 tab-index="0"
@@ -105,12 +113,12 @@
                                 <div class="icon-label">Entorta rodas</div>
                             </div>
                             <div
-                                data-value="uinvertido"
-                                class="typeIcon {{#ifCond rackType '===' 'uinvertido'}}active{{/ifCond}}"
+                                data-value="m"
+                                class="typeIcon {{#ifCond rackType '===' 'm'}}active{{/ifCond}}"
                                 tab-index="0"
                             >
-                                <img alt="" src="/img/tipo_uinvertido.svg"/>
-                                <div class="icon-label">U Invertido</div>
+                                <img alt="" src="/img/tipo_m.svg"/>
+                                <div class="icon-label">Onda</div>
                             </div>
                             <div
                                 data-value="suspenso"
@@ -121,6 +129,22 @@
                                 <div class="icon-label">Suspenso</div>
                             </div>
                             <div
+                                data-value="grelha"
+                                class="typeIcon {{#ifCond rackType '===' 'grelha'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_grelha.svg"/>
+                                <div class="icon-label">Grelha</div>
+                            </div>
+                            <div
+                                data-value="m"
+                                class="typeIcon {{#ifCond rackType '===' 'cascata'}}active{{/ifCond}}"
+                                tab-index="0"
+                            >
+                                <img alt="" src="/img/tipo_cascata.svg"/>
+                                <div class="icon-label">Cascata</div>
+                            </div>
+                            <div
                                 data-value="grade"
                                 class="typeIcon {{#ifCond rackType '===' 'grade'}}active{{/ifCond}}"
                                 tab-index="0"
@@ -128,6 +152,7 @@
                                 <img alt="" src="/img/tipo_grade.svg"/>
                                 <div class="icon-label">Grade/Vedação</div>
                             </div>
+                            
                             <div
                                 data-value="trave"
                                 class="typeIcon {{#ifCond rackType '===' 'trave'}}active{{/ifCond}}"

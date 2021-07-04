@@ -220,10 +220,12 @@ html, body {
 body {
     overflow: hidden;
     font-family: $bodyFont;
-    background-color: $lightestGray;
-
+    background-color: $lighterGray;
+ 
     // font-size: 16px;
 }
+
+
 
 // Completely hide occasional scrollbars for smoother transitions
 body::-webkit-scrollbar {
@@ -2318,12 +2320,23 @@ body.fullscreen-modal-open {
         h1 {
           font-weight: 700;
           font-size: 30px;
+          margin-top: 5px;
           line-height: 1.2em;
-          margin-top: $GRID_SPACE*2;
           letter-spacing: -0.01em; 
 
           span {
 
+          }
+        }
+        h2 {
+          font-size: 18px;
+          font-weight: normal;
+          margin-top: $GRID_SPACE*2;
+          margin-bottom: 0;
+          color: #666;
+
+          &::first-letter{
+            text-transform: uppercase;
           }
         }
 
@@ -3007,6 +3020,85 @@ body.fullscreen-modal-open {
 
     .modal-body {
         padding-top: $GRID_SPACE;
+        
+        .place-warning{
+          background:#FFE064;
+          margin-left: -$GRID_SPACE*3;
+          margin-right: -$GRID_SPACE*3;
+          background-repeat: no-repeat;
+          background-size: 42px;
+          
+          background-position-x: $GRID_SPACE*3;
+          background-position-y: 50%;
+          display:flex;
+
+          &.hotspot{
+            background-image: url('/img/pin_hotspot.png');
+          }
+          &.biciparque{
+            background-image: url('/img/pin_biciparque.png');
+          }
+          .place-warning-content{
+            
+          }
+          .close-place-warning{
+            font-weight: bold;
+            a {
+              font-size: 24px;
+              color: black;
+            }
+            
+            
+          }
+        }
+        .access-biciparque{
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+          padding: 20px 30px;
+          button{
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: none;
+            color: green;
+          }
+        }
+
+        @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+          .place-warning{
+            padding: $GRID_SPACE*2;
+            padding-left: $GRID_SPACE*9;
+          }   
+        }
+        
+        .request-done{
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          background: rgba(0, 212, 126, 0.1);
+          
+          margin-top: -$GRID_SPACE*2;
+          margin-bottom: -$GRID_SPACE*2;
+          margin-left: -$GRID_SPACE;
+          margin-right: -$GRID_SPACE;
+
+          background-image: url('/img/request-done.png');
+          background-repeat: no-repeat;
+          background-size: 44px;
+          background-position-x: $GRID_SPACE*1;
+          background-position-y: 50%;
+          padding: $GRID_SPACE*3 $GRID_SPACE*4 $GRID_SPACE*2 $GRID_SPACE*6; 
+        }
+
+        @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+          .request-done{
+            margin-left: 0;
+            margin-right: 0;
+            background-position-x: $GRID_SPACE*3;
+            padding: $GRID_SPACE*3 $GRID_SPACE*3 $GRID_SPACE*2 $GRID_SPACE*9; 
+          }   
+        }
     }
 
     // Elements that are animated when modal opens
@@ -3236,6 +3328,57 @@ body.fullscreen-modal-open {
       color: $lightGreen !important;
       font-weight: 100 !important;
     }
+}
+
+.support-modal{
+  .swal2-cancel,
+  .swal2-confirm {
+    width: 100%;
+    background-color: $lightBlue !important;
+  }
+  .support{
+    p.small {
+      margin-top: -5px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: $gray;
+      font-style: italic;
+    }
+    #support-attrs{
+      display: flex;
+      flex-wrap: wrap;
+    }
+   
+    .support-attr{
+      flex-grow:1;
+      width: 50%;
+      
+      label{
+        margin: 5px 5%;
+        border-radius: 25px;
+        border: 1px solid $blue;
+        color: $blue;
+        padding: 10px 0;
+        width: 90%;
+        font-size: 12px;
+        &:hover{
+          background-color: lightblue;
+        }
+        &.active{
+          color: #fff;
+          background: $blue;
+        }
+      }
+      input[type='checkbox']{
+        display: none;
+      }
+     &:last-child{
+       label{
+         width:50%;
+       }
+     } 
+    }
+  }
 }
 
 .review-modal {
@@ -4061,6 +4204,17 @@ body.fullscreen-modal-open {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @media screen and (max-width: $MOBILE_MAX_WIDTH) {
+  .modal-body {
+    .place-warning{
+      padding-top: $GRID_SPACE*2;
+      padding-bottom: $GRID_SPACE*2;
+      padding-left: $GRID_SPACE*9; 
+      padding-right: $GRID_SPACE*4;
+    }
+    .request-done{
+      padding: $GRID_SPACE*2 $GRID_SPACE*2 $GRID_SPACE $GRID_SPACE*5; 
+    }
+  }
   *:focus,
   *:active {
     outline: none;
@@ -4503,7 +4657,7 @@ body.fullscreen-modal-open {
     left: 0;
     right: 0;
     height: $MOBILE_NAVBAR_HEIGHT;
-    background: $greenGradient;
+    background: $green;
 
     transition: all .3s ease-out;
     will-change: height;
@@ -5158,6 +5312,11 @@ a[data-featherlight] {
   }
 }
 
+.request-mini {
+  .average{
+    margin-right: 10px;
+  }
+}
 
 // Thanks to https://davidwalsh.name/css-flip
 // entire container, keeps perspective
@@ -5701,3 +5860,43 @@ a[data-featherlight] {
 }
 
 
+#welcomeModal {
+  text-align: center;
+  font-size: 16px;
+  h1{
+    font-size: 24px;
+    font-weight: bold;
+    color: $green;
+    margin-bottom:20px;
+    b {
+      display: block;
+      font-size: 26px;
+    }
+  }
+  
+  ul{
+    margin:30px 0;
+    list-style: none;
+    li{
+      clear:both;
+      margin: 20px 0;
+      text-align: left;
+      
+      img {
+        display: block;
+        float:left;
+       }
+      
+      div{
+        margin-left: 65px;
+      }
+      .first{
+        line-height: 45px;
+      }
+    }
+  }
+  button {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
