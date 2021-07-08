@@ -382,17 +382,25 @@
             {{#if createdTimeAgo}}
             <li>
                 <img class="details-list-icon svg-icon" alt="" src="/img/icon_user.svg"> 
-                {{#if author}}
-                    <div>Adicionado por <b>{{{author}}}</b> há <b>{{{createdTimeAgo}}}</b></div>
-                {{else}}
+                {{#if merged}}
                     <div>
-                        Adicionado há <b>{{{createdTimeAgo}}}</b>.
-
-                        {{#if dataSourceName}}
-                            Importado de <a href="#" class="openDataSourceDialog external-link"> {{dataSourceName}}</a>
-                        {{/if}}
+                        Importado de <a href="#" class="openDataSourceDialog external-link"> {{dataSourceName}}</a> e encontrado por <b>{{{author}}}</b> há <b>{{{createdTimeAgo}}}</b>.
                     </div>
+                {{else}}
+                    {{#if author}}
+                    <div>Adicionado por <b>{{{author}}}</b> há <b>{{{createdTimeAgo}}}</b></div>
+                    {{else}}
+                        <div>
+                            Adicionado há <b>{{{createdTimeAgo}}}</b>.
+
+                            {{#if dataSourceName}}
+                                Importado de <a href="#" class="openDataSourceDialog external-link"> {{dataSourceName}}</a>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+
                 {{/if}}
+                
             </li>
             {{/if}}
 
