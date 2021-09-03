@@ -134,7 +134,7 @@ $(() => {
       mapStaticImg: BDB.Map.getStaticImgMap(staticImgDimensions, 'grey', m.lat, m.lng),
       supportText: supportText,
       supportNumber: m.support,
-      userSupport: BDB.User.getSupportByRequestId(m.id) 
+      userSupport: BDB.User.getSupportByRequestId(m.id)
     };
 
     if (m.photo) {
@@ -316,6 +316,10 @@ $(() => {
     if (m.DataSource) {
       templateData.dataSourceName = m.DataSource.name;
     }
+
+    //merged
+    templateData.merged = templateData.author && templateData.dataSourceName ? true : false;
+    console.log(templateData);
 
     // Created at
     if (m.createdAt) {
