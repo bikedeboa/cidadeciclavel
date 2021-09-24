@@ -1659,6 +1659,7 @@ a.unstyled-link {
 }
 
 #aboutModal,
+#privacyModal,
 #dataModal,
 .guide-modal {
   $leading: 18px;
@@ -4413,6 +4414,7 @@ body.fullscreen-modal-open {
   }
 
   #aboutModal,
+  #privacyModal,
   .guide-modal {
     $leading: 16px;
 
