@@ -2874,7 +2874,7 @@ $(() => {
         <br>
 
         <div style="font-size: 12px; color: #b3b3b3; font-weight: normal;">
-            Exigimos o login para garantir a confiabilidade das contribuições. Jamais iremos vender os teus dados, enviar spam ou postar em teu nome. <a href="/faq"> saiba mais</a>
+            Exigimos o login para garantir a confiabilidade das contribuições. Jamais iremos vender os teus dados, enviar spam ou postar em teu nome. <a href="/privacidade"> saiba mais</a>
         </div>
         `,
       showCloseButton: true,
