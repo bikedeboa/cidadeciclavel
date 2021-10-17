@@ -1659,6 +1659,7 @@ a.unstyled-link {
 }
 
 #aboutModal,
+#privacyModal,
 #dataModal,
 .guide-modal {
   $leading: 18px;
@@ -1737,7 +1738,6 @@ a.unstyled-link {
     letter-spacing: -0.01em;
     font-weight: bold;
   }
-
   .guide--updated-at {
     text-transform: uppercase;
     color: $gray;
@@ -4413,6 +4413,7 @@ body.fullscreen-modal-open {
   }
 
   #aboutModal,
+  #privacyModal,
   .guide-modal {
     $leading: 16px;
 

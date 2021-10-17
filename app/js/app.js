@@ -2557,7 +2557,13 @@ $(() => {
       $('#guideTagsModal article > *').css({ opacity: 0 }).velocity('transition.slideDownIn', { stagger: STAGGER_NORMAL });
     }
   } 
+  function openPrivacyModal(){
+    if ($('#privacyModal').length === 0) {
+      $('body').append(BDB.templates.privacyModal());
+    }
 
+    $('#privacyModal').modal('show');
+  }
   function openNotFoundModal(url){
     toastr['warning']('Que pena, parece que o link não foi encontrado. <br/> Mas você pode encontrar um bicletário pertinho de você! <br/>Da uma olhada!');
     ga('send', 'event', 'Misc', 'router - 404 Not Found', url);
@@ -2766,6 +2772,13 @@ $(() => {
     case 'sobre-nossos-dados':
       openDataModal();
       break;
+    case 'privacidade':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openPrivacyModal();
+      break;
     case 'contribuicoes':
       hideAll();
 
@@ -2861,7 +2874,7 @@ $(() => {
         <br>
 
         <div style="font-size: 12px; color: #b3b3b3; font-weight: normal;">
-            Exigimos o login para garantir a confiabilidade das contribuições. Jamais iremos vender os teus dados, enviar spam ou postar em teu nome. <a href="/faq"> saiba mais</a>
+            Exigimos o login para garantir a confiabilidade das contribuições. Jamais iremos vender os teus dados, enviar spam ou postar em teu nome. <a href="/privacidade"> saiba mais</a>
         </div>
         `,
       showCloseButton: true,
