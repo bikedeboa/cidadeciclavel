@@ -354,15 +354,19 @@ BDB.Map = (function () {
        
       // Custom, locally loaded GeoJSONs
       // map.data.map = null;  
+      map.data.loadGeoJson('/geojson/cyclelane.lisbon.geojson'); // 99 KB
+
+      
       
       map.data.setStyle({  
-        // strokeColor: '#cde9c8', //super light green
-        // strokeColor: '#00b800', // dark green
-        strokeColor: '#2cd978', // light green
+        //strokeColor: '#cde9c8', //super light green
+        strokeColor: '#00b800', // dark green
+        //strokeColor: '#2cd978', // light green
         strokeWeight: 2,
         strokeOpacity: 1, 
         clickable: false
       });
+
     }
   };
   let setMarkersIcon = function(scale) {

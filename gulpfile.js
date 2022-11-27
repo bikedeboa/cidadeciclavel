@@ -29,6 +29,8 @@ const exec = require('gulp-exec');
 const declare = require('gulp-declare'); 
 const merge = require('merge-stream');
 
+require('dotenv').config();
+
 
 // Environment specific variables
 const development = environments.development;

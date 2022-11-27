@@ -1702,15 +1702,15 @@
                 parser = new DOMParser();
                 window.xmlDoc = parser.parseFromString(txt, "text/xml");
 
-                console.log(xmlDoc);
-
                 let folders = [...xmlDoc.getElementsByTagName("Folder")];
+
                 folders.shift();
                 
                 let data = [];
 
                 folders.forEach(folder =>{
                   let item = [...folder.children];
+                  console.log(item);
                   let structureType = null;
                   item.forEach(i =>{
                     
@@ -1734,25 +1734,32 @@
                             'slots': null,
                             'isPaid': false
                           }
+                        //console.log(place);
                         place.forEach(data => {
+                          
                           switch(data.tagName){
-                            case 'description': 
-                              originalTitle = extractFromCDATA(data.innerHTML);
+                            case 'Name': 
+                              originalTitle = data.children[0].innerHTML;
                               tmp.text = originalTitle;
                               break;
                             case 'Point':
-                              if (data.children && data.children[1]) {
+                              if (data.children) {
                                 // lat and lng are inverted on purporse
-                                const [lng, lat] = data.children[1].innerHTML.split(',');
+                                const [lng, lat] = data.children[0].innerHTML.split(',');
                                 tmp.lat = removeWhitespaces(lat);
                                 tmp.lng = removeWhitespaces(lng);
 
                               }
                               break;
+                            case 'Slots':
+                              if(data.children[0]){
+                                tmp.slots = parseInt(data.children[0].innerHTML);
+                              }
+                              break;
                           }
                         });
                         
-                        console.log(tmp);
+                        //console.log(tmp);
                         data.push(tmp);
                       break;
                     }
