@@ -360,9 +360,9 @@ BDB.Map = (function () {
       
       map.data.setStyle({  
         //strokeColor: '#cde9c8', //super light green
-        strokeColor: '#00b800', // dark green
+        strokeColor: '#007C4A', // dark green
         //strokeColor: '#2cd978', // light green
-        strokeWeight: 2,
+        strokeWeight: 1,
         strokeOpacity: 1, 
         clickable: false
       });
