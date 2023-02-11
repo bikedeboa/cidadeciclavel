@@ -335,18 +335,29 @@ BDB.Map = (function () {
         return;
       }
 
-      map.panTo(place.geometry.location);
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setZoom(17);  // Why 17? Because it looks good.
-      }
+      mapCenteredTo(place.geometry,true);
 
       let event = new CustomEvent('autocomplete:done', { detail: place });
       document.dispatchEvent(event);
 
     });
   };
+
+  let mapCenteredTo = function(place,pin){
+    map.panTo(place.location);
+    if (pin){
+      let searchMarker = new google.maps.Marker({
+        position: place.location,
+        map: map,
+      });
+    }    
+    if (place.viewport) {
+      map.fitBounds(place.viewport);
+    } else {
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+  }
+
   let setupBikeLayer = function () {
     if (!bikeLayer) {
       // Google Maps Bike Layer (sucks)
@@ -425,14 +436,9 @@ BDB.Map = (function () {
       return new Promise(function (resolve, reject) {
         searchAdress(address) 
           .then( result => {
-            map.panTo(result.geometry.location); 
-            
-            if (result.geometry.viewport) {
-              map.fitBounds(result.geometry.viewport);
-            } else { 
-              map.setZoom(17);  // Why 17? Because it looks good.
-            }
-            
+
+            mapCenteredTo(result.geometry, false);
+
             resolve();
           })
           .catch(reject);
@@ -744,6 +750,9 @@ BDB.Map = (function () {
     },
     updateMarkers: function () {
       markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback);
+    },
+    searchResults: function (place,pin){
+      mapCenteredTo(place,pin);
     }
   };
 })();

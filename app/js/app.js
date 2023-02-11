@@ -1738,13 +1738,8 @@ $(() => {
       const $target = $(e.currentTarget);
       const id = parseInt($target.data('recentsearchid'));
       const item = getRecentSearches()[id];
-
-      map.panTo(item.pos);
-      if (item.viewport) {
-        map.fitBounds(item.viewport);
-      } else {
-        map.setZoom(17);  // Why 17? Because it looks good.
-      }
+      item.location = item.pos;
+      BDB.Map.searchResults(item, true);
 
       exitLocationSearchMode();
     });
