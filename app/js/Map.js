@@ -360,25 +360,15 @@ BDB.Map = (function () {
 
   let setupBikeLayer = function () {
     if (!bikeLayer) {
+      
       // Google Maps Bike Layer (sucks)
       bikeLayer = new google.maps.BicyclingLayer();
        
       // Custom, locally loaded GeoJSONs
-      // map.data.map = null;  
-      map.data.loadGeoJson('/geojson/cyclelane.lisbon.geojson'); // 99 KB
-
-      
-      
-      map.data.setStyle({  
-        //strokeColor: '#cde9c8', //super light green
-        strokeColor: '#007C4A', // dark green
-        //strokeColor: '#2cd978', // light green
-        strokeWeight: 1,
-        strokeOpacity: 1, 
-        clickable: false
-      });
+      map.data.loadGeoJson('/geojson/cyclelane.lisbon.geojson'); 
 
     }
+      
   };
   let setMarkersIcon = function(scale) {
     if (places) {
@@ -458,6 +448,13 @@ BDB.Map = (function () {
       
       if (bikeLayer) {
         bikeLayer.setMap(map);
+        map.data.setStyle({  
+          visible: true,
+          strokeColor: '#007C4A', // dark green
+          strokeWeight: 1,
+          strokeOpacity: 1, 
+          clickable: false
+        });
       }
     },
     hideBikeLayer: function () {
@@ -466,7 +463,13 @@ BDB.Map = (function () {
         bikeLayer.setMap(null);
       }
 
-      map.data.setMap(null);
+      map.data.setStyle({
+        visible:false,
+        strokeColor: '#007C4A', // dark green
+        strokeWeight: 1,
+        strokeOpacity: 1, 
+        clickable: false
+      });
     },
     checkBounds: function () {
       if (map) {

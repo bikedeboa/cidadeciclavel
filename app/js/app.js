@@ -708,8 +708,17 @@ $(() => {
     const photoFilters = filters.filter(i => i.prop === 'hasPhoto');
     const type = filters.filter(i => i.prop === 'type');
     const classification = filters.filter(i => i.prop === 'classification');
+    //const bikelanes = filters.filter(i => i.prop === "layer");
     const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type, classification];
 
+    const bikelane = type.find( i=> i.value === "bikelane");
+
+    if (!bikelane){
+      BDB.Map.hideBikeLayer();
+    }else{
+      BDB.Map.showBikeLayer();
+    }
+    console.log("filter");
     for(let i=0; i < places.length; i++) {
       const m = places[i]; 
       let showIt = true;
@@ -2542,6 +2551,15 @@ $(() => {
     });
   } 
 
+  function openMMAP(){
+    console.log('mmap');
+    if ($('#mmapModal').length === 0) {
+      $('body').append(BDB.templates.maisMulheresModal());
+    }
+
+    $('#mmapModal').modal('show');
+  }
+
   function openGuideTagsModal() {
     if ($('#guideTagsModal').length === 0) {
       $('body').append(BDB.templates.guideTagsModal());
@@ -2763,6 +2781,13 @@ $(() => {
         $('body').addClass('deeplink');
       }
       openAboutModal();
+      break;
+    case 'mais-mulheres-a-pedalar':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openMMAP();
       break;
     case 'sobre-nossos-dados':
       openDataModal();
@@ -3156,7 +3181,7 @@ $(() => {
     };
 
     // Delay loading of those to optimize startup
-    if (_isMobile) {
+   // if (_isMobile) {
       $('body').append(BDB.templates.hamburgerMenu());
 
       _hamburgerMenu = new SideNav(
@@ -3165,7 +3190,7 @@ $(() => {
           hideCallback: sidenavHideCallback
         }
       );
-    } else {
+    //} else {
       $('body').append(BDB.templates.filterMenu());
 
       $('#clear-filters-btn').on('click', () => {
@@ -3193,7 +3218,7 @@ $(() => {
           /*fixed: true*/
         }
       );
-    }
+    //}
  
     initGlobalCallbacks();
     initNavCallbacks();
