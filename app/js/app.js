@@ -718,7 +718,7 @@ $(() => {
     }else{
       BDB.Map.showBikeLayer();
     }
-    console.log("filter");
+    
     for(let i=0; i < places.length; i++) {
       const m = places[i]; 
       let showIt = true;
@@ -1976,6 +1976,11 @@ $(() => {
       ga('send', 'event', 'Filter', 'filter menu opened');
       setView('', '/filtros'); 
     }));
+    $('#mmapBtn').on('click', queueUiCallback.bind(this, () => {
+      // Menu open is already triggered inside the menu component.
+      ga('send', 'event', 'mmap', 'mmap button clicked');
+      setView('', '/mais-mulheres-a-pedalar'); 
+    }));
 
     // $('#show-bike-layer').on('change', e => {
     //   const $target = $(e.currentTarget);
@@ -2559,6 +2564,20 @@ $(() => {
 
     $('#mmapModal').modal('show');
   }
+  function openBuddyApply(){
+    if ($('#buddyapply').length === 0) {
+      $('body').append(BDB.templates.buddyApplyForm());
+    }
+
+    $('#buddyapply').modal('show');
+  }
+  function openBuddyRequest(){
+    if ($('#buddyrequest').length === 0) {
+      $('body').append(BDB.templates.buddyRequestForm());
+    }
+
+    $('#buddyrequest').modal('show');
+  }
 
   function openGuideTagsModal() {
     if ($('#guideTagsModal').length === 0) {
@@ -2788,6 +2807,20 @@ $(() => {
         $('body').addClass('deeplink');
       }
       openMMAP();
+      break;
+    case 'quero-ser-bike-buddy':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openBuddyApply();
+      break;
+    case 'preciso-de-bike-buddy':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openBuddyRequest();
       break;
     case 'sobre-nossos-dados':
       openDataModal();

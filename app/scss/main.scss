@@ -20,6 +20,7 @@ $palePurple: #705EC7;
 $darkPurple: #3821AA; 
 $lightPurple: #705EC7;
 $lightestPurple: #9688DC;
+$mmapColor: #98344C;
 
 // Grays
 $black: #333;
@@ -1979,7 +1980,50 @@ a.unstyled-link {
       right: 0;
     }
 }
+#mmapBtn {
+  position: fixed;
+  bottom: 200px;
+  right: 0px;
 
+  border-radius: 25px;
+  border: 0;
+  background-color: white;
+  font-family: $bodyFont;
+
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 0;
+  @include shadow(2);
+  
+  margin: 0px $GRID_SPACE $GRID_SPACE;
+
+  &.active {
+    border: 2px solid $lightestPurple;
+    background-color: $paleWhite;
+
+    img {
+      margin-left: -2px;
+    }
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    margin: 0;
+  }
+
+  #active-filters-counter.badge {
+    background-color: $filtersHightlightColor;
+  }
+
+  .badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
 .navbar {
     background-color: $green;
     border: none;
@@ -5901,3 +5945,48 @@ a[data-featherlight] {
     padding-right: 30px;
   }
 }
+.mmap-modal{ 
+  .title{
+    color: $mmapColor;
+  }
+  .primary-btn{
+    padding: 5px 10px;
+    border: 2px solid $mmapColor;
+    color: #fff;
+    margin: 5px auto;
+    font-size: 16px;
+    border-radius: 25px;
+    vertical-align: middle;
+    
+    background: $mmapColor;
+    
+    // background: white;
+    // @include greenGlowButton();
+
+    transition: all .2s;
+    
+    &:hover,
+    &:focus,
+    &:active {
+        color: white;
+        border-color: transparent;
+        background-color: $lightGreen;
+        // background: $greenGradient;
+    }
+
+  }
+  .secondary-btn{
+    border: 2px solid $mmapColor;
+    color: $mmapColor;
+  }
+
+  .form-input{
+    width:100%;
+    display: block;
+    margin: 10px 0px 30px 0px;
+    border: none;
+    padding: 10px 10px;
+    border-bottom: 1px solid #737B7D;
+  }
+
+ }
