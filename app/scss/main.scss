@@ -2024,6 +2024,75 @@ a.unstyled-link {
     right: 0;
   }
 }
+#legendaBtn {
+  position: fixed;
+  top: 100px;
+  right: 0px;
+
+  border-radius: 25px;
+  border: 0;
+  background-color: white;
+  font-family: $bodyFont;
+
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 0;
+  @include shadow(2);
+  
+  margin: 0px $GRID_SPACE $GRID_SPACE;
+
+  &.active {
+    border: 2px solid $lightestPurple;
+    background-color: $paleWhite;
+
+    img {
+      margin-left: -2px;
+    }
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    margin: 0;
+  }
+
+  #active-filters-counter.badge {
+    background-color: $filtersHightlightColor;
+  }
+
+  .badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  #legenda{
+    .hide{
+      display:none;
+    }
+    .label-list{
+      font-size: 7px;
+      list-style: none;
+      margin:0;
+      padding:0;
+
+      .label-item{
+        text-align:center;
+        margin: 5px 0;
+        
+        .label-img{
+          height: 22px;
+          display: inline-block;
+        }
+      }
+    }
+  }
+  &.large{
+    height: auto;
+    padding: 10px 0;
+  }
+}
 .navbar {
     background-color: $green;
     border: none;

@@ -1981,6 +1981,23 @@ $(() => {
       ga('send', 'event', 'mmap', 'mmap button clicked');
       setView('', '/mais-mulheres-a-pedalar'); 
     }));
+    
+    $('#legendaBtn').on('click', queueUiCallback.bind(this, () => {
+      // Menu open is already triggered inside the menu component.
+      ga('send', 'event', 'legenda', 'legenda button clicked');
+
+      let toogle = $("#legenda").attr('class');
+      if (toogle === "hide"){
+        $("#legenda").removeClass("hide");
+        $("#legendaBtn > .icon ").hide();
+        $("#legendaBtn").addClass("large");
+      }else{
+        $("#legenda").addClass("hide");
+        $("#legendaBtn > .icon ").show();
+        $("#legendaBtn").removeClass("large");
+      }
+      
+    }));
 
     // $('#show-bike-layer').on('change', e => {
     //   const $target = $(e.currentTarget);
