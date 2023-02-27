@@ -20,6 +20,7 @@ BDB.Map = (function () {
   let infoWindow;
   let gmarkers;
 
+
   const BoundingBoxArray = [
     //continente
     {
@@ -121,7 +122,7 @@ BDB.Map = (function () {
 
     placesService = new google.maps.places.PlacesService(map);
 
-    setupDirections();
+   
     setupAutocomplete();
     
     // Defer initializations not needed in startup
@@ -289,10 +290,11 @@ BDB.Map = (function () {
     });
   };
 
-  let setupDirections = function () {
+  let setupDirections = function (panel) {
     directionsRenderer = new google.maps.DirectionsRenderer({
       map: map,
-      hideRouteList: true,
+      panel,
+      hideRouteList: false,
       draggable: false,
       preserveViewport: true,
       suppressMarkers: true,
@@ -301,6 +303,7 @@ BDB.Map = (function () {
       polylineOptions: {
         clickable: false,
         strokeColor: '#533FB4', // purple
+        panel,
         strokeOpacity: 0,
         fillOpacity: 0,
         icons: [{
@@ -693,26 +696,21 @@ BDB.Map = (function () {
       const nearest = BDB.Map.getListOfPlaces('nearest', 1)[0];
       this.showDirectionsToPlace({ lat: parseFloat(nearest.lat), lng: parseFloat(nearest.lng) });
     },
-    showDirectionsToPlace: function(destGPos, forceLongDistance = false) {
+    showDirectionsToPlace: function(og, dt, panel, forceLongDistance = false) {
+      //console.log(origin,destiny);
       // const travelMode = 'WALKING';
       const travelMode = 'BICYCLING'; 
 
-      const currentPos = BDB.Geolocation.getCurrentPosition();
-      if (!currentPos) {
-        return;
-      }
+      // const currentPos = BDB.Geolocation.getCurrentPosition();
+      // if (!currentPos) {
+      //   return;
+      // }
 
-      const distanceKm = distanceInKmBetweenEarthCoordinates(currentPos.latitude, currentPos.longitude, destGPos.lat(), destGPos.lng());
-
-      // console.log(distanceKm); 
-
-      if (!forceLongDistance && distanceKm > MAX_KM_TO_CALCULATE_ITINERARY) {
-        console.warn('Wont calculate directions, too far away:', distanceKm);
-        return; 
-      } else {
+        setupDirections(panel);
+      
         directionsService.route({ 
-          origin: { lat: currentPos.latitude, lng: currentPos.longitude },
-          destination: destGPos,
+          origin:  {lat: og.pos.lat, lng: og.pos.lng},
+          destination:  { lat: dt.pos.lat, lng: dt.pos.lng},
           travelMode: google.maps.TravelMode[travelMode]
         }, function (response, status) {
           if (status == 'OK') {
@@ -721,7 +719,7 @@ BDB.Map = (function () {
             console.error('Directions request failed due to ' + status);
           }
         });
-      }
+      
 
     },
     removeDirections: function() {

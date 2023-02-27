@@ -1033,7 +1033,7 @@ a.unstyled-link {
     transition: transform 0.3s $coolEaseOut, opacity 0.2s ease-in-out;
     
     #locationQueryInput {
-        position: relative;
+        position: fixed;
         width: 100%;
         font-size: 16px;
         padding: 0 $GRID_SPACE 0 40px;
@@ -1050,7 +1050,7 @@ a.unstyled-link {
     }
 
     #clearLocationQueryBtn {
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
       border: none;
@@ -1095,6 +1095,10 @@ a.unstyled-link {
         .clear-icon {
           opacity: 1;
           visibility: visible;
+          height: 20px;
+          position: absolute;
+          right: 10px;
+          top: 10px;  
         }
       }
     }
@@ -3806,6 +3810,7 @@ body.fullscreen-modal-open {
     width: calc(100% - #{$GRID_SPACE});
     margin: $GRID_SPACE/2;
     border-radius: 5px;
+    z-index: 1000;
 
     &:hover, &:active, &:focus {
       background-color: $lightGreen; 
@@ -4343,6 +4348,10 @@ body.fullscreen-modal-open {
     // Explanation on the reason for the string interpolation:
     //   https://stackoverflow.com/questions/17982111/sass-variable-in-css-calc-function
     height: calc(100% - #{$MOBILE_NAVBAR_HEIGHT});
+
+    &.directions-active{
+      height: 50%;
+    }
   }
 
   #logo {
@@ -4949,6 +4958,9 @@ body.fullscreen-modal-open {
 
     &.move-up {
       transform: translateY(-90px);
+    }
+    &.hide{
+      display:none;
     }
   }
 
@@ -6059,3 +6071,75 @@ a[data-featherlight] {
   }
 
  }
+
+  #bottomsheet-rotas{
+    position:absolute;
+    width:100%;
+    min-height: 80px;
+    bottom: 0px;
+    z-index: 20;
+    background: #FFF;
+
+    &.list-directions-active {
+      top: calc(50% +  #{$MOBILE_NAVBAR_HEIGHT});
+      
+      height: auto;
+    }
+    #list-directions{
+      background: #FFF;
+    }
+    .list-action-btns{
+      margin: 0;
+      padding: 20px 0;
+
+      .action-btns-item{
+        width: 49%;
+        display:inline-block;
+        margin: 0;
+        padding: 0 10px;
+      }
+      .item-btn{
+        width:100%
+      }
+
+      .btn{
+        border-radius: 25px;
+        border: 1px solid $green;
+        color: $green;
+        line-height: 25px;
+      }
+      .btn.green{
+        background: $green;
+        color: #FFF;
+      }
+    }
+    .directions-box{
+      display:none;
+      background: #FFF;
+    }
+    .show-list-directions{
+      border:none;
+      background: transparent;
+      width: 100%;
+      text-align: center;
+    }
+    .hide-list-directions{
+      display:none;
+      border:none;
+      background: transparent;
+      width: 100%;
+      text-align: center;
+    }
+    #list-directions{
+      display: none;
+    }
+    .adp-warnbox{
+      display:none;
+    }
+    .adp-placemark{
+      display: none;
+    }
+  }
+  body.directions{
+    overflow: visible;
+  }

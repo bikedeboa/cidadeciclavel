@@ -1748,9 +1748,14 @@ $(() => {
       const id = parseInt($target.data('recentsearchid'));
       const item = getRecentSearches()[id];
       item.location = item.pos;
+      
+      $('#locationQueryInput').val(item.name);
+
+
       BDB.Map.searchResults(item, true);
 
-      exitLocationSearchMode();
+      showSearchResults(item);
+      //exitLocationSearchMode();
     });
 
     $('.openTopCitiesModal').off('click').on('click', e => {
@@ -1773,6 +1778,7 @@ $(() => {
     $('#search-overlay h2, #search-overlay li').velocity('transition.slideUpIn', { stagger: STAGGER_FAST, duration: 500 }); 
     $('.hamburger-button').addClass('back-mode');
     $('.hamburger-button').addClass('back-icon');
+    $('.hamburger-button').addClass('exit-search');
     
     // Automatically focus the text search input
     setTimeout(() => {
@@ -1784,12 +1790,59 @@ $(() => {
     });
   }
 
+  function showSearchResults(place){
+    $('#search-overlay').removeClass('showThis');
+    $(".map-action-buttons").addClass('hide');
+    //ativar bottomsheet de resultados da busca 
+    $('body').append(BDB.templates.bottomSheetSearch());
+    
+    $('#show-directions').one('click',()=>{
+      console.log('directions');
+      $(".action-box").hide();
+      
+      BDB.Map.clearMarkers();
+      //mock
+      let origin = {
+        pos:{
+          lat:38.7226859,
+          lng:-9.1470797
+        }
+      }
+      BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
+
+      $(".directions-box").show();
+    });
+
+    $('.show-list-directions').on('click',function(){
+      $(this).hide();
+      $(".hide-list-directions").show();
+      $("#list-directions").show();
+      $("#bottomsheet-rotas").addClass("list-directions-active");
+      $("#map").addClass("directions-active");
+      $('body').addClass("directions")
+    });
+    $('.hide-list-directions').on('click',function(){
+      $(this).hide();
+      $(".show-list-directions").show();
+      $("#list-directions").hide();
+      $("#bottomsheet-rotas").removeClass("list-directions-active");
+      $("#map").removeClass("directions-active");
+      $('body').removeClass("directions")
+    });
+  }
+
+  function exitSearchResults(){
+    $('#search-overlay').removeClass('showThis');
+  }
+
   function exitLocationSearchMode() {
     $('body').removeClass('search-mode');
     $('#search-overlay').removeClass('showThis');
     $('.hamburger-button.back-mode').off('click.exitLocationSearch');
     $('.hamburger-button').removeClass('back-mode'); 
     $('.hamburger-button').removeClass('back-icon'); 
+    $('#locationQueryInput').val('');
+    toggleClearLocationBtn('hide');
   }
 
   function updatePageTitleAndMetatags(text = 'Cidade Ciclável') {
@@ -1903,16 +1956,25 @@ $(() => {
     $(document).on('autocomplete:done', function (e) {
       let place = e.detail;
 
+
+
       addToRecentSearches({
         name: place.name,
         pos: place.geometry.location,
         viewport: place.geometry.viewport
       });
 
-      exitLocationSearchMode();
+      showSearchResults({
+        name: place.name,
+        pos: {
+          lat: place.geometry.location.lat(),
+          lgn: place.geometry.location.lng()
+        },
+        viewport: place.geometry.viewport
+      });
+      //exitLocationSearchMode();
 
-      $('#locationQueryInput').val('');
-      toggleClearLocationBtn('hide');
+      
       ga('send', 'event', 'Search', 'location', place.formatted_address);
 
     });
