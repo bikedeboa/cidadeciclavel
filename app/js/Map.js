@@ -19,6 +19,7 @@ BDB.Map = (function () {
   let placesService;
   let infoWindow;
   let gmarkers;
+  let searchMarker;
 
 
   const BoundingBoxArray = [
@@ -296,9 +297,9 @@ BDB.Map = (function () {
       panel,
       hideRouteList: false,
       draggable: false,
-      preserveViewport: true,
+      preserveViewport: false,
       suppressMarkers: true,
-      suppressBicyclingLayer: true,
+      suppressBicyclingLayer: false,
       suppressInfoWindows: true,
       polylineOptions: {
         clickable: false,
@@ -347,9 +348,10 @@ BDB.Map = (function () {
   };
 
   let mapCenteredTo = function(place,pin){
+    console.log(place);
     map.panTo(place.location);
     if (pin){
-      let searchMarker = new google.maps.Marker({
+      searchMarker = new google.maps.Marker({
         position: place.location,
         map: map,
       });
@@ -454,7 +456,7 @@ BDB.Map = (function () {
         map.data.setStyle({  
           visible: true,
           strokeColor: '#007C4A', // dark green
-          strokeWeight: 1,
+          strokeWeight: 4,
           strokeOpacity: 1, 
           clickable: false
         });
@@ -469,7 +471,7 @@ BDB.Map = (function () {
       map.data.setStyle({
         visible:false,
         strokeColor: '#007C4A', // dark green
-        strokeWeight: 1,
+        strokeWeight: 2,
         strokeOpacity: 1, 
         clickable: false
       });
@@ -705,7 +707,6 @@ BDB.Map = (function () {
       // if (!currentPos) {
       //   return;
       // }
-
         setupDirections(panel);
       
         directionsService.route({ 
@@ -754,6 +755,9 @@ BDB.Map = (function () {
     },
     searchResults: function (place,pin){
       mapCenteredTo(place,pin);
+    },
+    clearSearchResult: function(){
+      searchMarker.setMap(null);
     }
   };
 })();

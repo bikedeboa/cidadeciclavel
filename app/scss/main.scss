@@ -363,9 +363,9 @@ p {
   width: 100%;
   height: 100%;
   position: fixed;
-  top: 0; 
+  top: 56px; 
   left: 0;
-  padding: 60px 12px;
+  padding: 10px 12px;
   transition: all 0.3s $coolEaseOut; 
 
   // Desktop-only
@@ -1024,29 +1024,33 @@ a.unstyled-link {
     right: 0;
     margin: auto;
     width: 95%;
+    background:white;
     max-width: 400px;
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px);  
+ 
     // z-index: 1;
 
     @include coolHidden;
 
     transition: transform 0.3s $coolEaseOut, opacity 0.2s ease-in-out;
     
+    #geolocationQuery{
+       display: none;
+    }
+    .search-fields{
+      width: 100%;
+      font-size: 16px;
+      padding: 0 $GRID_SPACE 0 40px;
+      height: 42px;
+      border: none;
+      // border-bottom: 3px solid $green;
+
+      &::-webkit-input-placeholder {
+        color: $lightGray;
+      }
+    }
     #locationQueryInput {
-        position: fixed;
-        width: 100%;
-        font-size: 16px;
-        padding: 0 $GRID_SPACE 0 40px;
-        height: 42px;
-        @include roundedCorners;
-        @include shadow(1);
-
-        border: none;
-        // border-bottom: 3px solid $green;
-
-        &::-webkit-input-placeholder {
-          color: $lightGray;
-        }
+       
     }
 
     #clearLocationQueryBtn {
@@ -4453,15 +4457,33 @@ body.fullscreen-modal-open {
   } 
 
   #locationSearch {
-    #locationQueryInput { 
-      height: $MOBILE_NAVBAR_HEIGHT;
-      padding: 0 $GRID_SPACE 0 88px;
+    .search-fields{
+      height: $MOBILE_NAVBAR_HEIGHT - 10px;
+      margin: 5px 70px 0 70px;
+      padding: 0 0 0 10px ;
       border-radius: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      resize: horizontal;
+      background: $paleWhite;
+      width: calc(100% - 140px);
+      border-radius: 10px;
     }
     
     #clearLocationQueryBtn {
-      right: 40px;
+      right: 20px;
       height: 48px;
+      top:4px;
+    }
+    &.directions{
+      .search-fields{
+        width: calc(100% - 100px);
+      }
+
+      #clearLocationQueryBtn {
+        display: none;
+      } 
     }
   }
 
@@ -4668,14 +4690,29 @@ body.fullscreen-modal-open {
 
   body.search-mode {
     #locationSearch {
+      position: fixed;
       opacity: 1;
       pointer-events: auto;
-       
+      height: $MOBILE_NAVBAR_HEIGHT;
+      background: #FFF;
+      @include roundedCorners;
+      @include shadow(1);
+      
+      &.directions{
+        height: $MOBILE_NAVBAR_HEIGHT * 2;
+        background-image: url('/img/icon_directions_form.svg');
+        background-repeat: no-repeat;
+        background-size: 11px;
+        background-position-x: 55px;
+        background-position-y: 24px;
+
+      }
+
       #clearLocationQueryBtn {
         // right: 10px;
-        left: 48px;
-        top: 4px;
-        opacity: .5;
+        //left: 48px;
+        //top: 4px;
+        //opacity: .5;
       }
     }
 
@@ -6079,6 +6116,10 @@ a[data-featherlight] {
     bottom: 0px;
     z-index: 20;
     background: #FFF;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    padding: 0 0 0 0;
+    box-shadow: 0px -1px 3px 0px rgba(171,171,171,1);
 
     &.list-directions-active {
       top: calc(50% +  #{$MOBILE_NAVBAR_HEIGHT});
@@ -6087,19 +6128,38 @@ a[data-featherlight] {
     }
     #list-directions{
       background: #FFF;
+      padding: 20px 20px 0 20px;
+      
+
+      .adp-summary{
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .adp-substep{
+        padding: 20px 0;
+      }
+      .adp-substep:nth-of-type(2){
+        color: #fff;
+      }
     }
+
     .list-action-btns{
       margin: 0;
-      padding: 20px 0;
+      padding: 10px 0;
 
       .action-btns-item{
         width: 49%;
         display:inline-block;
         margin: 0;
-        padding: 0 10px;
+        padding: 0 20px;
       }
       .item-btn{
-        width:100%
+        width:100%;
+
+        &.hide{
+          display:none;
+        }
       }
 
       .btn{
@@ -6116,28 +6176,33 @@ a[data-featherlight] {
     .directions-box{
       display:none;
       background: #FFF;
+      padding: 0 0 60px 0;
     }
-    .show-list-directions{
-      border:none;
-      background: transparent;
-      width: 100%;
-      text-align: center;
+    .adp-directions{
+      
     }
-    .hide-list-directions{
-      display:none;
-      border:none;
-      background: transparent;
-      width: 100%;
-      text-align: center;
-    }
-    #list-directions{
-      display: none;
-    }
-    .adp-warnbox{
+    .adp-warnbox,
+    .adp-legal{
       display:none;
     }
     .adp-placemark{
       display: none;
+    }
+    .list-directions-actions-box{
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+    }
+    .pull-up-container{
+      text-align: center;
+    }
+    .pull-up{
+      display: inline-block;
+      width: 30px;
+      height: 5px;
+      border-radius: 5px;
+      background-color: $gray;
     }
   }
   body.directions{

@@ -1794,13 +1794,19 @@ $(() => {
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
     //ativar bottomsheet de resultados da busca 
+    
     $('body').append(BDB.templates.bottomSheetSearch());
+
     
     $('#show-directions').one('click',()=>{
-      console.log('directions');
+      $('#locationSearch').addClass('directions');
+      $('#geolocationQuery').show();
       $(".action-box").hide();
+      $("#bottomsheet-rotas").addClass("list-directions-active");
+      $("#map").addClass("directions-active");
+      $('body').addClass("directions");
       
-      BDB.Map.clearMarkers();
+      BDB.Map.hideMarkers();
       //mock
       let origin = {
         pos:{
@@ -1813,18 +1819,53 @@ $(() => {
       $(".directions-box").show();
     });
 
-    $('.show-list-directions').on('click',function(){
-      $(this).hide();
-      $(".hide-list-directions").show();
-      $("#list-directions").show();
+    $('#directions-share-btn').on('click',function(){
+      swal({
+        showConfirmButton: false,
+        showCloseButton: true,
+        title: 'Partilhe tua rota',
+        html: 
+          `
+            <div style="text-align: center; font-size: 30px;">
+              <p>
+                <a class="" target="_blank" rel="noopener" href="https://www.facebook.com/mubi.pt/">
+                  <img alt="" class="svg-icon" src="/img/icon_social_facebook.svg"/>
+                </a>
+
+                <a class="" target="_blank" rel="noopener" href="https://github.com/bikedeboa">
+                  <img alt="" class="svg-icon" src="/img/icon_social_github.svg"/>
+                </a>
+
+                <a href="mailto:local@mubi.pt">
+                  <img alt="" class="svg-icon" src="/img/icon_mail.svg"/>
+                </a>
+              </p>
+            </div> 
+
+            <hr>
+
+            <h2 class="swal2-title" id="swal2-title">Feedback</h2>
+            <div style="text-align: center;">
+              Queremos a tua opinião! <a class="external-link" target="_blank" rel="noopener" href="https://forms.gle/snXyzNADYMC4TnPR7">Responde ao nosso questionário</a>, dura menos de 5 minutos.
+            </div>
+          `,
+        });
+      });
+     
+    $('#more-directions').on('click',function(){
+      $(this).addClass('hide');
+      $("#less-directions").removeClass('hide');
+      $(".adp-directions").show();
       $("#bottomsheet-rotas").addClass("list-directions-active");
       $("#map").addClass("directions-active");
       $('body').addClass("directions")
     });
-    $('.hide-list-directions').on('click',function(){
-      $(this).hide();
-      $(".show-list-directions").show();
-      $("#list-directions").hide();
+    $('#less-directions').on('click',function(){
+      $(this).addClass('hide');
+      $('#locationSearch').removeClass('directions');
+      $('#geolocationQuery').hide();
+      $("#more-directions").removeClass('hide');
+      $(".adp-directions").hide();
       $("#bottomsheet-rotas").removeClass("list-directions-active");
       $("#map").removeClass("directions-active");
       $('body').removeClass("directions")
@@ -1834,9 +1875,23 @@ $(() => {
   function exitSearchResults(){
     $('#search-overlay').removeClass('showThis');
   }
-
+  function exitDirectionsMode(){
+    BDB.Map.removeDirections();
+    $('#geolocationQuery').hide();
+    $('body').removeClass("directions");
+    $("#map").removeClass("directions-active");
+    $('#locationSearch').removeClass('directions');
+  }
   function exitLocationSearchMode() {
+    //BDB.Map.clearSearchResult();
+    //BDB.Map.showMarkers();
+    if ($('#locationSearch').hasClass('directions')){
+      exitDirectionsMode();
+    }
+    $(".map-action-buttons").removeClass('hide');
+
     $('body').removeClass('search-mode');
+    $('#bottomsheet-rotas').remove();
     $('#search-overlay').removeClass('showThis');
     $('.hamburger-button.back-mode').off('click.exitLocationSearch');
     $('.hamburger-button').removeClass('back-mode'); 
@@ -1967,12 +2022,11 @@ $(() => {
       showSearchResults({
         name: place.name,
         pos: {
-          lat: place.geometry.location.lat(),
-          lgn: place.geometry.location.lng()
-        },
-        viewport: place.geometry.viewport
+          lat: parseFloat(place.geometry.location.lat()),
+          lng: parseFloat(place.geometry.location.lng())
+        }
       });
-      //exitLocationSearchMode();
+      exitLocationSearchMode();
 
       
       ga('send', 'event', 'Search', 'location', place.formatted_address);
@@ -2852,6 +2906,47 @@ $(() => {
           match = false;
         }
       }
+      break;
+    case 's':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      const location = urlBreakdown[2].split(',');
+      console.log(urlBreakdown[2]);
+      let place = {
+        pos: {
+          lat: parseFloat(location[0]),
+          lng: parseFloat(location[1])
+        },
+        location: {
+          lat: parseFloat(location[0]),
+          lng: parseFloat(location[1])
+        },
+        coords: {
+          latitude: parseFloat(location[0]),
+          longitude: parseFloat(location[1])
+        }
+      }
+      if (!map && !_isOffline) {
+        console.log(start_coords)
+        start_coords = place.coords;
+        getGeolocation = false;
+        $('body').addClass('search-mode');  
+        $('.hamburger-button').addClass('back-mode');
+        $('.hamburger-button').addClass('back-icon');
+        $('.hamburger-button').addClass('exit-search');
+        $('#locationQueryInput').val(urlBreakdown[2]);
+        $(document).trigger('LoadMap');
+        //BDB.Map.updateMarkers();
+      }
+      $(document).one('map:ready', ()=>{
+        
+        BDB.Map.searchResults(place, true);
+        showSearchResults(place);
+        console.log(place);  
+      });
+      
       break;
     case 'faq':
       openFaqModal();

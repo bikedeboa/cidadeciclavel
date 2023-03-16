@@ -243,16 +243,17 @@
         </h1>
 
         <div id="locationSearch" class="cool-hide">
-          <div id="search-overlay">
-            <div id="searchOverlayContentPlaceholder"></div>
-          </div>
-
-          <input id="locationQueryInput" type="search" class="data-hj-whitelist">
+          
+          <input id="geolocationQuery" type="search" placeholder="Seu local"  disabled  class="data-hj-whitelist search-fields">
+          <input id="locationQueryInput" type="search" class="data-hj-whitelist search-fields">
 
           <button id="clearLocationQueryBtn">
             <img alt="" class="search-icon" src="/img/icon_search.svg">
             <span class="clear-icon">✕</span>
           </button>
+          <div id="search-overlay">
+            <div id="searchOverlayContentPlaceholder"></div>
+          </div>
         </div>
 
         <div id="userBtn" class="cool-hide">
