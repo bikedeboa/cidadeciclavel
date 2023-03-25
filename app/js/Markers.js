@@ -5,10 +5,43 @@ BDB.Markers = (function(){
 	let markers;
 	let gmarkers;
 	let markerClusterer;
-
+	let cacheCluster;
+	const clustererStyles = [
+		{
+		  url: '/img/cluster_m.png',
+		  height: 30,
+		  width: 30
+		},
+		{
+		  url: '/img/cluster_m.png',
+		  height: 50,
+		  width: 50
+		},
+		{
+		  url: '/img/cluster_m.png',
+		  height: 70,
+		  width: 70
+		},
+		{
+		  url: '/img/cluster_g.png',
+		  height: 90,
+		  width: 90
+		},
+		{
+		  url: '/img/cluster_g.png',
+		  height: 110,
+		  width: 110
+		},
+	  ];
+	let clustererOptions = {
+		maxZoom: 13, 
+		minimumClusterSize: 1,
+		styles: clustererStyles,
+		gridSize: 60
+	};
 
 	return {
-		updateMarkers: function(map, mapZoomLevel, infoWindow, markerClickCallback){
+		updateMarkers: function(map, mapZoomLevel, infoWindow, markerClickCallback, clustered){
 			console.log('updateMarkers');
 
 			this.clearMarkers();
@@ -199,55 +232,35 @@ BDB.Markers = (function(){
 				if (map) {
 				  //_geolocationMarker.setZIndex(markers.length);
 
-				  const clustererStyles = [
-				    {
-				      url: '/img/cluster_m.png',
-				      height: 30,
-				      width: 30
-				    },
-				    {
-				      url: '/img/cluster_m.png',
-				      height: 50,
-				      width: 50
-				    },
-				    {
-				      url: '/img/cluster_m.png',
-				      height: 70,
-				      width: 70
-				    },
-				    {
-				      url: '/img/cluster_g.png',
-				      height: 90,
-				      width: 90
-				    },
-				    {
-				      url: '/img/cluster_g.png',
-				      height: 110,
-				      width: 110
-				    },
-				  ];
-				  let clustererOptions = {
-				    maxZoom: 13, 
-				    minimumClusterSize: 1,
-				    styles: clustererStyles,
-				    gridSize: 60
-				  };
+				 
 				  if (_isMobile) {
 				    clustererOptions.maxZoom = 13;
 				    clustererOptions.minimumClusterSize = 2;
 				  }
-				  markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions); 
-				  return markerClusterer;
+				  clustered ? markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions) : false; 
+				  return clustered ? markerClusterer : gmarkers; 
 				}
 			}
 		},
-		
+		unclusterMap: function(){
+			if (markerClusterer)
+				markerClusterer.clearMarkers();
+			gmarkers.forEach(marker =>{
+				marker.setOptions({map:map, visible: true});
+			});
+		},
+		clusterMap: function(){
+			gmarkers.forEach(marker =>{
+				//marker.setOptions({map:null, visible: false});
+			});
+			markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions);
+		},
 		clearMarkers: function(){
 			// setMapOnAll(null);
 		     gmarkers = [];
-		     if (markerClusterer) {
-		       markerClusterer.clearMarkers();
-		     }
+		    //  if (markerClusterer) {
+		    //    markerClusterer.clearMarkers();
+		    //  }
 		},
 		getGMarkers: function(){
 			return gmarkers;

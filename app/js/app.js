@@ -1789,34 +1789,36 @@ $(() => {
       exitLocationSearchMode();
     });
   }
-
+  function showDirectionsResults(origin,place){
+    $('#locationSearch').addClass('directions');
+    $('#geolocationQuery').show();
+    $(".action-box").hide();
+    $("#bottomsheet-rotas").addClass("list-directions-active");
+    $("#map").addClass("directions-active");
+    $('body').addClass("directions");
+    
+    BDB.Map.hideMarkers();
+    BDB.Markers.unclusterMap();
+    
+    BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
+    setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
+    $(".directions-box").show();
+  }
   function showSearchResults(place){
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
     //ativar bottomsheet de resultados da busca 
-    
+    setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
     $('body').append(BDB.templates.bottomSheetSearch());
 
-    
-    $('#show-directions').one('click',()=>{
-      $('#locationSearch').addClass('directions');
-      $('#geolocationQuery').show();
-      $(".action-box").hide();
-      $("#bottomsheet-rotas").addClass("list-directions-active");
-      $("#map").addClass("directions-active");
-      $('body').addClass("directions");
-      
-      BDB.Map.hideMarkers();
-      //mock
-      let origin = {
-        pos:{
-          lat:38.7226859,
-          lng:-9.1470797
-        }
+    let origin = {
+      pos:{
+        lat:38.7226859,
+        lng:-9.1470797
       }
-      BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
-
-      $(".directions-box").show();
+    }
+    $('#show-directions').one('click',()=>{
+     showDirectionsResults(origin, place);
     });
 
     $('#directions-share-btn').on('click',function(){
@@ -1877,14 +1879,17 @@ $(() => {
   }
   function exitDirectionsMode(){
     BDB.Map.removeDirections();
+    BDB.Markers.clusterMap();
     $('#geolocationQuery').hide();
     $('body').removeClass("directions");
     $("#map").removeClass("directions-active");
     $('#locationSearch').removeClass('directions');
+    $('#geolocationQuery').val("");
   }
   function exitLocationSearchMode() {
-    //BDB.Map.clearSearchResult();
-    //BDB.Map.showMarkers();
+    BDB.Map.clearSearchResult();
+    BDB.Map.showMarkers();
+
     if ($('#locationSearch').hasClass('directions')){
       exitDirectionsMode();
     }
@@ -1898,6 +1903,7 @@ $(() => {
     $('.hamburger-button').removeClass('back-icon'); 
     $('#locationQueryInput').val('');
     toggleClearLocationBtn('hide');
+    setView('Cidade Ciclável', "/");
   }
 
   function updatePageTitleAndMetatags(text = 'Cidade Ciclável') {
@@ -2011,8 +2017,6 @@ $(() => {
     $(document).on('autocomplete:done', function (e) {
       let place = e.detail;
 
-
-
       addToRecentSearches({
         name: place.name,
         pos: place.geometry.location,
@@ -2076,7 +2080,7 @@ $(() => {
     $('#logo').on('click', () => {
       goHome();
     });
-
+    
     $('.hamburger-button').on('click', e => {
       const $target = $(e.currentTarget);
       if ($target.hasClass('back-mode')) { 
@@ -2908,28 +2912,22 @@ $(() => {
       }
       break;
     case 's':
-      if (isInitialRouting) {
-        _isDeeplink = true;
-        $('body').addClass('deeplink');
-      }
-      const location = urlBreakdown[2].split(',');
-      console.log(urlBreakdown[2]);
-      let place = {
-        pos: {
-          lat: parseFloat(location[0]),
-          lng: parseFloat(location[1])
-        },
-        location: {
-          lat: parseFloat(location[0]),
-          lng: parseFloat(location[1])
-        },
-        coords: {
-          latitude: parseFloat(location[0]),
-          longitude: parseFloat(location[1])
-        }
-      }
       if (!map && !_isOffline) {
-        console.log(start_coords)
+        let location = urlBreakdown[2].split(',');
+        let place = {
+          pos: {
+            lat: parseFloat(location[0]),
+            lng: parseFloat(location[1])
+          },
+          location: {
+            lat: parseFloat(location[0]),
+            lng: parseFloat(location[1])
+          },
+          coords: {
+            latitude: parseFloat(location[0]),
+            longitude: parseFloat(location[1])
+          }
+        }
         start_coords = place.coords;
         getGeolocation = false;
         $('body').addClass('search-mode');  
@@ -2937,15 +2935,72 @@ $(() => {
         $('.hamburger-button').addClass('back-icon');
         $('.hamburger-button').addClass('exit-search');
         $('#locationQueryInput').val(urlBreakdown[2]);
+        $(document).one('map:ready', ()=>{
+          BDB.Map.searchResults(place, true);
+          showSearchResults(place);
+          $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
+            exitLocationSearchMode();
+          });
+        });
         $(document).trigger('LoadMap');
-        //BDB.Map.updateMarkers();
       }
-      $(document).one('map:ready', ()=>{
+      
+      break;
+    case 'd':
+      if (!map && !_isOffline) {
+        let location = urlBreakdown[2].split(',');
+        let directionLocations = {
+          origin: {
+            pos: {
+              lat: parseFloat(location[0]),
+              lng: parseFloat(location[1])
+            },
+            location: {
+              lat: parseFloat(location[0]),
+              lng: parseFloat(location[1])
+            },
+            coords: {
+              latitude: parseFloat(location[0]),
+              longitude: parseFloat(location[1])
+            }
+          },
+          destination: {
+            pos: {
+              lat: parseFloat(location[2]),
+              lng: parseFloat(location[3])
+            },
+            location: {
+              lat: parseFloat(location[2]),
+              lng: parseFloat(location[3])
+            },
+            coords: {
+              latitude: parseFloat(location[2]),
+              longitude: parseFloat(location[3])
+            }
+          }
+        }
         
-        BDB.Map.searchResults(place, true);
-        showSearchResults(place);
-        console.log(place);  
-      });
+        start_coords = directionLocations.origin.coords;
+        getGeolocation = false;
+        $('body').addClass('search-mode');  
+        $('.hamburger-button').addClass('back-mode');
+        $('.hamburger-button').addClass('back-icon');
+        $('.hamburger-button').addClass('exit-search');
+        $('#geolocationQuery').val(`${directionLocations.origin.pos.lat},${directionLocations.origin.pos.lng}`);
+        $('#locationQueryInput').val(`${directionLocations.destination.pos.lat},${directionLocations.destination.pos.lng}`);
+
+        $(document).one('map:ready', ()=>{
+        
+          BDB.Map.searchResults(directionLocations.origin, true);
+          showSearchResults(directionLocations.origin);
+          showDirectionsResults(directionLocations.origin,directionLocations.destination);
+          $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
+            exitLocationSearchMode();
+            
+          });
+        });
+        $(document).trigger('LoadMap');
+      }
       
       break;
     case 'faq':

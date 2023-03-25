@@ -305,16 +305,20 @@ BDB.Map = (function () {
         clickable: false,
         strokeColor: '#533FB4', // purple
         panel,
-        strokeOpacity: 0,
-        fillOpacity: 0,
+        strokeOpacity: 0.5,
+        fillOpacity: 1,
+        strokeWeight: 10,
         icons: [{
           icon: {
-            path: google.maps.SymbolPath.CIRCLE,
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             fillOpacity: 1,
-            scale: 2
+            scale: 1,
+            fillColor: '#FFF',
+            strokeWeight: 0
+
           },
-          offset: '0',
-          repeat: '10px'
+          offset: 0,
+          repeat: '30px'
         }]
       }
     });
@@ -323,6 +327,7 @@ BDB.Map = (function () {
 
   let setupAutocomplete = function () {
     const inputElem = document.getElementById('locationQueryInput');
+    const originElem = document.getElementById('geolocationQuery');
     // Limits the search to the our bounding box
     const options = {
       componentRestrictions : {
@@ -331,6 +336,9 @@ BDB.Map = (function () {
       strictBounds: true
     };
     let autocomplete = new google.maps.places.Autocomplete(inputElem, options);
+    let ogautocomplete = new google.maps.places.Autocomplete(originElem, options);
+
+
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
@@ -345,6 +353,21 @@ BDB.Map = (function () {
       document.dispatchEvent(event);
 
     });
+
+    ogautocomplete.addListener('place_changed', () => {
+      const place = ogautocomplete.getPlace();
+      if (!place.geometry) {
+        console.error('Autocomplete\'s returned place contains no geometry');
+        return;
+      }
+
+      mapCenteredTo(place.geometry,true);
+
+      let event = new CustomEvent('ogautocomplete:done', { detail: place });
+      document.dispatchEvent(event);
+
+    });
+
   };
 
   let mapCenteredTo = function(place,pin){
@@ -750,14 +773,15 @@ BDB.Map = (function () {
         });
       });
     },
-    updateMarkers: function () {
-      markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback);
+    updateMarkers: function (clustered = true) {
+      markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback, clustered);
     },
     searchResults: function (place,pin){
       mapCenteredTo(place,pin);
     },
     clearSearchResult: function(){
-      searchMarker.setMap(null);
+      if (searchMarker)
+        searchMarker.setMap(null);
     }
   };
 })();
