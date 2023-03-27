@@ -1751,9 +1751,6 @@ $(() => {
       
       $('#locationQueryInput').val(item.name);
 
-
-      BDB.Map.searchResults(item, true);
-
       showSearchResults(item);
       //exitLocationSearchMode();
     });
@@ -1805,20 +1802,64 @@ $(() => {
     $(".directions-box").show();
   }
   function showSearchResults(place){
+    BDB.Map.searchResults(place, true);
+    
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
     //ativar bottomsheet de resultados da busca 
-    setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
+    
     $('body').append(BDB.templates.bottomSheetSearch());
+    
+    setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
 
-    let origin = {
-      pos:{
-        lat:38.7226859,
-        lng:-9.1470797
-      }
-    }
+    
     $('#show-directions').one('click',()=>{
-     showDirectionsResults(origin, place);
+      let LatestPos = BDB.Geolocation.getLastestLocation();
+      if (!LatestPos){
+        swal({
+          showConfirmButton: true,
+          showCloseButton: true,
+          confirmButtonText: 'Partilhar localização',
+          title: 'Precisamos da sua permissão para continuar',
+          html: 
+            `
+              <div >
+                <p>
+                  Por enquanto nossas rotas necessitam da tua localização atual para funcionar
+                  
+                </p>
+              </div> 
+  
+              <hr>
+            `,
+          }).then(function(){
+            BDB.Geolocation.getLocation()
+            $(document).one('geolocation:done', function(result){
+              origin = {
+                pos: {
+                  lat: result.detail.response.latitude,
+                  lng: result.detail.response.longitude  
+                }
+              }
+              showDirectionsResults(origin, place);
+            });
+          },function(dismissed){
+            return false;
+          });
+          
+      }else{
+        let origin = {
+          pos:{
+            lat: LatestPos.latitude,
+            lng: LatestPos.longitude
+          }
+        }
+      
+        console.log(origin);
+  
+        showDirectionsResults(origin, place);
+      }
+      
     });
 
     $('#directions-share-btn').on('click',function(){
@@ -2025,13 +2066,15 @@ $(() => {
 
       showSearchResults({
         name: place.name,
+        location:{
+          lat: parseFloat(place.geometry.location.lat()),
+          lng: parseFloat(place.geometry.location.lng())
+        },
         pos: {
           lat: parseFloat(place.geometry.location.lat()),
           lng: parseFloat(place.geometry.location.lng())
         }
       });
-      exitLocationSearchMode();
-
       
       ga('send', 'event', 'Search', 'location', place.formatted_address);
 
@@ -2936,7 +2979,7 @@ $(() => {
         $('.hamburger-button').addClass('exit-search');
         $('#locationQueryInput').val(urlBreakdown[2]);
         $(document).one('map:ready', ()=>{
-          BDB.Map.searchResults(place, true);
+          //BDB.Map.searchResults(place, true);
           showSearchResults(place);
           $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
             exitLocationSearchMode();
@@ -2991,7 +3034,7 @@ $(() => {
 
         $(document).one('map:ready', ()=>{
         
-          BDB.Map.searchResults(directionLocations.origin, true);
+          //BDB.Map.searchResults(directionLocations.origin, true);
           showSearchResults(directionLocations.origin);
           showDirectionsResults(directionLocations.origin,directionLocations.destination);
           $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
