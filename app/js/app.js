@@ -1810,6 +1810,10 @@ $(() => {
     //ativar bottomsheet de resultados da busca 
     setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
     $('body').append(BDB.templates.bottomSheetSearch());
+    if (! _isMobile){
+      let searchBox = $("#locationSearch").detach();
+      searchBox.prependTo("#bottomsheet-rotas");
+    }
 
     let origin = {
       pos:{
@@ -1886,6 +1890,13 @@ $(() => {
     $('#locationSearch').removeClass('directions');
     $('#geolocationQuery').val("");
   }
+  function exitSearchSuggestions(){
+    $('body').removeClass('search-mode');
+    $('#search-overlay').removeClass('showThis');
+    $('.hamburger-button.back-mode').off('click.exitLocationSearch');
+    $('.hamburger-button').removeClass('back-mode'); 
+    $('.hamburger-button').removeClass('back-icon'); 
+  }
   function exitLocationSearchMode() {
     BDB.Map.clearSearchResult();
     BDB.Map.showMarkers();
@@ -1905,6 +1916,7 @@ $(() => {
     toggleClearLocationBtn('hide');
     setView('Cidade Ciclável', "/");
   }
+  
 
   function updatePageTitleAndMetatags(text = 'Cidade Ciclável') {
     // Header that imitates native mobile navbar
@@ -2021,8 +2033,7 @@ $(() => {
         name: place.name,
         pos: place.geometry.location,
         viewport: place.geometry.viewport
-      });
-
+      }); 
       showSearchResults({
         name: place.name,
         pos: {
@@ -2030,7 +2041,7 @@ $(() => {
           lng: parseFloat(place.geometry.location.lng())
         }
       });
-      exitLocationSearchMode();
+      //exitLocationSearchMode();
 
       
       ga('send', 'event', 'Search', 'location', place.formatted_address);
@@ -2445,8 +2456,9 @@ $(() => {
        
       // Hide our panel if the Google Autocomplete panel is opened
       $('#locationQueryInput').on('input change paste', e => {
+        // todo: Fix this
         if ($('#locationQueryInput').val().length > 0) {
-          exitLocationSearchMode(); 
+          exitSearchSuggestions(); 
         } else { 
           enterLocationSearchMode();
         }

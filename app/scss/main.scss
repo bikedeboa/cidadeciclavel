@@ -1054,7 +1054,7 @@ a.unstyled-link {
     }
 
     #clearLocationQueryBtn {
-      position: fixed;
+      position: absolute;
       top: 0;
       right: 0;
       border: none;
@@ -6205,6 +6205,55 @@ a[data-featherlight] {
       background-color: $gray;
     }
   }
+
+  @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+    #bottomsheet-rotas{
+      width: 30%;
+      height: calc(100% - 70px);
+      overflow: hidden;
+      top: 65px;
+      border-radius: 0;
+      z-index: 01;
+      
+      &.list-directions-active{
+        top: 65px;
+        height: calc(100% - 70px);
+      }
+      .adp-summary{
+        text-align: center;
+      }
+      .list-directions-actions-box{
+        position: relative;
+        bottom: 0;
+        
+        background: #fff;
+      }
+      .directions-box{
+        height: 100%;
+        overflow: auto;
+      }
+
+      #list-directions{ 
+        .adp-substep{
+          padding: 35px 0;
+        }
+      }
+
+      #locationSearch{
+        position: relative;
+        margin: 0;
+      }
+
+    }
+    
+    .pull-up-container { 
+      display: none;
+    }
+
+
+  }
+
+
   body.directions{
     overflow: visible;
   }

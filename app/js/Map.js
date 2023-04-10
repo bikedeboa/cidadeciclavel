@@ -327,7 +327,7 @@ BDB.Map = (function () {
 
   let setupAutocomplete = function () {
     const inputElem = document.getElementById('locationQueryInput');
-    const originElem = document.getElementById('geolocationQuery');
+    //const originElem = document.getElementById('geolocationQuery');
     // Limits the search to the our bounding box
     const options = {
       componentRestrictions : {
@@ -336,7 +336,7 @@ BDB.Map = (function () {
       strictBounds: true
     };
     let autocomplete = new google.maps.places.Autocomplete(inputElem, options);
-    let ogautocomplete = new google.maps.places.Autocomplete(originElem, options);
+    //let ogautocomplete = new google.maps.places.Autocomplete(originElem, options);
 
 
 
@@ -354,19 +354,19 @@ BDB.Map = (function () {
 
     });
 
-    ogautocomplete.addListener('place_changed', () => {
-      const place = ogautocomplete.getPlace();
-      if (!place.geometry) {
-        console.error('Autocomplete\'s returned place contains no geometry');
-        return;
-      }
+    // ogautocomplete.addListener('place_changed', () => {
+    //   const place = ogautocomplete.getPlace();
+    //   if (!place.geometry) {
+    //     console.error('Autocomplete\'s returned place contains no geometry');
+    //     return;
+    //   }
 
-      mapCenteredTo(place.geometry,true);
+    //   mapCenteredTo(place.geometry,true);
 
-      let event = new CustomEvent('ogautocomplete:done', { detail: place });
-      document.dispatchEvent(event);
+    //   let event = new CustomEvent('ogautocomplete:done', { detail: place });
+    //   document.dispatchEvent(event);
 
-    });
+    // });
 
   };
 
