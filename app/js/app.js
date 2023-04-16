@@ -1810,9 +1810,9 @@ $(() => {
     
     $('body').append(BDB.templates.bottomSheetSearch());
         if (! _isMobile){
-      let searchBox = $("#locationSearch").detach();
-      searchBox.prependTo("#bottomsheet-rotas");
-    }
+          let searchBox = $("#locationSearch").detach();
+          searchBox.prependTo("#bottomsheet-rotas");
+        }
 
     setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
 
@@ -2086,7 +2086,7 @@ $(() => {
           lng: parseFloat(place.geometry.location.lng())
         }
       });
-      exitLocationSearchMode();
+      //exitLocationSearchMode();
 
       
       ga('send', 'event', 'Search', 'location', place.formatted_address);
@@ -3620,10 +3620,6 @@ $(() => {
       // }
 
       BDB.User.init();       
-
-      if (!_isDeeplink && !BDB.Session.hasUserSeenWelcomeMessage()) {
-        openWelcomeMessage();
-      }
     };
 
     // Set up SweetAlert, the alert window lib
