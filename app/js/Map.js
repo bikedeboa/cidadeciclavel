@@ -777,11 +777,13 @@ BDB.Map = (function () {
       markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback, clustered);
     },
     searchResults: function (place,pin){
+      this.clearSearchResult();
       mapCenteredTo(place,pin);
     },
     clearSearchResult: function(){
-      if (searchMarker)
+      if (searchMarker){
         searchMarker.setMap(null);
+      }
     }
   };
 })();

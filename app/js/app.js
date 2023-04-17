@@ -1802,17 +1802,23 @@ $(() => {
     $(".directions-box").show();
   }
   function showSearchResults(place){
+    let searchBox = false;
+    if (! _isMobile){
+      searchBox = $("#locationSearch").detach();
+    }
+    
+    $('#bottomsheet-rotas').remove();
     BDB.Map.searchResults(place, true);
     
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
     //ativar bottomsheet de resultados da busca 
     
+
     $('body').append(BDB.templates.bottomSheetSearch());
-        if (! _isMobile){
-          let searchBox = $("#locationSearch").detach();
-          searchBox.prependTo("#bottomsheet-rotas");
-        }
+    if (! _isMobile && searchBox){  
+      searchBox.prependTo("#bottomsheet-rotas");
+    }
 
     setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
 
@@ -1955,6 +1961,10 @@ $(() => {
     $('.hamburger-button').removeClass('back-icon'); 
     $('#locationQueryInput').val('');
     toggleClearLocationBtn('hide');
+
+    console.log('search out')
+
+    
     setView('Cidade Ciclável', "/");
   }
   
@@ -2496,7 +2506,7 @@ $(() => {
     if (!_isMobile) {
       // Hide our panel if the user clicked anywhere outside
       $('#locationQueryInput').on('blur', e => { 
-        exitLocationSearchMode();
+        exitSearchSuggestions();
       });
        
       // Hide our panel if the Google Autocomplete panel is opened

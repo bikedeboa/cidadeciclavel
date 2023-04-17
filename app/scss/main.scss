@@ -6242,6 +6242,21 @@ a[data-featherlight] {
       #locationSearch{
         position: relative;
         margin: 0;
+        padding: 0;
+
+        #locationQueryInput{
+          margin: 0 15px;
+
+          
+        }
+        #clearLocationQueryBtn{
+          left: 15px;
+
+          &.clear-mode{
+            top: -5px;
+            left: 25px;
+          }
+        }
       }
 
     }
