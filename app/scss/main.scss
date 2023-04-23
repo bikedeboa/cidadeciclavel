@@ -1087,10 +1087,6 @@ a.unstyled-link {
       &.clear-mode {
         pointer-events: auto; 
 
-        &:hover {
-          background: $lighterGray;
-        }
-
         .search-icon {
           opacity: 0;
           visibility: hidden;
@@ -1110,8 +1106,8 @@ a.unstyled-link {
     // Desktop-only
     @media screen and (min-width: $MOBILE_MAX_WIDTH) {
       #clearLocationQueryBtn {
-        right: auto;
-        left: 0;
+        right: 0;
+       
       }
     }
 }
@@ -2016,8 +2012,8 @@ a.unstyled-link {
   }
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     margin-right: 5px;
     margin: 0;
   }
@@ -6243,19 +6239,25 @@ a[data-featherlight] {
         position: relative;
         margin: 0;
         padding: 0;
+        max-width: 100%;
+        width: 100%;
 
         #locationQueryInput{
-          margin: 0 15px;
-
-          
+          margin: 10px 0px 30px 20px;
+          padding: 0 15px;
+          width: 85%;
         }
         #clearLocationQueryBtn{
-          left: 15px;
+          top: 10px;
+          right: 40px;
+        }
 
-          &.clear-mode{
-            top: -5px;
-            left: 25px;
-          }
+        #closeSearchLocation{
+          display: inline-block;
+          border: none;
+          padding: 0 10px;
+          background: #fff;
+          font-size: 24px;
         }
       }
 
@@ -6268,7 +6270,9 @@ a[data-featherlight] {
 
   }
 
-
+  #closeSearchLocation{
+    display: none;
+  }
   body.directions{
     overflow: visible;
   }

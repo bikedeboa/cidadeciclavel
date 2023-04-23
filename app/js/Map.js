@@ -739,8 +739,12 @@ BDB.Map = (function () {
         }, function (response, status) {
           if (status == 'OK') {
             directionsRenderer.setDirections(response); 
+            let event = new CustomEvent('directions:done', {detail: true});
+            document.dispatchEvent(event);
           } else {
             console.error('Directions request failed due to ' + status);
+            let event = new CustomEvent('directions:done', {detail: false});
+            document.dispatchEvent(event);
           }
         });
       

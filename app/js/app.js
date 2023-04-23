@@ -1522,6 +1522,9 @@ $(() => {
   }
 
   function toggleClearLocationBtn(stateStr) {
+    if (! _isMobile){
+      return false; 
+    }
     if (stateStr === 'show') {
       $('#clearLocationQueryBtn').addClass('clear-mode');
     } else if (stateStr === 'hide') {
@@ -1787,19 +1790,28 @@ $(() => {
     });
   }
   function showDirectionsResults(origin,place){
-    $('#locationSearch').addClass('directions');
-    $('#geolocationQuery').show();
-    $(".action-box").hide();
-    $("#bottomsheet-rotas").addClass("list-directions-active");
-    $("#map").addClass("directions-active");
-    $('body').addClass("directions");
-    
-    BDB.Map.hideMarkers();
-    BDB.Markers.unclusterMap();
-    
+
     BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
-    setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
-    $(".directions-box").show();
+
+    $(document).one('directions:done', (result)=>{
+      if (result.detail){
+        $('#locationSearch').addClass('directions');
+        $('#geolocationQuery').show();
+        $(".action-box").hide();
+        $("#bottomsheet-rotas").addClass("list-directions-active");
+        $("#map").addClass("directions-active");
+        $('body').addClass("directions");
+        
+        BDB.Map.hideMarkers();
+        BDB.Markers.unclusterMap();
+        setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
+        $(".directions-box").show();
+      }else{
+        alert('Rota não encontrada para a origem e destino selecionada');
+      }
+    })
+
+    
   }
   function showSearchResults(place){
     let searchBox = false;
@@ -1822,7 +1834,9 @@ $(() => {
 
     setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
 
-    
+    $("#closeSearchLocation").one("click", ()=>{
+      exitLocationSearchMode();
+    }); 
     $('#show-directions').one('click',()=>{
       let LatestPos = BDB.Geolocation.getLastestLocation();
       if (!LatestPos){
@@ -1948,6 +1962,11 @@ $(() => {
     BDB.Map.clearSearchResult();
     BDB.Map.showMarkers();
 
+    if (! _isMobile){
+      let searchBox = $("#locationSearch").detach();
+      $('#logo').after(searchBox);
+    }
+
     if ($('#locationSearch').hasClass('directions')){
       exitDirectionsMode();
     }
@@ -1962,10 +1981,9 @@ $(() => {
     $('#locationQueryInput').val('');
     toggleClearLocationBtn('hide');
 
-    console.log('search out')
-
-    
     setView('Cidade Ciclável', "/");
+    
+    
   }
   
 
@@ -2527,7 +2545,9 @@ $(() => {
     $('#clearLocationQueryBtn').on('click', queueUiCallback.bind(this, () => {
       $('#locationQueryInput').val('');
       toggleClearLocationBtn('hide');
-      // _searchResultMarker.setVisible(false);
+      if (! _isMobile){
+        exitLocationSearchMode();
+      }
     }));
   }
 
