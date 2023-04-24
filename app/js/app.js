@@ -1967,7 +1967,7 @@ $(() => {
       $('#logo').after(searchBox);
     }
 
-    if ($('#locationSearch').hasClass('directions')){
+    if ($('#locationSearch').hasClass('directions')){n
       exitDirectionsMode();
     }
     $(".map-action-buttons").removeClass('hide');
@@ -1982,7 +1982,6 @@ $(() => {
     toggleClearLocationBtn('hide');
 
     setView('Cidade Ciclável', "/");
-    
     
   }
   

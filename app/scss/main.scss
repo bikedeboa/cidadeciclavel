@@ -6242,10 +6242,11 @@ a[data-featherlight] {
         max-width: 100%;
         width: 100%;
 
-        #locationQueryInput{
-          margin: 10px 0px 30px 20px;
+        .search-fields{
+          margin: 10px 0px 30px 30px;
           padding: 0 15px;
-          width: 85%;
+          width: 83%;
+          background: #fafafa
         }
         #clearLocationQueryBtn{
           top: 10px;
@@ -6253,11 +6254,38 @@ a[data-featherlight] {
         }
 
         #closeSearchLocation{
-          display: inline-block;
+          position: absolute;
+          top: 10px;
+          right: 7px;
+          display: block;
           border: none;
           padding: 0 10px;
           background: #fff;
           font-size: 24px;
+        }
+      }
+      &.list-directions-active{
+        #clearLocationQueryBtn{
+          display:none;
+        }
+        #locationSearch{
+          background-image: url(/img/icon_directions_form.svg);
+          background-repeat: no-repeat;
+          background-size: 11px;
+          background-position-x: 10px;
+          background-position-y: 24px;
+          margin-bottom: 10px;
+
+
+          .search-fields{
+            margin: 10px 30px 0;
+            padding: 0 15px;
+            width: 85%;
+          }
+        } 
+        .directions-box{
+          display: block;
+          height: calc(100% - 110px);
         }
       }
 
