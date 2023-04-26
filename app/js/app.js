@@ -1967,9 +1967,7 @@ $(() => {
       $('#logo').after(searchBox);
     }
 
-    if ($('#locationSearch').hasClass('directions')){n
-      exitDirectionsMode();
-    }
+    
     $(".map-action-buttons").removeClass('hide');
 
     $('body').removeClass('search-mode');
@@ -1981,6 +1979,9 @@ $(() => {
     $('#locationQueryInput').val('');
     toggleClearLocationBtn('hide');
 
+    if ($('#locationSearch').hasClass('directions')){
+      exitDirectionsMode();
+    }
     setView('Cidade Ciclável', "/");
     
   }
@@ -2102,17 +2103,44 @@ $(() => {
         pos: place.geometry.location,
         viewport: place.geometry.viewport
       }); 
-      showSearchResults({
-        name: place.name,
-        location:{
-          lat: parseFloat(place.geometry.location.lat()),
-          lng: parseFloat(place.geometry.location.lng())
-        },
-        pos: {
-          lat: parseFloat(place.geometry.location.lat()),
-          lng: parseFloat(place.geometry.location.lng())
+
+      if ($('#locationSearch').hasClass('directions')){
+        console.log('change');
+        BDB.Map.removeDirections();
+
+        let LatestPos = BDB.Geolocation.getLastestLocation();
+        let origin = {
+          pos:{
+            lat: LatestPos.latitude,
+            lng: LatestPos.longitude
+          }
         }
-      });
+        
+
+        let destination = {
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        }
+        showDirectionsResults(origin,destination);
+
+      }else{
+        console.log('search');
+        showSearchResults({
+          name: place.name,
+          location:{
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          },
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        });
+      }
+
+      
       //exitLocationSearchMode();
 
       
