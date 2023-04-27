@@ -303,7 +303,7 @@ BDB.Map = (function () {
       suppressInfoWindows: true,
       polylineOptions: {
         clickable: false,
-        strokeColor: '#533FB4', // purple
+        strokeColor: '#98344c', // purple
         panel,
         strokeOpacity: 0.5,
         fillOpacity: 1,
