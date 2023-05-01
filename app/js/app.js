@@ -7,6 +7,10 @@ $(() => {
   let zoom = 15;
   let getGeolocation = true;
 
+
+  let origin = null;
+  let destination = null; 
+
   function openShareDialog() {
     const shareUrl = window.location.origin + BDB.Places.getMarkerShareUrl(openedMarker);
     //const shareUrl = 'https://www.bikedeboa.com.br' + BDB.Places.getMarkerShareUrl(openedMarker);
@@ -1790,6 +1794,7 @@ $(() => {
     });
   }
   function showDirectionsResults(origin,place){
+    console.log(origin,place);
 
     BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
 
@@ -2095,6 +2100,28 @@ $(() => {
       BDB.Map.showBikeLayer();
     });
 
+    $(document).on('ogautocomplete:done', function (e) {
+      let place = e.detail;
+
+      addToRecentSearches({
+        name: place.name,
+        pos: place.geometry.location,
+        viewport: place.geometry.viewport
+      }); 
+
+      BDB.Map.removeDirections();
+
+      origin = {
+        pos: {
+          lat: parseFloat(place.geometry.location.lat()),
+          lng: parseFloat(place.geometry.location.lng())
+        }
+      }
+
+      showDirectionsResults(origin,destination);
+
+    });
+
     $(document).on('autocomplete:done', function (e) {
       let place = e.detail;
 
@@ -2108,21 +2135,25 @@ $(() => {
         console.log('change');
         BDB.Map.removeDirections();
 
-        let LatestPos = BDB.Geolocation.getLastestLocation();
-        let origin = {
-          pos:{
-            lat: LatestPos.latitude,
-            lng: LatestPos.longitude
+       
+        if (!origin){
+          let LatestPos = BDB.Geolocation.getLastestLocation();
+          origin = {
+            pos:{
+              lat: LatestPos.latitude,
+              lng: LatestPos.longitude
+            }
           }
-        }
+        } 
         
 
-        let destination = {
+        destination = {
           pos: {
             lat: parseFloat(place.geometry.location.lat()),
             lng: parseFloat(place.geometry.location.lng())
           }
         }
+
         showDirectionsResults(origin,destination);
 
       }else{
@@ -3051,6 +3082,7 @@ $(() => {
         $('#locationQueryInput').val(urlBreakdown[2]);
         $(document).one('map:ready', ()=>{
           //BDB.Map.searchResults(place, true);
+          destination = place;
           showSearchResults(place);
           $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
             exitLocationSearchMode();
@@ -3104,6 +3136,8 @@ $(() => {
         $('#locationQueryInput').val(`${directionLocations.destination.pos.lat},${directionLocations.destination.pos.lng}`);
 
         $(document).one('map:ready', ()=>{
+          origin = directionLocations.origin;
+          destination = directionLocations.destination;
         
           //BDB.Map.searchResults(directionLocations.origin, true);
           showSearchResults(directionLocations.origin);
