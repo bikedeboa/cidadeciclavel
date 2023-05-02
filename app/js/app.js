@@ -1802,6 +1802,7 @@ $(() => {
     $('body').addClass("directions");
     $("#bottomsheet-rotas").addClass("list-directions-active");
     $("#map").addClass("directions-active");
+    $(".directions-box").show();
 
 
     if(!origin || !origin.pos){
@@ -1943,6 +1944,7 @@ $(() => {
     $("#map").removeClass("directions-active");
     $('#locationSearch').removeClass('directions');
     $('#geolocationQuery').val("");
+    $('.directions-box').hide();
   }
   function exitSearchSuggestions(){
     $('body').removeClass('search-mode');
