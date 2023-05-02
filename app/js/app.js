@@ -1872,7 +1872,8 @@ $(() => {
         }
       
         console.log(origin);
-  
+        showDirectionsResults(origin, place);
+
         
       }
       
