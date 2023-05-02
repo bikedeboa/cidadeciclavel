@@ -1795,30 +1795,43 @@ $(() => {
   }
   function showDirectionsResults(origin,place){
     console.log(origin,place);
-
-    BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
-
-    $(document).one('directions:done', (result)=>{
-      if (result.detail){
-        $('#locationSearch').addClass('directions');
-        $('#geolocationQuery').show();
-        $(".action-box").hide();
-        $("#bottomsheet-rotas").addClass("list-directions-active");
-        $("#map").addClass("directions-active");
-        $('body').addClass("directions");
-        
-        BDB.Map.hideMarkers();
-        BDB.Markers.unclusterMap();
-        setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
-        $(".directions-box").show();
-      }else{
-        alert('Rota não encontrada para a origem e destino selecionada');
-      }
-    })
-
     
+    $('#locationSearch').addClass('directions');
+    $('#geolocationQuery').show();
+    $(".action-box").hide();
+    $('body').addClass("directions");
+    $("#bottomsheet-rotas").addClass("list-directions-active");
+    $("#map").addClass("directions-active");
+
+
+    if(!origin || !origin.pos){
+      $(".direction-msg").hide();
+      $('#direction-msg-origin').show();
+      $('#directions-messages').show();
+
+    }else{
+      BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
+
+      $(document).one('directions:done', (result)=>{
+        console.log(result);
+        if (result.detail){   
+          BDB.Map.hideMarkers();
+          BDB.Markers.unclusterMap();
+          setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
+          $(".directions-box").show();
+          $('#directions-messages').hide();
+          $('#list-direction-actions').show();
+        }else{
+          $('#list-direction-actions').hide();
+          $(".direction-msg").hide();
+          $("#direction-msg-error").show();
+          $('#directions-messages').show();
+        }
+      });
+    }
   }
   function showSearchResults(place){
+    console.log('showSearchResults')
     let searchBox = false;
     if (! _isMobile){
       searchBox = $("#locationSearch").detach();
@@ -1826,6 +1839,10 @@ $(() => {
     
     $('#bottomsheet-rotas').remove();
     BDB.Map.searchResults(place, true);
+
+    destination = place;
+
+    console.log(place);
     
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
@@ -1845,37 +1862,7 @@ $(() => {
     $('#show-directions').one('click',()=>{
       let LatestPos = BDB.Geolocation.getLastestLocation();
       if (!LatestPos){
-        swal({
-          showConfirmButton: true,
-          showCloseButton: true,
-          confirmButtonText: 'Partilhar localização',
-          title: 'Precisamos da sua permissão para continuar',
-          html: 
-            `
-              <div >
-                <p>
-                  Por enquanto nossas rotas necessitam da tua localização atual para funcionar
-                  
-                </p>
-              </div> 
-  
-              <hr>
-            `,
-          }).then(function(){
-            BDB.Geolocation.getLocation()
-            $(document).one('geolocation:done', function(result){
-              origin = {
-                pos: {
-                  lat: result.detail.response.latitude,
-                  lng: result.detail.response.longitude  
-                }
-              }
-              showDirectionsResults(origin, place);
-            });
-          },function(dismissed){
-            return false;
-          });
-          
+        showDirectionsResults(null, place);
       }else{
         let origin = {
           pos:{
@@ -1886,7 +1873,7 @@ $(() => {
       
         console.log(origin);
   
-        showDirectionsResults(origin, place);
+        
       }
       
     });
@@ -2109,7 +2096,10 @@ $(() => {
         viewport: place.geometry.viewport
       }); 
 
-      BDB.Map.removeDirections();
+      if (origin){
+        BDB.Map.removeDirections();
+      }
+      
 
       origin = {
         pos: {
@@ -2117,7 +2107,6 @@ $(() => {
           lng: parseFloat(place.geometry.location.lng())
         }
       }
-
       showDirectionsResults(origin,destination);
 
     });
@@ -2158,6 +2147,12 @@ $(() => {
 
       }else{
         console.log('search');
+        destination = {
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        }
         showSearchResults({
           name: place.name,
           location:{
@@ -2169,6 +2164,8 @@ $(() => {
             lng: parseFloat(place.geometry.location.lng())
           }
         });
+
+        
       }
 
       
