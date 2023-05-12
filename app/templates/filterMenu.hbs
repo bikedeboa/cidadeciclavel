@@ -1,12 +1,12 @@
 <aside id="filter-menu" class="js-side-nav side-nav side-nav-inverted side-nav-fixed">
     <nav class="js-side-nav-container side-nav__container">
     <button class="js-menu-hide side-nav__hide filter_done_btn">
-        Feito
+        Visualizar
     </button> 
     
     <header class="side-nav__header">
         <h2>
-        Filtros
+        Camadas
         </h2>
         <button id="clear-filters-btn" class="link-button">✕ Limpar filtros</button>
 
@@ -24,132 +24,23 @@
             <h3>Ver somente:</h3>
             <ul>
                 <li>
+                    <input type="checkbox" class="filter-checkbox" name="objectType" id="objectType_bikelane" data-prop="type" data-value="bikelane" value="bikelane"/>
+                    <label for="objectType_hotspot">Ciclovias</label>
+                </li>
+                <li>
                     <input type="checkbox" class="filter-checkbox" name="objectType" id="objectType_rack" data-prop="type" data-value="rack" value="rack"/>
                     <label for="objectType_rack">Bicicletários</label>
+                </li>
+                <li>
+                    <input type="checkbox" class="filter-checkbox" name="objectType" id="objectType_bicipark" data-prop="type" data-value="biciparque" value="biciparque"/>
+                    <label for="objectType_hotspot">Biciparques</label>
                 </li>
                 <li>
                     <input type="checkbox" class="filter-checkbox" name="objectType" id="objectType_request" data-prop="type" data-value="request" value="request"/>
                     <label for="objectType_request">Pedidos</label>
                 </li>
-                <li>
-                    <input type="checkbox" class="filter-checkbox" name="objectType" id="objectType_bikelane" data-prop="type" data-value="bikelane" value="bikelane"/>
-                    <label for="objectType_hotspot">Ciclovias</label>
-                </li>
             </ul>
         </div>
-
-        <div>
-        <h3>Avaliações</h3>
-        <ul>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_rating_good" data-prop="rating" data-value="good">
-                <label for="filter_rating_good">Excelentes</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_rating_medium" data-prop="rating" data-value="medium">
-                <label for="filter_rating_medium">Medianos</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_rating_bad" data-prop="rating" data-value="bad">
-                <label for="filter_rating_bad">Péssimos</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_rating_none" data-prop="rating" data-value="none">
-                <label for="filter_rating_none">Sem avaliação</label>
-            </li>
-        </ul>
-        </div>
-
-        <!-- <hr> -->
-        
-        <div>
-        <h3>Acesso</h3>
-        <ul>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_public" data-prop="isPublic" data-value="true">
-                <label for="filter_public">Públicos</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_private" data-prop="isPublic" data-value="false">
-                <label for="filter_private">Privados</label>
-            </li>
-        </ul>
-        </div>
-
-        <!-- <hr> -->
-
-        <div>
-        <h3>Tipos de Bicicletário</h3>
-        <ul>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_uinvertido" data-prop="structureType" data-value="uinvertido">
-                <label for="filter_structure_uinvertido">U Invertido</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_deroda" data-prop="structureType" data-value="deroda">
-                <label for="filter_structure_deroda">Entorta rodas</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_onda" data-prop="structureType" data-value="onda">
-                <label for="filter_structure_onda">Onda</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_suspenso" data-prop="structureType" data-value="suspenso">
-                <label for="filter_structure_suspenso">Suspenso</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_grelha" data-prop="structureType" data-value="grelha">
-                <label for="filter_structure_grelha">Grelha</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_cascata" data-prop="structureType" data-value="cascata">
-                <label for="filter_structure_cascata">Cascata</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_grade" data-prop="structureType" data-value="grade">
-                <label for="filter_structure_grade">Grade/Vedação</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_trave" data-prop="structureType" data-value="trave">
-                <label for="filter_structure_trave">Poste</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_structure_other" data-prop="structureType" data-value="other">
-                <label for="filter_structure_other">Outros</label>
-            </li>
-        </ul>
-        </div>
-
-        <!-- <hr> -->
-
-        <div>
-        <h3>Cobertura</h3>
-        <ul>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_covered" data-prop="isCovered" data-value="true">
-                <label for="filter_covered">Coberto</label>
-            </li>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_uncovered" data-prop="isCovered" data-value="false">
-                <label for="filter_uncovered">Não coberto</label>
-            </li>
-        </ul>
-        </div>
-
-        <div>
-        <h3>Outros</h3>
-        <ul>
-            <li>
-                <input type="checkbox" class="filter-checkbox" id="filter_withPhoto" data-prop="hasPhoto" data-value="with">
-                <label for="filter_withPhoto">Com foto</label>
-            </li>
-            <li> 
-                <input type="checkbox" class="filter-checkbox" id="filter_withoutPhoto" data-prop="hasPhoto" data-value="without">
-                <label for="filter_withoutPhoto">Sem foto</label>
-            </li>
-        </ul>
-        </div>
-        
     </div>
 
     <!-- <footer>

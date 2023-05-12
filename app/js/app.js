@@ -705,19 +705,20 @@ $(() => {
   function applyFilters(filters = []) {
     let cont = 0;
 
-    const isPublicFilters = filters.filter(i => i.prop === 'isPublic');
+    /*const isPublicFilters = filters.filter(i => i.prop === 'isPublic');
     const isCoveredFilters = filters.filter(i => i.prop === 'isCovered');
     const ratingFilters = filters.filter(i => i.prop === 'rating');
     const structureFilters = filters.filter(i => i.prop === 'structureType');
     const photoFilters = filters.filter(i => i.prop === 'hasPhoto');
-    const type = filters.filter(i => i.prop === 'type');
     const classification = filters.filter(i => i.prop === 'classification');
-    //const bikelanes = filters.filter(i => i.prop === "layer");
     const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type, classification];
-
+    */
+    const type = filters.filter(i => i.prop === 'type');
     const bikelane = type.find( i=> i.value === "bikelane");
-
-    if (!bikelane){
+    const classification = filters.filter(i => i.prop === 'classification');
+    const categories = [type];
+    
+    if (!bikelane && type.length > 0){
       BDB.Map.hideBikeLayer();
     }else{
       BDB.Map.showBikeLayer();
@@ -732,36 +733,21 @@ $(() => {
         let catResult = false;
         
         if (categories[cat].length) {
+
           for(let f_index=0; f_index < categories[cat].length && showIt; f_index++) {
             const f = categories[cat][f_index];
             let testResult;
 
             switch (f.prop) {
-            case 'hasPhoto':
-              if (f.value === 'with') {
-                testResult = !!m.photo;
-              } else {
-                testResult = !m.photo;
-              }
-              break;
-            case 'rating':
-              switch (f.value) {
-              case 'good':
-                testResult = m.average >= 3.5;
-                break;
-              case 'medium':
-                testResult = m.average > 2 && m.average < 3.5;
-                break;
-              case 'bad':
-                testResult = m.average > 0 && m.average <= 2;
-                break;
-              case 'none':
-                testResult = m.average === null;
-                break;
-              }
-              break;
             default:
-              testResult = m[f.prop] === f.value;
+              console.log(f.value);
+              if (f.value === "biciparque"){
+                testResult = m['classification'] === f.value;
+              }else{
+                testResult = m[f.prop] === f.value;
+              }
+
+              
               break;
             }
             
@@ -776,9 +762,9 @@ $(() => {
 
       // places[i].setMap(showIt ? map : null);
       if (places[i].gmarker) {
-        places[i].gmarker.setIcon(showIt ? m.icon : m.iconMini);
+        //places[i].gmarker.setIcon(showIt ? m.icon : m.iconMini);
         places[i].gmarker.setZIndex(showIt ? 2 : 1);
-        places[i].gmarker.setOptions({clickable: showIt, opacity: (showIt ? 1 : 0.3)});
+        places[i].gmarker.setOptions({clickable: showIt, opacity: (showIt ? 1 : 0)});
         places[i].gmarker.collapsed = !showIt; 
       } else {
         console.error('ERROR: Place has no gmarker');
