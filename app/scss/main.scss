@@ -3762,7 +3762,6 @@ body.fullscreen-modal-open {
     padding-left: 6px;
 
     li {
-      display: flex !important;
       align-items: baseline;
       white-space: nowrap;
       line-height: normal;
@@ -3774,11 +3773,9 @@ body.fullscreen-modal-open {
       width: calc(50% - #{$GRID_SPACE});
       
       border-radius: 10px;
-      transition: color 0.2s ease-out, background 0.2s ease-out;
+      //transition: color 0.2s ease-out, background 0.2s ease-out;
 
-      &:hover {
-        background: $lightestGray;
-      }
+     
 
       input:checked + label {
         font-weight: bold;
@@ -5753,9 +5750,7 @@ a[data-featherlight] {
         }
       }
 
-      li:hover {
-        background: $lighterGray;
-      }
+     
     }
   }
 }
@@ -6245,4 +6240,41 @@ a[data-featherlight] {
     .direction-msg{
       display:none;
     }
+  }
+  .filter-checkbox{
+    display: none;
+  }
+  .filter-list-item{
+    width: 100px;
+    height: 150px !important;
+  }
+  #label_bikelane{
+    background-image: url(/img/filter_lane.png);
+   
+  }
+  #label_rack{
+    background-image: url(/img/filter_rack.png);
+  }
+  #label_bicipark{
+    background-image: url(/img/filter_bicipark.png);
+  }
+  #label_request{
+    background-image: url(/img/filter_request.png);
+  }
+  .filter-label{
+    background-size: 100px;
+    display: block;
+    padding-top: 120px !important;
+    background-repeat: no-repeat;
+    text-align: center;
+    background-position-x: center;
+    background-position-y: 10px;
+    width: 120px;
+
+    &:hover {
+      background-color: $lightestGray;
+    }
+  }
+  #objectType_bikelane{
+    
   }
