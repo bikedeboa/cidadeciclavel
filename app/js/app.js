@@ -1780,7 +1780,6 @@ $(() => {
     });
   }
   function showDirectionsResults(origin,place){
-    console.log(origin,place);
     
     $('#locationSearch').addClass('directions');
     $('#geolocationQuery').show();
@@ -1800,8 +1799,8 @@ $(() => {
       BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
 
       $(document).one('directions:done', (result)=>{
-        console.log(result);
-        if (result.detail){   
+        if (result.detail){
+          BDB.Map.clearSearchResult()   
           BDB.Map.hideMarkers();
           BDB.Markers.unclusterMap();
           setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
@@ -1818,7 +1817,6 @@ $(() => {
     }
   }
   function showSearchResults(place){
-    console.log('showSearchResults')
     let searchBox = false;
     if (! _isMobile){
       searchBox = $("#locationSearch").detach();
@@ -1829,7 +1827,6 @@ $(() => {
 
     destination = place;
 
-    console.log(place);
     
     $('#search-overlay').removeClass('showThis');
     $(".map-action-buttons").addClass('hide');
@@ -1857,8 +1854,6 @@ $(() => {
             lng: LatestPos.longitude
           }
         }
-      
-        console.log(origin);
         showDirectionsResults(origin, place);
 
         
@@ -2110,7 +2105,6 @@ $(() => {
       }); 
 
       if ($('#locationSearch').hasClass('directions')){
-        console.log('change');
         BDB.Map.removeDirections();
 
        
@@ -2135,7 +2129,6 @@ $(() => {
         showDirectionsResults(origin,destination);
 
       }else{
-        console.log('search');
         destination = {
           pos: {
             lat: parseFloat(place.geometry.location.lat()),

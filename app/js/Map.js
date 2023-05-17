@@ -298,7 +298,7 @@ BDB.Map = (function () {
       hideRouteList: false,
       draggable: false,
       preserveViewport: false,
-      suppressMarkers: true,
+      suppressMarkers: false,
       suppressBicyclingLayer: false,
       suppressInfoWindows: true,
       polylineOptions: {
@@ -373,9 +373,11 @@ BDB.Map = (function () {
   };
 
   let mapCenteredTo = function(place,pin){
-    console.log(place);
     map.panTo(place.location);
     if (pin){
+      if (searchMarker){
+        searchMarker.setMap(null);
+      }
       searchMarker = new google.maps.Marker({
         position: place.location,
         map: map,
@@ -733,20 +735,28 @@ BDB.Map = (function () {
       //   return;
       // }
         setupDirections(panel);
-      
         directionsService.route({ 
           origin:  {lat: og.pos.lat, lng: og.pos.lng},
           destination:  { lat: dt.pos.lat, lng: dt.pos.lng},
           travelMode: google.maps.TravelMode[travelMode]
         }, function (response, status) {
           if (status == 'OK') {
+            if (searchMarker){
+              searchMarker.setMap(null);
+            }
             directionsRenderer.setDirections(response); 
             let event = new CustomEvent('directions:done', {detail: true});
             document.dispatchEvent(event);
           } else {
+            //let cacheMarker = searchMarker;
+            if (searchMarker){
+              searchMarker.setMap(null);
+            }
             console.error('Directions request failed due to ' + status);
             let event = new CustomEvent('directions:done', {detail: false});
             document.dispatchEvent(event);
+            //searchMarker = cacheMarker;
+            searchMarker.setMap(map);
           }
         });
       

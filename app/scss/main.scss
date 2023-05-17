@@ -6067,6 +6067,7 @@ a[data-featherlight] {
       margin: 0;
       padding: 10px 0;
 
+
       .action-btns-item{
         width: 49%;
         display:inline-block;
@@ -6128,6 +6129,7 @@ a[data-featherlight] {
   @media screen and (min-width: $MOBILE_MAX_WIDTH) {
     #bottomsheet-rotas{
       width: 30%;
+      min-width: 350px;
       height: calc(100% - 70px);
       overflow: hidden;
       top: 65px;
