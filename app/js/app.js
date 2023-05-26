@@ -1804,6 +1804,25 @@ $(() => {
           BDB.Map.hideMarkers();
           BDB.Markers.unclusterMap();
           setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
+          $('#directions-forum-btn').on('click',function(){
+            swal({
+              showConfirmButton: false,
+              showCloseButton: true,
+              title: 'Partilhe tua rota',
+              html: 
+                `
+                  <div>
+                    <p>
+                      Peça ajuda nos fórum da Mubi sobre sua rota, ao aceder o link, se possuir uma conta as informações sobre sua rota já vão preenchidas, só complemente com o que achar necessário
+                    </p>
+                    <p>
+                    <a href="https://forum.mubi.pt/new-topic?body=https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum Mubi</a>
+                    </p>
+                  </div> 
+                `,
+              });
+              return false;
+          });
           $(".directions-box").show();
           $('#directions-messages').hide();
           $('#list-direction-actions').show();
@@ -1843,6 +1862,13 @@ $(() => {
     $("#closeSearchLocation").one("click", ()=>{
       exitLocationSearchMode();
     }); 
+
+    $('#bottomSheet-addPlace').on('click', ()=>{
+      exitLocationSearchMode();
+      $('#addPlace').trigger('click');
+    });
+
+
     $('#show-directions').one('click',()=>{
       let LatestPos = BDB.Geolocation.getLastestLocation();
       if (!LatestPos){
@@ -1861,38 +1887,7 @@ $(() => {
       
     });
 
-    $('#directions-share-btn').on('click',function(){
-      swal({
-        showConfirmButton: false,
-        showCloseButton: true,
-        title: 'Partilhe tua rota',
-        html: 
-          `
-            <div style="text-align: center; font-size: 30px;">
-              <p>
-                <a class="" target="_blank" rel="noopener" href="https://www.facebook.com/mubi.pt/">
-                  <img alt="" class="svg-icon" src="/img/icon_social_facebook.svg"/>
-                </a>
-
-                <a class="" target="_blank" rel="noopener" href="https://github.com/bikedeboa">
-                  <img alt="" class="svg-icon" src="/img/icon_social_github.svg"/>
-                </a>
-
-                <a href="mailto:local@mubi.pt">
-                  <img alt="" class="svg-icon" src="/img/icon_mail.svg"/>
-                </a>
-              </p>
-            </div> 
-
-            <hr>
-
-            <h2 class="swal2-title" id="swal2-title">Feedback</h2>
-            <div style="text-align: center;">
-              Queremos a tua opinião! <a class="external-link" target="_blank" rel="noopener" href="https://forms.gle/snXyzNADYMC4TnPR7">Responde ao nosso questionário</a>, dura menos de 5 minutos.
-            </div>
-          `,
-        });
-      });
+    
      
     $('#more-directions').on('click',function(){
       $(this).addClass('hide');
@@ -2451,7 +2446,6 @@ $(() => {
         addNewPlace();
       }
     }));
-
 
     /////////////////////
     // Modal callbacks //
