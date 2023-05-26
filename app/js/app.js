@@ -1823,6 +1823,14 @@ $(() => {
               });
               return false;
           });
+          $('#directions-share-btn').one('click', async ()=>{
+            try {
+              await navigator.share({ title: "Example Page", url: "" });
+              console.log("Data was shared successfully");
+            } catch (err) {
+              console.error("Share failed:", err.message);
+            }
+          });
           $(".directions-box").show();
           $('#directions-messages').hide();
           $('#list-direction-actions').show();
