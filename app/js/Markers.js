@@ -171,7 +171,8 @@ BDB.Markers = (function(){
 				            m.originalZIndex = newMarker.getZIndex();
 				            newMarker.setZIndex(9999);
 
-				            BDB.Map.showDirectionsToPlace(newMarker.position);
+							//console.log(newMarker);
+				            //BDB.Map.showDirectionsToPlace(newMarker.position);
 
 				            $('body').append(`<div class="infoBox"> ${contentString} </div>`);
 				            // $('.map-action-buttons').addClass('move-up');
@@ -187,7 +188,7 @@ BDB.Markers = (function(){
 				              this.remove();
 				              // $('.map-action-buttons').removeClass('move-up');
 
-				              BDB.Map.removeDirections();
+				              //BDB.Map.removeDirections();
 
 				              newMarker.setIcon(m.icon);
 				              newMarker.setZIndex(m.originalZIndex);
