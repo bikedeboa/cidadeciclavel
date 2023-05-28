@@ -6249,6 +6249,7 @@ a[data-featherlight] {
   .filter-list-item{
     width: 100px;
     height: 150px !important;
+    margin-bottom: 30px !important;
   }
   #label_bikelane{
     background-image: url(/img/filter_lane.png);
@@ -6263,6 +6264,7 @@ a[data-featherlight] {
   #label_request{
     background-image: url(/img/filter_request.png);
   }
+  
   .filter-label{
     background-size: 100px;
     display: block;
@@ -6271,9 +6273,14 @@ a[data-featherlight] {
     text-align: center;
     background-position-x: center;
     background-position-y: 10px;
-    width: 120px;
+    width: 130px;
+    border-radius: 10px;
 
     &:hover {
       background-color: $lightestGray;
     }
+  }
+  .filter-checkbox:checked + .filter-label{
+    background-color: $lightestGray;
+    border: 1px solid $lightGrey;
   }
