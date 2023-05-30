@@ -6275,6 +6275,7 @@ a[data-featherlight] {
     background-position-y: 10px;
     width: 130px;
     border-radius: 10px;
+    box-sizing: border-box;
 
     &:hover {
       background-color: $lightestGray;

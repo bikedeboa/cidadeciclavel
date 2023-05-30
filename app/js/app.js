@@ -1794,7 +1794,6 @@ $(() => {
       $(".direction-msg").hide();
       $('#direction-msg-origin').show();
       $('#directions-messages').show();
-
     }else{
       BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
 
@@ -2072,6 +2071,7 @@ $(() => {
       BDB.Map.updateMarkers();
 
       BDB.Map.showBikeLayer();
+      updateFilters();
     });
 
     $(document).on('ogautocomplete:done', function (e) {
@@ -3420,7 +3420,7 @@ $(() => {
     // Retrieve places saved in a past access
     places = BDB.getMarkersFromLocalStorage();
     BDB.Map.updateMarkers();
-    
+
     if (places && places.length) {
       console.debug(`Retrieved ${places.length} locations from LocalStorage.`);
       //hideSpinner();
@@ -3583,6 +3583,7 @@ $(() => {
       );
     //} else {
       $('body').append(BDB.templates.filterMenu());
+      
 
       $('#clear-filters-btn').on('click', () => {
         $('.filter-checkbox:checked').prop('checked', false);
