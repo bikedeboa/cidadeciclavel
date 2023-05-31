@@ -682,6 +682,18 @@ $(() => {
     });
     
     const resultsCount = applyFilters(filters);
+    
+    let isCluster = filters.find(filter => {
+      return filter.value === "rack" || filter.value === "biciparque" 
+    })
+    console.log(isCluster);
+
+    if (isCluster){
+      BDB.Markers.clusterMap();
+    }else{
+      BDB.Markers.unclusterMap();
+    }
+
     if (filters.length > 0) {
       $('#filter-results-counter').html(resultsCount);
       $('#active-filters-counter').html(filters.length);
@@ -740,7 +752,6 @@ $(() => {
 
             switch (f.prop) {
             default:
-              console.log(f.value);
               if (f.value === "biciparque"){
                 testResult = m['classification'] === f.value;
               }else{
@@ -2071,7 +2082,6 @@ $(() => {
       BDB.Map.updateMarkers();
 
       BDB.Map.showBikeLayer();
-      updateFilters();
     });
 
     $(document).on('ogautocomplete:done', function (e) {
@@ -2170,6 +2180,8 @@ $(() => {
         $('#filter-results-total').html(places.length);
 
         BDB.Map.updateMarkers();
+        updateFilters();
+
 
         // Hide spinner that is initialized visible on CSS
         // hideSpinner();

@@ -244,17 +244,20 @@ BDB.Markers = (function(){
 			}
 		},
 		unclusterMap: function(){
-			if (markerClusterer)
+			console.log("uncluster", markerClusterer);
+			if (markerClusterer){
 				markerClusterer.clearMarkers();
+			}
+			console.log(markerClusterer);
 			gmarkers.forEach(marker =>{
 				marker.setOptions({map:map, visible: true});
 			});
 		},
 		clusterMap: function(){
-			gmarkers.forEach(marker =>{
-				//marker.setOptions({map:null, visible: false});
-			});
-			markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions);
+			if (markerClusterer && markerClusterer.markers_.length === 0) {
+				markerClusterer.addMarkers(gmarkers);
+			}
+			//markerClusterer = new MarkerClusterer(map, gmarkers, clustererOptions);
 		},
 		clearMarkers: function(){
 			// setMapOnAll(null);
