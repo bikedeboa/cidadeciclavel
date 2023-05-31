@@ -686,7 +686,6 @@ $(() => {
     let isCluster = filters.find(filter => {
       return filter.value === "rack" || filter.value === "biciparque" 
     })
-    console.log(isCluster);
 
     if (isCluster){
       BDB.Markers.clusterMap();

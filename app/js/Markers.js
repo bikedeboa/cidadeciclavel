@@ -244,11 +244,9 @@ BDB.Markers = (function(){
 			}
 		},
 		unclusterMap: function(){
-			console.log("uncluster", markerClusterer);
 			if (markerClusterer){
 				markerClusterer.clearMarkers();
 			}
-			console.log(markerClusterer);
 			gmarkers.forEach(marker =>{
 				marker.setOptions({map:map, visible: true});
 			});
