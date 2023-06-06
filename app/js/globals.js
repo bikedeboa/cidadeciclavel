@@ -31,7 +31,7 @@ const DEFAULT_COORDS = CAPITALS[BDB_COUNTRYCODE];
 
 const N_MOCK_PICS = 14;
 
-const MAX_ZOOM_TO_SHOW_PINS = 15;
+const MAX_ZOOM_TO_SHOW_PINS = 17;
 
 const MARKER_SIZE_MULTIPLIER = 1;
 
@@ -49,8 +49,8 @@ const MARKER_ICON_RACK_MINI = '/img/pin_parque_mini.png';
 const MARKER_ICON_REQUEST_MINI = '/img/pin_pedido_mini.png';
 const MARKER_ICON_BIKEPARK = '/img/pin_biciparque.png';
 const MARKER_ICON_BIKEPARK_MINI = '/img/pin_biciparque_mini.png';
-const MARKER_ICON_HOTSPOT = '/img/pin_hotspot.png';
-const MARKER_ICON_HOTSPOT_MINI = '/img/pin_hotspot_mini.png';
+const MARKER_ICON_HOTSPOT = MARKER_ICON_RACK;
+const MARKER_ICON_HOTSPOT_MINI = MARKER_ICON_RACK_MINI;
 
 
 const PHOTO_UPLOAD_MAX_W = 1000;

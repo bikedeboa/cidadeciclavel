@@ -46,7 +46,7 @@
             </button>
 
             <button class="btn go-to-poa"> 
-              Ver Lisboa
+              Ver Portugal
             </button>
 
             <button class="btn go-to-bdb"> 
@@ -56,9 +56,13 @@
         </div>
 
         <div class="map-action-buttons">
-          <button id="filterBtn" type="button" title="Filtrar bicicletários" class="caption-tooltip">
-              <img alt="" src="/img/icon_filter.svg" class="icon"/>
-              Filtrar
+          <button id="mmapBtn" type="button" title="Mais Mulheres a Pedalar" class="caption-tooltip">
+              <img alt="" src="/img/icon_mmap.svg" class="icon"/>
+              + MAP
+          </button>
+          <button id="filterBtn" type="button" title="Filtrar por camadas" class="caption-tooltip">
+              <img alt="" src="/img/icon_layers.svg" class="icon"/>
+              Camadas
               <span id="active-filters-counter" class="badge"></span>
           </button>
   
@@ -82,7 +86,6 @@
                 Mapa
               </a>
             </li>
-
             <!-- Sobre dropdown nav menu -->
             <li class="navbar-de-boa--item dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -211,16 +214,21 @@
         </h1>
 
         <div id="locationSearch" class="cool-hide">
-          <div id="search-overlay">
-            <div id="searchOverlayContentPlaceholder"></div>
-          </div>
-
-          <input id="locationQueryInput" type="search" class="data-hj-whitelist">
+          
+          <input id="geolocationQuery" type="search" placeholder="Escolha um ponto de partida"  class="data-hj-whitelist search-fields">
+          <input id="locationQueryInput" type="search" placeholder="Escolha um ponto de partida" class="data-hj-whitelist search-fields">
 
           <button id="clearLocationQueryBtn">
             <img alt="" class="search-icon" src="/img/icon_search.svg">
             <span class="clear-icon">✕</span>
           </button>
+          <button id="closeSearchLocation">
+            x
+          </button> 
+
+          <div id="search-overlay">
+            <div id="searchOverlayContentPlaceholder"></div>
+          </div>
         </div>
 
         <div id="userBtn" class="cool-hide">

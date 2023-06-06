@@ -7,6 +7,10 @@ $(() => {
   let zoom = 15;
   let getGeolocation = true;
 
+
+  let origin = null;
+  let destination = null; 
+
   function openShareDialog() {
     const shareUrl = window.location.origin + BDB.Places.getMarkerShareUrl(openedMarker);
     //const shareUrl = 'https://www.bikedeboa.com.br' + BDB.Places.getMarkerShareUrl(openedMarker);
@@ -678,6 +682,17 @@ $(() => {
     });
     
     const resultsCount = applyFilters(filters);
+    
+    let isCluster = filters.find(filter => {
+      return filter.value === "rack" || filter.value === "biciparque" 
+    })
+
+    if (isCluster){
+      BDB.Markers.clusterMap();
+    }else{
+      BDB.Markers.unclusterMap();
+    }
+
     if (filters.length > 0) {
       $('#filter-results-counter').html(resultsCount);
       $('#active-filters-counter').html(filters.length);
@@ -701,15 +716,25 @@ $(() => {
   function applyFilters(filters = []) {
     let cont = 0;
 
-    const isPublicFilters = filters.filter(i => i.prop === 'isPublic');
+    /*const isPublicFilters = filters.filter(i => i.prop === 'isPublic');
     const isCoveredFilters = filters.filter(i => i.prop === 'isCovered');
     const ratingFilters = filters.filter(i => i.prop === 'rating');
     const structureFilters = filters.filter(i => i.prop === 'structureType');
     const photoFilters = filters.filter(i => i.prop === 'hasPhoto');
-    const type = filters.filter(i => i.prop === 'type');
     const classification = filters.filter(i => i.prop === 'classification');
     const categories = [isPublicFilters, isCoveredFilters, ratingFilters, structureFilters, photoFilters, type, classification];
-
+    */
+    const type = filters.filter(i => i.prop === 'type');
+    const bikelane = type.find( i=> i.value === "bikelane");
+    const classification = filters.filter(i => i.prop === 'classification');
+    const categories = [type];
+    
+    if (!bikelane && type.length > 0){
+      BDB.Map.hideBikeLayer();
+    }else{
+      BDB.Map.showBikeLayer();
+    }
+    
     for(let i=0; i < places.length; i++) {
       const m = places[i]; 
       let showIt = true;
@@ -719,36 +744,20 @@ $(() => {
         let catResult = false;
         
         if (categories[cat].length) {
+
           for(let f_index=0; f_index < categories[cat].length && showIt; f_index++) {
             const f = categories[cat][f_index];
             let testResult;
 
             switch (f.prop) {
-            case 'hasPhoto':
-              if (f.value === 'with') {
-                testResult = !!m.photo;
-              } else {
-                testResult = !m.photo;
-              }
-              break;
-            case 'rating':
-              switch (f.value) {
-              case 'good':
-                testResult = m.average >= 3.5;
-                break;
-              case 'medium':
-                testResult = m.average > 2 && m.average < 3.5;
-                break;
-              case 'bad':
-                testResult = m.average > 0 && m.average <= 2;
-                break;
-              case 'none':
-                testResult = m.average === null;
-                break;
-              }
-              break;
             default:
-              testResult = m[f.prop] === f.value;
+              if (f.value === "biciparque"){
+                testResult = m['classification'] === f.value;
+              }else{
+                testResult = m[f.prop] === f.value;
+              }
+
+              
               break;
             }
             
@@ -763,9 +772,9 @@ $(() => {
 
       // places[i].setMap(showIt ? map : null);
       if (places[i].gmarker) {
-        places[i].gmarker.setIcon(showIt ? m.icon : m.iconMini);
+        //places[i].gmarker.setIcon(showIt ? m.icon : m.iconMini);
         places[i].gmarker.setZIndex(showIt ? 2 : 1);
-        places[i].gmarker.setOptions({clickable: showIt, opacity: (showIt ? 1 : 0.3)});
+        places[i].gmarker.setOptions({clickable: showIt, opacity: (showIt ? 1 : 0)});
         places[i].gmarker.collapsed = !showIt; 
       } else {
         console.error('ERROR: Place has no gmarker');
@@ -1513,6 +1522,9 @@ $(() => {
   }
 
   function toggleClearLocationBtn(stateStr) {
+    if (! _isMobile){
+      return false; 
+    }
     if (stateStr === 'show') {
       $('#clearLocationQueryBtn').addClass('clear-mode');
     } else if (stateStr === 'hide') {
@@ -1738,15 +1750,12 @@ $(() => {
       const $target = $(e.currentTarget);
       const id = parseInt($target.data('recentsearchid'));
       const item = getRecentSearches()[id];
+      item.location = item.pos;
+      
+      $('#locationQueryInput').val(item.name);
 
-      map.panTo(item.pos);
-      if (item.viewport) {
-        map.fitBounds(item.viewport);
-      } else {
-        map.setZoom(17);  // Why 17? Because it looks good.
-      }
-
-      exitLocationSearchMode();
+      showSearchResults(item);
+      //exitLocationSearchMode();
     });
 
     $('.openTopCitiesModal').off('click').on('click', e => {
@@ -1769,6 +1778,7 @@ $(() => {
     $('#search-overlay h2, #search-overlay li').velocity('transition.slideUpIn', { stagger: STAGGER_FAST, duration: 500 }); 
     $('.hamburger-button').addClass('back-mode');
     $('.hamburger-button').addClass('back-icon');
+    $('.hamburger-button').addClass('exit-search');
     
     // Automatically focus the text search input
     setTimeout(() => {
@@ -1779,14 +1789,191 @@ $(() => {
       exitLocationSearchMode();
     });
   }
+  function showDirectionsResults(origin,place){
+    
+    $('#locationSearch').addClass('directions');
+    $('#geolocationQuery').show();
+    $(".action-box").hide();
+    $('body').addClass("directions");
+    $("#bottomsheet-rotas").addClass("list-directions-active");
+    $("#map").addClass("directions-active");
+    $(".directions-box").show();
 
-  function exitLocationSearchMode() {
+
+    if(!origin || !origin.pos){
+      $(".direction-msg").hide();
+      $('#direction-msg-origin').show();
+      $('#directions-messages').show();
+    }else{
+      BDB.Map.showDirectionsToPlace(origin, place, document.getElementById("list-directions"));
+
+      $(document).one('directions:done', (result)=>{
+        if (result.detail){
+          BDB.Map.clearSearchResult()   
+          BDB.Map.hideMarkers();
+          BDB.Markers.unclusterMap();
+          setView('Rota', `/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}`);
+          $('#directions-forum-btn').on('click',function(){
+            swal({
+              showConfirmButton: false,
+              showCloseButton: true,
+              title: 'Partilhe tua rota',
+              html: 
+                `
+                  <div>
+                    <p>
+                    Peça ajuda no fórum da MUBi sobre a sua rota. Ao aceder ao link "Fórum MUBi", se possuir uma conta, as informações sobre a sua rota já vão estar preenchidas, complete apenas com o que achar necessário.
+                    </p>
+                    <p>
+                    <a href="https://forum.mubi.pt/new-topic?body=https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum MUBI</a>
+                    </p>
+                  </div> 
+                `,
+              });
+              return false;
+          });
+          $('#directions-share-btn').one('click', async ()=>{
+            try {
+              await navigator.share({ title: "Cidade Ciclável : Rota", url: `https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}` });
+              console.log("Data was shared successfully");
+            } catch (err) {
+              console.error("Share failed:", err.message);
+            }
+          });
+          $(".directions-box").show();
+          $('#directions-messages').hide();
+          $('#list-direction-actions').show();
+        }else{
+          $('#list-direction-actions').hide();
+          $(".direction-msg").hide();
+          $("#direction-msg-error").show();
+          $('#directions-messages').show();
+        }
+      });
+    }
+  }
+  function showSearchResults(place){
+    let searchBox = false;
+    if (! _isMobile){
+      searchBox = $("#locationSearch").detach();
+    }
+    
+    $('#bottomsheet-rotas').remove();
+    BDB.Map.searchResults(place, true);
+
+    destination = place;
+
+    
+    $('#search-overlay').removeClass('showThis');
+    $(".map-action-buttons").addClass('hide');
+    //ativar bottomsheet de resultados da busca 
+    
+
+    $('body').append(BDB.templates.bottomSheetSearch());
+    if (! _isMobile && searchBox){  
+      searchBox.prependTo("#bottomsheet-rotas");
+    }
+
+    setView('Busca', `/s/${place.pos.lat},${place.pos.lng}`);
+
+    $("#closeSearchLocation").one("click", ()=>{
+      exitLocationSearchMode();
+    }); 
+
+    $('#bottomSheet-addPlace').on('click', ()=>{
+      exitLocationSearchMode();
+      $('#addPlace').trigger('click');
+    });
+
+
+    $('#show-directions').one('click',()=>{
+      let LatestPos = BDB.Geolocation.getLastestLocation();
+      if (!LatestPos){
+        showDirectionsResults(null, place);
+      }else{
+        let origin = {
+          pos:{
+            lat: LatestPos.latitude,
+            lng: LatestPos.longitude
+          }
+        }
+        showDirectionsResults(origin, place);
+
+        
+      }
+      
+    });
+
+    
+     
+    $('#more-directions').on('click',function(){
+      $(this).addClass('hide');
+      $("#less-directions").removeClass('hide');
+      $(".adp-directions").show();
+      $("#bottomsheet-rotas").addClass("list-directions-active");
+      $("#map").addClass("directions-active");
+      $('body').addClass("directions")
+    });
+    $('#less-directions').on('click',function(){
+      $(this).addClass('hide');
+      $('#locationSearch').removeClass('directions');
+      $('#geolocationQuery').hide();
+      $("#more-directions").removeClass('hide');
+      $(".adp-directions").hide();
+      $("#bottomsheet-rotas").removeClass("list-directions-active");
+      $("#map").removeClass("directions-active");
+      $('body').removeClass("directions")
+    });
+  }
+
+  function exitSearchResults(){
+    $('#search-overlay').removeClass('showThis');
+  }
+  function exitDirectionsMode(){
+    BDB.Map.removeDirections();
+    BDB.Markers.clusterMap();
+    $('#geolocationQuery').hide();
+    $('body').removeClass("directions");
+    $("#map").removeClass("directions-active");
+    $('#locationSearch').removeClass('directions');
+    $('#geolocationQuery').val("");
+    $('.directions-box').hide();
+  }
+  function exitSearchSuggestions(){
     $('body').removeClass('search-mode');
     $('#search-overlay').removeClass('showThis');
     $('.hamburger-button.back-mode').off('click.exitLocationSearch');
     $('.hamburger-button').removeClass('back-mode'); 
     $('.hamburger-button').removeClass('back-icon'); 
   }
+  function exitLocationSearchMode() {
+    BDB.Map.clearSearchResult();
+    BDB.Map.showMarkers();
+
+    if (! _isMobile){
+      let searchBox = $("#locationSearch").detach();
+      $('#logo').after(searchBox);
+    }
+
+    
+    $(".map-action-buttons").removeClass('hide');
+
+    $('body').removeClass('search-mode');
+    $('#bottomsheet-rotas').remove();
+    $('#search-overlay').removeClass('showThis');
+    $('.hamburger-button.back-mode').off('click.exitLocationSearch');
+    $('.hamburger-button').removeClass('back-mode'); 
+    $('.hamburger-button').removeClass('back-icon'); 
+    $('#locationQueryInput').val('');
+    toggleClearLocationBtn('hide');
+
+    if ($('#locationSearch').hasClass('directions')){
+      exitDirectionsMode();
+    }
+    setView('Cidade Ciclável', "/");
+    
+  }
+  
 
   function updatePageTitleAndMetatags(text = 'Cidade Ciclável') {
     // Header that imitates native mobile navbar
@@ -1896,6 +2083,30 @@ $(() => {
       BDB.Map.showBikeLayer();
     });
 
+    $(document).on('ogautocomplete:done', function (e) {
+      let place = e.detail;
+
+      addToRecentSearches({
+        name: place.name,
+        pos: place.geometry.location,
+        viewport: place.geometry.viewport
+      }); 
+
+      if (origin){
+        BDB.Map.removeDirections();
+      }
+      
+
+      origin = {
+        pos: {
+          lat: parseFloat(place.geometry.location.lat()),
+          lng: parseFloat(place.geometry.location.lng())
+        }
+      }
+      showDirectionsResults(origin,destination);
+
+    });
+
     $(document).on('autocomplete:done', function (e) {
       let place = e.detail;
 
@@ -1903,12 +2114,58 @@ $(() => {
         name: place.name,
         pos: place.geometry.location,
         viewport: place.geometry.viewport
-      });
+      }); 
 
-      exitLocationSearchMode();
+      if ($('#locationSearch').hasClass('directions')){
+        BDB.Map.removeDirections();
 
-      $('#locationQueryInput').val('');
-      toggleClearLocationBtn('hide');
+       
+        if (!origin){
+          let LatestPos = BDB.Geolocation.getLastestLocation();
+          origin = {
+            pos:{
+              lat: LatestPos.latitude,
+              lng: LatestPos.longitude
+            }
+          }
+        } 
+        
+
+        destination = {
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        }
+
+        showDirectionsResults(origin,destination);
+
+      }else{
+        destination = {
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        }
+        showSearchResults({
+          name: place.name,
+          location:{
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          },
+          pos: {
+            lat: parseFloat(place.geometry.location.lat()),
+            lng: parseFloat(place.geometry.location.lng())
+          }
+        });
+
+        
+      }
+
+      
+      //exitLocationSearchMode();
+
+      
       ga('send', 'event', 'Search', 'location', place.formatted_address);
 
     });
@@ -1922,6 +2179,8 @@ $(() => {
         $('#filter-results-total').html(places.length);
 
         BDB.Map.updateMarkers();
+        updateFilters();
+
 
         // Hide spinner that is initialized visible on CSS
         // hideSpinner();
@@ -1956,7 +2215,7 @@ $(() => {
     $('#logo').on('click', () => {
       goHome();
     });
-
+    
     $('.hamburger-button').on('click', e => {
       const $target = $(e.currentTarget);
       if ($target.hasClass('back-mode')) { 
@@ -1971,6 +2230,28 @@ $(() => {
       // Menu open is already triggered inside the menu component.
       ga('send', 'event', 'Filter', 'filter menu opened');
       setView('', '/filtros'); 
+    }));
+    $('#mmapBtn').on('click', queueUiCallback.bind(this, () => {
+      // Menu open is already triggered inside the menu component.
+      ga('send', 'event', 'mmap', 'mmap button clicked');
+      setView('', '/mais-mulheres-a-pedalar'); 
+    }));
+    
+    $('#legendaBtn').on('click', queueUiCallback.bind(this, () => {
+      // Menu open is already triggered inside the menu component.
+      ga('send', 'event', 'legenda', 'legenda button clicked');
+
+      let toogle = $("#legenda").attr('class');
+      if (toogle === "hide"){
+        $("#legenda").removeClass("hide");
+        $("#legendaBtn > .icon ").hide();
+        $("#legendaBtn").addClass("large");
+      }else{
+        $("#legenda").addClass("hide");
+        $("#legendaBtn > .icon ").show();
+        $("#legendaBtn").removeClass("large");
+      }
+      
     }));
 
     // $('#show-bike-layer').on('change', e => {
@@ -2185,7 +2466,6 @@ $(() => {
       }
     }));
 
-
     /////////////////////
     // Modal callbacks //
     /////////////////////
@@ -2294,13 +2574,14 @@ $(() => {
     if (!_isMobile) {
       // Hide our panel if the user clicked anywhere outside
       $('#locationQueryInput').on('blur', e => { 
-        exitLocationSearchMode();
+        exitSearchSuggestions();
       });
        
       // Hide our panel if the Google Autocomplete panel is opened
       $('#locationQueryInput').on('input change paste', e => {
+        // todo: Fix this
         if ($('#locationQueryInput').val().length > 0) {
-          exitLocationSearchMode(); 
+          exitSearchSuggestions(); 
         } else { 
           enterLocationSearchMode();
         }
@@ -2314,7 +2595,9 @@ $(() => {
     $('#clearLocationQueryBtn').on('click', queueUiCallback.bind(this, () => {
       $('#locationQueryInput').val('');
       toggleClearLocationBtn('hide');
-      // _searchResultMarker.setVisible(false);
+      if (! _isMobile){
+        exitLocationSearchMode();
+      }
     }));
   }
 
@@ -2547,6 +2830,29 @@ $(() => {
     });
   } 
 
+  function openMMAP(){
+    console.log('mmap');
+    if ($('#mmapModal').length === 0) {
+      $('body').append(BDB.templates.maisMulheresModal());
+    }
+
+    $('#mmapModal').modal('show');
+  }
+  function openBuddyApply(){
+    if ($('#buddyapply').length === 0) {
+      $('body').append(BDB.templates.buddyApplyForm());
+    }
+
+    $('#buddyapply').modal('show');
+  }
+  function openBuddyRequest(){
+    if ($('#buddyrequest').length === 0) {
+      $('body').append(BDB.templates.buddyRequestForm());
+    }
+
+    $('#buddyrequest').modal('show');
+  }
+
   function openGuideTagsModal() {
     if ($('#guideTagsModal').length === 0) {
       $('body').append(BDB.templates.guideTagsModal());
@@ -2742,6 +3048,101 @@ $(() => {
         }
       }
       break;
+    case 's':
+      if (!map && !_isOffline) {
+        let location = urlBreakdown[2].split(',');
+        let place = {
+          pos: {
+            lat: parseFloat(location[0]),
+            lng: parseFloat(location[1])
+          },
+          location: {
+            lat: parseFloat(location[0]),
+            lng: parseFloat(location[1])
+          },
+          coords: {
+            latitude: parseFloat(location[0]),
+            longitude: parseFloat(location[1])
+          }
+        }
+        start_coords = place.coords;
+        getGeolocation = false;
+        $('body').addClass('search-mode');  
+        $('.hamburger-button').addClass('back-mode');
+        $('.hamburger-button').addClass('back-icon');
+        $('.hamburger-button').addClass('exit-search');
+        $('#locationQueryInput').val(urlBreakdown[2]);
+        $(document).one('map:ready', ()=>{
+          //BDB.Map.searchResults(place, true);
+          destination = place;
+          showSearchResults(place);
+          $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
+            exitLocationSearchMode();
+          });
+        });
+        $(document).trigger('LoadMap');
+      }
+      
+      break;
+    case 'd':
+      if (!map && !_isOffline) {
+        let location = urlBreakdown[2].split(',');
+        let directionLocations = {
+          origin: {
+            pos: {
+              lat: parseFloat(location[0]),
+              lng: parseFloat(location[1])
+            },
+            location: {
+              lat: parseFloat(location[0]),
+              lng: parseFloat(location[1])
+            },
+            coords: {
+              latitude: parseFloat(location[0]),
+              longitude: parseFloat(location[1])
+            }
+          },
+          destination: {
+            pos: {
+              lat: parseFloat(location[2]),
+              lng: parseFloat(location[3])
+            },
+            location: {
+              lat: parseFloat(location[2]),
+              lng: parseFloat(location[3])
+            },
+            coords: {
+              latitude: parseFloat(location[2]),
+              longitude: parseFloat(location[3])
+            }
+          }
+        }
+        
+        start_coords = directionLocations.origin.coords;
+        getGeolocation = false;
+        $('body').addClass('search-mode');  
+        $('.hamburger-button').addClass('back-mode');
+        $('.hamburger-button').addClass('back-icon');
+        $('.hamburger-button').addClass('exit-search');
+        $('#geolocationQuery').val(`${directionLocations.origin.pos.lat},${directionLocations.origin.pos.lng}`);
+        $('#locationQueryInput').val(`${directionLocations.destination.pos.lat},${directionLocations.destination.pos.lng}`);
+
+        $(document).one('map:ready', ()=>{
+          origin = directionLocations.origin;
+          destination = directionLocations.destination;
+        
+          //BDB.Map.searchResults(directionLocations.origin, true);
+          showSearchResults(directionLocations.origin);
+          showDirectionsResults(directionLocations.origin,directionLocations.destination);
+          $('.hamburger-button.back-mode').one('click.exitLocationSearch', () => {
+            exitLocationSearchMode();
+            
+          });
+        });
+        $(document).trigger('LoadMap');
+      }
+      
+      break;
     case 'faq':
       openFaqModal();
       break;
@@ -2768,6 +3169,27 @@ $(() => {
         $('body').addClass('deeplink');
       }
       openAboutModal();
+      break;
+    case 'mais-mulheres-a-pedalar':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openMMAP();
+      break;
+    case 'quero-ser-bike-buddy':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openBuddyApply();
+      break;
+    case 'preciso-de-bike-buddy':
+      if (isInitialRouting) {
+        _isDeeplink = true;
+        $('body').addClass('deeplink');
+      }
+      openBuddyRequest();
       break;
     case 'sobre-nossos-dados':
       openDataModal();
@@ -3009,7 +3431,7 @@ $(() => {
     // Retrieve places saved in a past access
     places = BDB.getMarkersFromLocalStorage();
     BDB.Map.updateMarkers();
-    
+
     if (places && places.length) {
       console.debug(`Retrieved ${places.length} locations from LocalStorage.`);
       //hideSpinner();
@@ -3161,7 +3583,7 @@ $(() => {
     };
 
     // Delay loading of those to optimize startup
-    if (_isMobile) {
+   // if (_isMobile) {
       $('body').append(BDB.templates.hamburgerMenu());
 
       _hamburgerMenu = new SideNav(
@@ -3170,8 +3592,9 @@ $(() => {
           hideCallback: sidenavHideCallback
         }
       );
-    } else {
+    //} else {
       $('body').append(BDB.templates.filterMenu());
+      
 
       $('#clear-filters-btn').on('click', () => {
         $('.filter-checkbox:checked').prop('checked', false);
@@ -3198,7 +3621,7 @@ $(() => {
           /*fixed: true*/
         }
       );
-    }
+    //}
  
     initGlobalCallbacks();
     initNavCallbacks();
@@ -3281,10 +3704,6 @@ $(() => {
       // }
 
       BDB.User.init();       
-
-      if (!_isDeeplink && !BDB.Session.hasUserSeenWelcomeMessage()) {
-        openWelcomeMessage();
-      }
     };
 
     // Set up SweetAlert, the alert window lib

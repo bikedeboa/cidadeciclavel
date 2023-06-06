@@ -19,6 +19,8 @@ BDB.Map = (function () {
   let placesService;
   let infoWindow;
   let gmarkers;
+  let searchMarker;
+
 
   const BoundingBoxArray = [
     //continente
@@ -121,7 +123,7 @@ BDB.Map = (function () {
 
     placesService = new google.maps.places.PlacesService(map);
 
-    setupDirections();
+   
     setupAutocomplete();
     
     // Defer initializations not needed in startup
@@ -289,28 +291,34 @@ BDB.Map = (function () {
     });
   };
 
-  let setupDirections = function () {
+  let setupDirections = function (panel) {
     directionsRenderer = new google.maps.DirectionsRenderer({
       map: map,
-      hideRouteList: true,
+      panel,
+      hideRouteList: false,
       draggable: false,
-      preserveViewport: true,
-      suppressMarkers: true,
-      suppressBicyclingLayer: true,
+      preserveViewport: false,
+      suppressMarkers: false,
+      suppressBicyclingLayer: false,
       suppressInfoWindows: true,
       polylineOptions: {
         clickable: false,
-        strokeColor: '#533FB4', // purple
-        strokeOpacity: 0,
-        fillOpacity: 0,
+        strokeColor: '#98344c', // purple
+        panel,
+        strokeOpacity: 0.5,
+        fillOpacity: 1,
+        strokeWeight: 10,
         icons: [{
           icon: {
-            path: google.maps.SymbolPath.CIRCLE,
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             fillOpacity: 1,
-            scale: 2
+            scale: 1,
+            fillColor: '#FFF',
+            strokeWeight: 0
+
           },
-          offset: '0',
-          repeat: '10px'
+          offset: 0,
+          repeat: '30px'
         }]
       }
     });
@@ -319,6 +327,8 @@ BDB.Map = (function () {
 
   let setupAutocomplete = function () {
     const inputElem = document.getElementById('locationQueryInput');
+    const originElem = document.getElementById('geolocationQuery');
+    
     // Limits the search to the our bounding box
     const options = {
       componentRestrictions : {
@@ -326,7 +336,11 @@ BDB.Map = (function () {
       },
       strictBounds: true
     };
+    
     let autocomplete = new google.maps.places.Autocomplete(inputElem, options);
+    let ogautocomplete = new google.maps.places.Autocomplete(originElem, options);
+
+
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
@@ -335,35 +349,58 @@ BDB.Map = (function () {
         return;
       }
 
-      map.panTo(place.geometry.location);
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setZoom(17);  // Why 17? Because it looks good.
-      }
+      mapCenteredTo(place.geometry,true);
 
       let event = new CustomEvent('autocomplete:done', { detail: place });
       document.dispatchEvent(event);
 
     });
+
+    ogautocomplete.addListener('place_changed', () => {
+      const place = ogautocomplete.getPlace();
+      if (!place.geometry) {
+        console.error('Autocomplete\'s returned place contains no geometry');
+        return;
+      }
+
+      mapCenteredTo(place.geometry,true);
+
+      let event = new CustomEvent('ogautocomplete:done', { detail: place });
+      document.dispatchEvent(event);
+
+    });
+
   };
+
+  let mapCenteredTo = function(place,pin){
+    map.panTo(place.location);
+    if (pin){
+      if (searchMarker){
+        searchMarker.setMap(null);
+      }
+      searchMarker = new google.maps.Marker({
+        position: place.location,
+        map: map,
+      });
+    }    
+    if (place.viewport) {
+      map.fitBounds(place.viewport);
+    } else {
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+  }
+
   let setupBikeLayer = function () {
     if (!bikeLayer) {
+      
       // Google Maps Bike Layer (sucks)
       bikeLayer = new google.maps.BicyclingLayer();
        
       // Custom, locally loaded GeoJSONs
-      // map.data.map = null;  
-      
-      map.data.setStyle({  
-        // strokeColor: '#cde9c8', //super light green
-        // strokeColor: '#00b800', // dark green
-        strokeColor: '#2cd978', // light green
-        strokeWeight: 2,
-        strokeOpacity: 1, 
-        clickable: false
-      });
+      map.data.loadGeoJson('/geojson/cyclelane.lisbon.geojson'); 
+
     }
+      
   };
   let setMarkersIcon = function(scale) {
     if (places) {
@@ -421,14 +458,9 @@ BDB.Map = (function () {
       return new Promise(function (resolve, reject) {
         searchAdress(address) 
           .then( result => {
-            map.panTo(result.geometry.location); 
-            
-            if (result.geometry.viewport) {
-              map.fitBounds(result.geometry.viewport);
-            } else { 
-              map.setZoom(17);  // Why 17? Because it looks good.
-            }
-            
+
+            mapCenteredTo(result.geometry, false);
+
             resolve();
           })
           .catch(reject);
@@ -448,6 +480,13 @@ BDB.Map = (function () {
       
       if (bikeLayer) {
         bikeLayer.setMap(map);
+        map.data.setStyle({  
+          visible: true,
+          strokeColor: '#007C4A', // dark green
+          strokeWeight: 4,
+          strokeOpacity: 1, 
+          clickable: false
+        });
       }
     },
     hideBikeLayer: function () {
@@ -456,7 +495,13 @@ BDB.Map = (function () {
         bikeLayer.setMap(null);
       }
 
-      map.data.setMap(null);
+      map.data.setStyle({
+        visible:false,
+        strokeColor: '#007C4A', // dark green
+        strokeWeight: 2,
+        strokeOpacity: 1, 
+        clickable: false
+      });
     },
     checkBounds: function () {
       if (map) {
@@ -680,35 +725,41 @@ BDB.Map = (function () {
       const nearest = BDB.Map.getListOfPlaces('nearest', 1)[0];
       this.showDirectionsToPlace({ lat: parseFloat(nearest.lat), lng: parseFloat(nearest.lng) });
     },
-    showDirectionsToPlace: function(destGPos, forceLongDistance = false) {
+    showDirectionsToPlace: function(og, dt, panel, forceLongDistance = false) {
+      //console.log(origin,destiny);
       // const travelMode = 'WALKING';
       const travelMode = 'BICYCLING'; 
 
-      const currentPos = BDB.Geolocation.getCurrentPosition();
-      if (!currentPos) {
-        return;
-      }
-
-      const distanceKm = distanceInKmBetweenEarthCoordinates(currentPos.latitude, currentPos.longitude, destGPos.lat(), destGPos.lng());
-
-      // console.log(distanceKm); 
-
-      if (!forceLongDistance && distanceKm > MAX_KM_TO_CALCULATE_ITINERARY) {
-        console.warn('Wont calculate directions, too far away:', distanceKm);
-        return; 
-      } else {
+      // const currentPos = BDB.Geolocation.getCurrentPosition();
+      // if (!currentPos) {
+      //   return;
+      // }
+        setupDirections(panel);
         directionsService.route({ 
-          origin: { lat: currentPos.latitude, lng: currentPos.longitude },
-          destination: destGPos,
+          origin:  {lat: og.pos.lat, lng: og.pos.lng},
+          destination:  { lat: dt.pos.lat, lng: dt.pos.lng},
           travelMode: google.maps.TravelMode[travelMode]
         }, function (response, status) {
           if (status == 'OK') {
+            if (searchMarker){
+              searchMarker.setMap(null);
+            }
             directionsRenderer.setDirections(response); 
+            let event = new CustomEvent('directions:done', {detail: true});
+            document.dispatchEvent(event);
           } else {
+            //let cacheMarker = searchMarker;
+            if (searchMarker){
+              searchMarker.setMap(null);
+            }
             console.error('Directions request failed due to ' + status);
+            let event = new CustomEvent('directions:done', {detail: false});
+            document.dispatchEvent(event);
+            //searchMarker = cacheMarker;
+            searchMarker.setMap(map);
           }
         });
-      }
+      
 
     },
     removeDirections: function() {
@@ -738,8 +789,17 @@ BDB.Map = (function () {
         });
       });
     },
-    updateMarkers: function () {
-      markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback);
+    updateMarkers: function (clustered = true) {
+      markerClusterer = BDB.Markers.updateMarkers(map, mapZoomLevel, infoWindow, markerClickCallback, clustered);
+    },
+    searchResults: function (place,pin){
+      this.clearSearchResult();
+      mapCenteredTo(place,pin);
+    },
+    clearSearchResult: function(){
+      if (searchMarker){
+        searchMarker.setMap(null);
+      }
     }
   };
 })();

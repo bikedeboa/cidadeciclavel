@@ -20,6 +20,7 @@ $palePurple: #705EC7;
 $darkPurple: #3821AA; 
 $lightPurple: #705EC7;
 $lightestPurple: #9688DC;
+$mmapColor: #98344C;
 
 // Grays
 $black: #333;
@@ -362,9 +363,9 @@ p {
   width: 100%;
   height: 100%;
   position: fixed;
-  top: 0; 
+  top: 56px; 
   left: 0;
-  padding: 60px 12px;
+  padding: 10px 12px;
   transition: all 0.3s $coolEaseOut; 
 
   // Desktop-only
@@ -1023,29 +1024,33 @@ a.unstyled-link {
     right: 0;
     margin: auto;
     width: 95%;
+    background:white;
     max-width: 400px;
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px);  
+ 
     // z-index: 1;
 
     @include coolHidden;
 
     transition: transform 0.3s $coolEaseOut, opacity 0.2s ease-in-out;
     
+    #geolocationQuery{
+       display: none;
+    }
+    .search-fields{
+      width: 100%;
+      font-size: 16px;
+      padding: 0 $GRID_SPACE 0 40px;
+      height: 42px;
+      border: none;
+      // border-bottom: 3px solid $green;
+
+      &::-webkit-input-placeholder {
+        color: $lightGray;
+      }
+    }
     #locationQueryInput {
-        position: relative;
-        width: 100%;
-        font-size: 16px;
-        padding: 0 $GRID_SPACE 0 40px;
-        height: 42px;
-        @include roundedCorners;
-        @include shadow(1);
-
-        border: none;
-        // border-bottom: 3px solid $green;
-
-        &::-webkit-input-placeholder {
-          color: $lightGray;
-        }
+       
     }
 
     #clearLocationQueryBtn {
@@ -1082,10 +1087,6 @@ a.unstyled-link {
       &.clear-mode {
         pointer-events: auto; 
 
-        &:hover {
-          background: $lighterGray;
-        }
-
         .search-icon {
           opacity: 0;
           visibility: hidden;
@@ -1094,6 +1095,10 @@ a.unstyled-link {
         .clear-icon {
           opacity: 1;
           visibility: visible;
+          height: 20px;
+          position: absolute;
+          right: 10px;
+          top: 10px;  
         }
       }
     }
@@ -1101,8 +1106,8 @@ a.unstyled-link {
     // Desktop-only
     @media screen and (min-width: $MOBILE_MAX_WIDTH) {
       #clearLocationQueryBtn {
-        right: auto;
-        left: 0;
+        right: 0;
+       
       }
     }
 }
@@ -1937,7 +1942,7 @@ a.unstyled-link {
 
 #filterBtn {
     position: fixed;
-    bottom: 138px;
+    top: 80px;
     right: 0px;
 
     border-radius: 25px;
@@ -1963,8 +1968,8 @@ a.unstyled-link {
     }
 
     img {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       margin-right: 5px;
       margin: 0;
     }
@@ -1979,11 +1984,51 @@ a.unstyled-link {
       right: 0;
     }
 }
+#mmapBtn {
+  position: fixed;
+  bottom: 138px;
+  right: 0px;
 
-.navbar {
-    background-color: $green;
-    border: none;
+  border-radius: 25px;
+  border: 0;
+  background-color: white;
+  font-family: $bodyFont;
+
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 0;
+  @include shadow(2);
+  
+  margin: 0px $GRID_SPACE $GRID_SPACE;
+
+  &.active {
+    border: 2px solid $lightestPurple;
+    background-color: $paleWhite;
+
+    img {
+      margin-left: -2px;
+    }
+  }
+
+  img {
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+    margin: 0;
+  }
+
+  #active-filters-counter.badge {
+    background-color: $filtersHightlightColor;
+  }
+
+  .badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 }
+
 
 .navbar-header {
     text-align: center;
@@ -3693,6 +3738,7 @@ body.fullscreen-modal-open {
     width: calc(100% - #{$GRID_SPACE});
     margin: $GRID_SPACE/2;
     border-radius: 5px;
+    z-index: 1000;
 
     &:hover, &:active, &:focus {
       background-color: $lightGreen; 
@@ -3716,7 +3762,6 @@ body.fullscreen-modal-open {
     padding-left: 6px;
 
     li {
-      display: flex !important;
       align-items: baseline;
       white-space: nowrap;
       line-height: normal;
@@ -3728,11 +3773,9 @@ body.fullscreen-modal-open {
       width: calc(50% - #{$GRID_SPACE});
       
       border-radius: 10px;
-      transition: color 0.2s ease-out, background 0.2s ease-out;
+      //transition: color 0.2s ease-out, background 0.2s ease-out;
 
-      &:hover {
-        background: $lightestGray;
-      }
+     
 
       input:checked + label {
         font-weight: bold;
@@ -4230,6 +4273,10 @@ body.fullscreen-modal-open {
     // Explanation on the reason for the string interpolation:
     //   https://stackoverflow.com/questions/17982111/sass-variable-in-css-calc-function
     height: calc(100% - #{$MOBILE_NAVBAR_HEIGHT});
+
+    &.directions-active{
+      height: 50%;
+    }
   }
 
   #logo {
@@ -4331,15 +4378,33 @@ body.fullscreen-modal-open {
   } 
 
   #locationSearch {
-    #locationQueryInput { 
-      height: $MOBILE_NAVBAR_HEIGHT;
-      padding: 0 $GRID_SPACE 0 88px;
+    .search-fields{
+      height: $MOBILE_NAVBAR_HEIGHT - 10px;
+      margin: 5px 70px 0 70px;
+      padding: 0 0 0 10px ;
       border-radius: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      resize: horizontal;
+      background: $paleWhite;
+      width: calc(100% - 140px);
+      border-radius: 10px;
     }
     
     #clearLocationQueryBtn {
-      right: 40px;
+      right: 20px;
       height: 48px;
+      top:4px;
+    }
+    &.directions{
+      .search-fields{
+        width: calc(100% - 100px);
+      }
+
+      #clearLocationQueryBtn {
+        display: none;
+      } 
     }
   }
 
@@ -4409,7 +4474,7 @@ body.fullscreen-modal-open {
   }
 
   #filterBtn {
-    display: none;
+    //display: none;
   }
 
   #aboutModal,
@@ -4546,14 +4611,29 @@ body.fullscreen-modal-open {
 
   body.search-mode {
     #locationSearch {
+      position: fixed;
       opacity: 1;
       pointer-events: auto;
-       
+      height: $MOBILE_NAVBAR_HEIGHT;
+      background: #FFF;
+      @include roundedCorners;
+      @include shadow(1);
+      
+      &.directions{
+        height: $MOBILE_NAVBAR_HEIGHT * 2;
+        background-image: url('/img/icon_directions_form.svg');
+        background-repeat: no-repeat;
+        background-size: 11px;
+        background-position-x: 55px;
+        background-position-y: 24px;
+
+      }
+
       #clearLocationQueryBtn {
         // right: 10px;
-        left: 48px;
-        top: 4px;
-        opacity: .5;
+        //left: 48px;
+        //top: 4px;
+        //opacity: .5;
       }
     }
 
@@ -4836,6 +4916,9 @@ body.fullscreen-modal-open {
 
     &.move-up {
       transform: translateY(-90px);
+    }
+    &.hide{
+      display:none;
     }
   }
 
@@ -5667,9 +5750,7 @@ a[data-featherlight] {
         }
       }
 
-      li:hover {
-        background: $lighterGray;
-      }
+     
     }
   }
 }
@@ -5901,3 +5982,309 @@ a[data-featherlight] {
     padding-right: 30px;
   }
 }
+.mmap-modal{ 
+  .title{
+    color: $mmapColor;
+  }
+  .primary-btn{
+    padding: 5px 10px;
+    border: 2px solid $mmapColor;
+    color: #fff;
+    margin: 5px auto;
+    font-size: 16px;
+    border-radius: 25px;
+    vertical-align: middle;
+    
+    background: $mmapColor;
+    
+    // background: white;
+    // @include greenGlowButton();
+
+    transition: all .2s;
+    
+    &:hover,
+    &:focus,
+    &:active {
+        color: white;
+        border-color: transparent;
+        background-color: $lightGreen;
+        // background: $greenGradient;
+    }
+
+  }
+  .secondary-btn{
+    border: 2px solid $mmapColor;
+    color: $mmapColor;
+  }
+
+  .form-input{
+    width:100%;
+    display: block;
+    margin: 10px 0px 30px 0px;
+    border: none;
+    padding: 10px 10px;
+    border-bottom: 1px solid #737B7D;
+  }
+
+ }
+
+  #bottomsheet-rotas{
+    position:absolute;
+    width:100%;
+    min-height: 80px;
+    bottom: 0px;
+    z-index: 20;
+    background: #FFF;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    padding: 0 0 0 0;
+    box-shadow: 0px -1px 3px 0px rgba(171,171,171,1);
+
+    &.list-directions-active {
+      top: calc(50% +  #{$MOBILE_NAVBAR_HEIGHT});
+      
+      height: auto;
+    }
+    #list-directions{
+      background: #FFF;
+      padding: 20px 20px 0 20px;
+      
+
+      .adp-summary{
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .adp-substep{
+        padding: 20px 0;
+      }
+      .adp-substep:nth-of-type(2){
+        color: #fff;
+      }
+    }
+
+    .list-action-btns{
+      margin: 0;
+      padding: 10px 0;
+
+
+      .action-btns-item{
+        width: 49%;
+        display:inline-block;
+        margin: 0;
+        padding: 0 20px;
+      }
+      .item-btn{
+        width:100%;
+
+        &.hide{
+          display:none;
+        }
+      }
+
+      .btn{
+        border-radius: 25px;
+        border: 1px solid $green;
+        color: $green;
+        line-height: 25px;
+      }
+      .btn.green{
+        background: $green;
+        color: #FFF;
+      }
+    }
+    .directions-box{
+      display:none;
+      background: #FFF;
+      padding: 0 0 40px 0;
+    }
+    .adp-directions{
+      
+    }
+    .adp-warnbox,
+    .adp-legal{
+      display:none;
+    }
+    .adp-placemark{
+      display: none;
+    }
+    .list-directions-actions-box{
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+    }
+    .pull-up-container{
+      text-align: center;
+    }
+    .pull-up{
+      display: inline-block;
+      width: 30px;
+      height: 5px;
+      border-radius: 5px;
+      background-color: $gray;
+    }
+  }
+
+  @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+    .hide-desktop{
+      display:none;
+    }
+    #bottomsheet-rotas{
+      width: 30%;
+      min-width: 350px;
+      height: calc(100% - 70px);
+      overflow: hidden;
+      top: 65px;
+      border-radius: 0;
+      z-index: 01;
+      
+      &.list-directions-active{
+        top: 65px;
+        height: calc(100% - 70px);
+      }
+      .adp-summary{
+        text-align: center;
+      }
+      .list-directions-actions-box{
+        position: absolute;
+        bottom: 5px;
+        
+        background: #fff;
+      }
+      .directions-box{
+        height: 100%;
+        overflow: auto;
+      }
+
+      #list-directions{ 
+        .adp-substep{
+          padding: 35px 0;
+        }
+      }
+
+      #locationSearch{
+        position: relative;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+
+        .search-fields{
+          margin: 10px 0px 30px 30px;
+          padding: 0 15px;
+          width: 83%;
+          background: #fafafa
+        }
+        #clearLocationQueryBtn{
+          top: 10px;
+          right: 40px;
+        }
+
+        #closeSearchLocation{
+          position: absolute;
+          top: 10px;
+          right: 7px;
+          display: block;
+          border: none;
+          padding: 0 10px;
+          background: #fff;
+          font-size: 24px;
+        }
+      }
+      &.list-directions-active{
+        #clearLocationQueryBtn{
+          display:none;
+        }
+        #locationSearch{
+          background-image: url(/img/icon_directions_form.svg);
+          background-repeat: no-repeat;
+          background-size: 11px;
+          background-position-x: 10px;
+          background-position-y: 24px;
+          margin-bottom: 10px;
+
+
+          .search-fields{
+            margin: 10px 30px 0;
+            padding: 0 15px;
+            width: 85%;
+          }
+        } 
+        .directions-box{
+          display: block;
+          height: calc(100% - 190px);
+        }
+      }
+
+    }
+    
+    .pull-up-container { 
+      display: none;
+    }
+
+
+  }
+
+  #closeSearchLocation{
+    display: none;
+  }
+  body.directions{
+    overflow: visible;
+  }
+
+  #directions-messages{
+    display: none;
+    background:  $lighterGray;
+    padding: 10px 20px;
+    margin: 15px 0;
+
+    h1{
+      font-size: 20px;
+    }
+    .direction-msg{
+      display:none;
+    }
+  }
+  .filter-checkbox{
+    display: none;
+  }
+  .filter-list-item{
+    width: 100px;
+    height: 150px !important;
+    margin-bottom: 30px !important;
+  }
+  #label_bikelane{
+    background-image: url(/img/filter_lane.png);
+   
+  }
+  #label_rack{
+    background-image: url(/img/filter_rack.png);
+  }
+  #label_bicipark{
+    background-image: url(/img/filter_bicipark.png);
+  }
+  #label_request{
+    background-image: url(/img/filter_request.png);
+  }
+  
+  .filter-label{
+    background-size: 100px;
+    display: block;
+    padding-top: 120px !important;
+    background-repeat: no-repeat;
+    text-align: center;
+    background-position-x: center;
+    background-position-y: 10px;
+    width: 130px;
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: $lightestGray;
+    }
+  }
+  .filter-checkbox:checked + .filter-label{
+    background-color: $lightestGray;
+    border: 1px solid $lightGrey;
+  }
