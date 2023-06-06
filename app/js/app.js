@@ -1835,7 +1835,7 @@ $(() => {
           $('#directions-share-btn').one('click',  ()=>{
             try {
               navigator.share({ title: "Cidade Ciclável : Rota", url: `https://cidadeciclavel.mubi.pt/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}` });
-              console.log("Data was shared successfully");
+              console.log("Data was shared successfully ");
             } catch (err) {
               console.error("Share failed:", err.message);
             }
