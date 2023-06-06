@@ -1828,7 +1828,7 @@ $(() => {
                     <a href="https://forum.mubi.pt/new-topic?body=https://cidadeciclavel.mubi.pt/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum MUBI</a>
                     </p>
                   </div> 
-                `,
+                `
               });
               return false;
           });
