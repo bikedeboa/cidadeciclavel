@@ -1825,7 +1825,7 @@ $(() => {
                     Peça ajuda no fórum da MUBi sobre a sua rota. Ao aceder ao link "Fórum MUBi", se possuir uma conta, as informações sobre a sua rota já vão estar preenchidas, complete apenas com o que achar necessário.
                     </p>
                     <p>
-                    <a href="https://forum.mubi.pt/new-topic?body=https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum MUBI</a>
+                    <a href="https://forum.mubi.pt/new-topic?body=https://cidadeciclavel.mubi.pt/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum MUBI</a>
                     </p>
                   </div> 
                 `,
@@ -1834,7 +1834,7 @@ $(() => {
           });
           $('#directions-share-btn').one('click', async ()=>{
             try {
-              await navigator.share({ title: "Cidade Ciclável : Rota", url: `https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}` });
+              await navigator.share({ title: "Cidade Ciclável : Rota", url: `https://cidadeciclavel.mubi.pt/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}` });
               console.log("Data was shared successfully");
             } catch (err) {
               console.error("Share failed:", err.message);
