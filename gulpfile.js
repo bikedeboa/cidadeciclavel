@@ -150,7 +150,7 @@ gulp.task('scripts', () => {
     // .pipe(concat('templates.js')) 
 
   return merge(jsStream, templatesStream)
-    .pipe(concat('app.min.js')) 
+    .pipe(concat('app1.min.js')) 
     // .on('error', function(e) {
     //   console.log(e);
     //   this.emit('end');
@@ -159,7 +159,7 @@ gulp.task('scripts', () => {
     // .pipe(rename('app.min.js'))
     .pipe(production(uglify())) 
     .pipe(sourcemaps.write('maps'))
-    .pipe(fileSizes({ title: 'app.min.js', gzip: true }))
+    .pipe(fileSizes({ title: 'app1.min.js', gzip: true }))
     .pipe(gulp.dest('dist/js'));
 });
 
