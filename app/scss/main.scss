@@ -6127,6 +6127,9 @@ a[data-featherlight] {
   }
 
   @media screen and (min-width: $MOBILE_MAX_WIDTH) {
+    .hide-desktop{
+      display:none;
+    }
     #bottomsheet-rotas{
       width: 30%;
       min-width: 350px;

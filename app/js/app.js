@@ -1822,10 +1822,10 @@ $(() => {
                 `
                   <div>
                     <p>
-                      Peça ajuda nos fórum da Mubi sobre sua rota, ao aceder o link, se possuir uma conta as informações sobre sua rota já vão preenchidas, só complemente com o que achar necessário
+                    Peça ajuda no fórum da MUBi sobre a sua rota. Ao aceder ao link "Fórum MUBi", se possuir uma conta, as informações sobre a sua rota já vão estar preenchidas, complete apenas com o que achar necessário.
                     </p>
                     <p>
-                    <a href="https://forum.mubi.pt/new-topic?body=https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum Mubi</a>
+                    <a href="https://forum.mubi.pt/new-topic?body=https://bikedeboa-portugal.herokuapp.com/d/${origin.pos.lat},${origin.pos.lng},${place.pos.lat},${place.pos.lng}&category_id=22" target="_blank">Fórum MUBI</a>
                     </p>
                   </div> 
                 `,
