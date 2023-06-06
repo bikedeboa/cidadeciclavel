@@ -586,26 +586,32 @@ BDB.Map = (function () {
       BDB.Markers.clearMarkers();
     },
     // Sets the map on all markers in the array.
-    setMapOnAll: function(map) {
+    setMapOnAll: function setMapOnAll(map) {
       if (places) {
-        for (let i = 0; i < places.length; i++) {
-          places[i].gmarker.setMap(map);
+        for (var i = 0; i < places.length; i++) {
+          if (places[i].gmarker){
+            places[i].gmarker.setMap(map);
+          }
         }
       }
     },
-    hideMarkers: function() {
+    hideMarkers: function hideMarkers() {
       // Removes the markers from the map, but keeps them in the array.
       if (places) {
-        for (let i = 0; i < places.length; i++) {
-          places[i].gmarker.setOptions({ clickable: false, opacity: 0.3 });
+        for (var i = 0; i < places.length; i++) {
+          if (places[i].gmarker){
+            places[i].gmarker.setOptions({ clickable: false, opacity: 0.3 });
+          }
         }
       }
     },
-    showMarkers: function() {
+    showMarkers: function showMarkers() {
       // Shows any markers currently in the array.
       if (places) {
-        for (let i = 0; i < places.length; i++) {
-          places[i].gmarker.setOptions({ clickable: true, opacity: 1 });
+        for (var i = 0; i < places.length; i++) {
+          if (places[i].gmarker){
+            places[i].gmarker.setOptions({ clickable: true, opacity: 1 });
+          }
         }
       }
     },
