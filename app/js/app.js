@@ -2049,7 +2049,7 @@ $(() => {
   }
 
   function goHome() {
-    setView('bike de boa', '/');
+    setView('Cidade Ciclável', '/');
   }
 
   function queueUiCallback(callback) {

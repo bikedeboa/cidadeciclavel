@@ -600,7 +600,7 @@ BDB.Map = (function () {
       if (places) {
         for (var i = 0; i < places.length; i++) {
           if (places[i].gmarker){
-            places[i].gmarker.setOptions({ clickable: false, opacity: 0.3 });
+            places[i].gmarker.setOptions({ clickable: false, opacity: 0 });
           }
         }
       }
