@@ -1817,7 +1817,7 @@ $(() => {
             swal({
               showConfirmButton: false,
               showCloseButton: true,
-              title: 'Partilhe tua rota',
+              title: 'Discutir rota',
               html: 
                 `
                   <div>
