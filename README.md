@@ -42,4 +42,4 @@ This project is a spin-off Bike de Boa project.
 
 # Partnerships
 
-This project is maintaned by MUBI and is co-financed by the European Regional Development Fund through the Urban Innovative Actions Initiative”
+This project is maintaned by MUBI and is co-financed by the European Regional Development Fund through the Urban Innovative Actions Initiative
